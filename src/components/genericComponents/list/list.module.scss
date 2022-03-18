@@ -1,0 +1,148 @@
+@import '../../../sass/';
+
+.BlockContainer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-bottom: 10px;
+	$margin: 4px;
+
+	&[data-align='left'] {
+		justify-content: flex-start;
+
+		.Block {
+			margin: $margin $margin 5px 0 !important;
+		}
+	}
+	&[data-align='right'] {
+		justify-content: flex-end;
+		.Block {
+			margin: $margin 0 5px $margin !important;
+		}
+	}
+
+	.Block {
+		border: solid 1px $pallet-color-one !important;
+		color: $pallet-color-one !important;
+		border-radius: $small-radius;
+		padding: 3px 13px;
+		font-size: 12px;
+		background-color: white;
+
+		&[data-size='large'] {
+			padding: 10px 20px;
+			border-radius: $large-radius;
+			$margin: 8px;
+			margin: $margin $margin 5px 0 !important;
+		}
+	}
+
+	&[data-single-line='1'] {
+		margin-bottom: 0 !important;
+		flex-wrap: nowrap;
+		overflow-x: scroll;
+		align-items: center;
+		padding: 5px 0 !important;
+		justify-content: flex-start;
+
+		@include remove-scrollbar;
+
+		.Block {
+			white-space: nowrap;
+			margin: 0 10px 0 0 !important;
+		}
+	}
+}
+
+.EmptyBlock {
+	@include flex-center;
+	@include light-hover;
+
+	width: 100%;
+	flex-direction: column;
+	border-radius: $large-radius;
+
+	.Top {
+		@include flex-center;
+	}
+
+	svg {
+		margin: 0;
+		font-size: 24px;
+	}
+
+	h2 {
+		margin: 0 10px;
+	}
+
+	p {
+		font-size: 16px;
+		letter-spacing: 1px;
+	}
+
+	h2,
+	p {
+		text-align: center;
+	}
+
+	h2,
+	p,
+	svg {
+		@include no-select;
+		color: $passive-grey;
+		transition: 0.2s !important;
+	}
+
+	&[data-has-message='1'] {
+		padding: 100px 100px 40px 100px;
+	}
+
+	&[data-has-message='0'] {
+		padding: 100px;
+		justify-content: center;
+
+		.Top {
+			margin-bottom: 20px;
+		}
+	}
+
+	&:hover {
+		@include hover-shadow;
+
+		&[data-action-cursor='1'] {
+			cursor: pointer;
+		}
+
+		h2,
+		p,
+		svg {
+			color: $primary-black !important;
+		}
+	}
+}
+
+.StatBoxes {
+	display: flex !important;
+	align-items: center;
+	justify-content: flex-start;
+
+	.Box {
+		@include light-hover;
+		border-radius: $small-radius;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 10px 20px;
+		white-space: nowrap;
+
+		p {
+			margin: 0 !important;
+
+			&:last-of-type {
+				color: $confirmation-green;
+			}
+		}
+	}
+}

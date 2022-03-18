@@ -1,0 +1,85 @@
+@import '../../../sass/';
+
+.Card {
+	$x-padding: 50px;
+
+	border-radius: $large-radius;
+	position: relative;
+
+	&[data-gradient='1'] {
+		.GradientBar {
+			@include brand-gradient-h;
+			border-top-left-radius: $large-radius;
+			border-top-right-radius: $large-radius;
+			position: absolute;
+			left: 0;
+			display: none;
+			top: 0;
+
+			width: 100%;
+
+			&[data-gradient='1'] {
+				display: block;
+			}
+		}
+	}
+
+	.Label {
+		color: $primary-grey;
+		padding: 8px $x-padding 8px $x-padding;
+		font-size: 12px;
+		letter-spacing: 1px;
+		margin-bottom: 6px;
+		border-bottom: solid 1px $passive-grey;
+		text-transform: uppercase;
+	}
+
+	.Content {
+		padding: 12px $x-padding 12px $x-padding;
+
+		.ContentText {
+			font-size: 1.2rem;
+			letter-spacing: 1px;
+			margin-bottom: 15px;
+		}
+	}
+
+	&[data-nopad='1'] {
+		.Label,
+		.Content {
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}
+
+		.Content {
+			padding-top: 0 !important;
+		}
+	}
+
+	&[data-clear='0'] {
+		@include light-hover;
+
+		.Label {
+			border-bottom: none !important;
+			padding-bottom: 0px !important;
+		}
+	}
+
+	&[data-brand='1'] {
+		.Label {
+			background-color: $pallet-color-one !important;
+			border-top-left-radius: $large-radius !important;
+			border-top-right-radius: $large-radius !important;
+			color: white;
+			margin-bottom: 0 !important;
+			padding: 10px 50px;
+			padding-bottom: 8px !important;
+		}
+
+		.Content {
+			background-color: $pale-grey-two !important;
+			border-bottom-left-radius: $large-radius;
+			border-bottom-right-radius: $large-radius;
+		}
+	}
+}

@@ -1,0 +1,33 @@
+@import '../../../sass/';
+
+.RatingContainer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+
+	p {
+		color: $meta-grey;
+		font-size: 10px;
+	}
+
+	&[data-rating-size='medium'] {
+		padding: 5px;
+		p {
+			margin-left: 5px !important;
+		}
+	}
+	&[data-rating-size='large'] {
+		padding: 5px 10px;
+		p {
+			margin-left: 5px !important;
+		}
+	}
+
+	&[data-rating-size='massive'] {
+		margin: 10px 0 15px 0;
+
+		p {
+			padding-left: 15px;
+		}
+	}
+}

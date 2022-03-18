@@ -1,0 +1,14 @@
+@import '../../../sass/';
+
+.Divider {
+	width: 100%;
+	height: 1px;
+	border-radius: 1px;
+
+	&[data-color='passive'] {
+		background-color: $passive-grey;
+	}
+	&[data-color='pale'] {
+		background-color: $pale-grey;
+	}
+}

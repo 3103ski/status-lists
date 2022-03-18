@@ -1,0 +1,85 @@
+@import '../../../sass/';
+
+.Container {
+	$btn-size: 2;
+	$container-size: unset;
+	$learn-more-line-height: 0;
+	$learn-more-bottom-pad: 0;
+	$learn-more-top-pad: 0;
+
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	transition: 0.2s;
+
+	.Inner {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+	}
+
+	&[data-button='1'] {
+		$container-size: 200px;
+		$learn-more-line-height: 15px;
+		$learn-more-bottom-pad: 8px;
+		$learn-more-top-pad: calc(
+			(#{$container-size} / #{$btn-size}) - #{$learn-more-line-height} - #{$learn-more-bottom-pad}
+		);
+
+		height: $container-size;
+
+		.ExpandButton {
+			background: $pale-grey;
+			// background: rgb(255, 255, 255);
+			background: linear-gradient(0deg, #f8f8f8 5%, rgba(255, 255, 255, 0.5) 35%, rgba(255, 255, 255, 0) 40%);
+			&[data-white='1'] {
+				background: linear-gradient(0deg, white 5%, rgba(255, 255, 255, 0.5) 35%, rgba(255, 255, 255, 0) 40%);
+			}
+		}
+	}
+
+	&[data-button='0'] {
+		$container-size: unset;
+	}
+
+	.ExpandButton {
+		&[data-button='1'] {
+			display: block;
+		}
+
+		&[data-button='0'] {
+			display: none;
+		}
+
+		height: $container-size / $btn-size;
+		padding: $learn-more-top-pad 5px $learn-more-bottom-pad 5px;
+
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+
+		p {
+			color: $pallet-color-two;
+			color: $meta-grey;
+			position: relative;
+			text-align: center;
+			transition: 0.2s;
+			font-size: 10px;
+			letter-spacing: 1px;
+		}
+
+		&:hover {
+			cursor: pointer;
+			p {
+				letter-spacing: 2px;
+				color: $pallet-color-two;
+			}
+		}
+	}
+}

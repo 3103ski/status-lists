@@ -1,0 +1,152 @@
+@import '../../../sass/';
+
+.Button {
+	border-radius: $small-radius !important;
+	transition: 0.2s;
+
+	//================================
+	// Options
+	//================================
+	&[data-uppercase='1'] {
+		text-transform: uppercase !important;
+	}
+
+	&[data-weight='500'] {
+		font-weight: 500 !important;
+	}
+
+	&[data-weight='300'] {
+		font-weight: 300 !important;
+	}
+
+	//================================
+	// Margin Options
+	//================================
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	margin: 7px auto !important;
+
+	&[data-margin-x='small'] {
+		margin: 7px 5px !important;
+	}
+
+	&[data-margin-x='med'] {
+		margin: 7px 15px !important;
+	}
+
+	//================================
+	// Custom Button Colors
+	//================================
+	&[data-btncolor='primary'] {
+		background-color: $pallet-color-one !important;
+		color: white !important;
+
+		&:hover {
+			background-color: $pallet-color-one-hover !important;
+		}
+	}
+
+	&[data-btncolor='secondary'] {
+		background-color: $pallet-color-two !important;
+		color: white !important;
+
+		&:hover {
+			background-color: $pallet-color-two-hover !important;
+		}
+	}
+	&[data-btncolor='color one'] {
+		background-color: $pallet-color-four !important;
+		color: white !important;
+
+		&:hover {
+			background-color: $pallet-color-four-hover !important;
+		}
+	}
+	&[data-btncolor='confirm'] {
+		background-color: $confirmation-green !important;
+		color: white !important;
+
+		&:hover {
+			background-color: $confirmation-green-hover !important;
+		}
+	}
+	&[data-btncolor='passive'] {
+		background-color: $passive-grey !important;
+		color: $primary-grey;
+
+		&:hover {
+			background-color: $passive-grey-hover !important;
+		}
+	}
+	&[data-btncolor='red'] {
+		background-color: $status-red !important;
+		color: white !important;
+
+		&:hover {
+			background-color: $end-red-hover !important;
+		}
+	}
+	&[data-btncolor='passive-inset'] {
+		@include light-hover;
+		color: $pallet-color-two;
+		&:hover {
+			color: $primary-black;
+		}
+	}
+
+	//================================
+	// Attach
+	//================================
+	&[data-attach='right'] {
+		border-top-left-radius: 0px !important;
+		border-bottom-left-radius: 0px !important;
+		margin-left: 0 !important;
+	}
+	&[data-attach='left'] {
+		border-top-right-radius: 0px !important;
+		border-bottom-right-radius: 0px !important;
+		margin-right: 0 !important;
+	}
+	//================================
+	// Hover Effects
+	//================================
+	&[data-hover='scale']:hover {
+		transition: 0.15s;
+		transition-timing-function: ease-in;
+		transform: scale(1.02);
+	}
+}
+
+.SeeMoreBtn {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+
+	background: rgb(255, 255, 255);
+	background: linear-gradient(
+		0deg,
+		rgba(255, 255, 255, 1) 5%,
+		rgba(255, 255, 255, 0.5) 35%,
+		rgba(255, 255, 255, 0) 40%
+	);
+
+	p {
+		padding: 50px 5px 15px 5px;
+		text-align: center;
+		font-size: 10px;
+		transition: 0.2s;
+		color: $pallet-color-two;
+		letter-spacing: 1px;
+		color: $meta-grey;
+		opacity: 0;
+
+		&:hover {
+			cursor: pointer;
+			opacity: 1;
+			letter-spacing: 2px;
+			color: $pallet-color-two;
+		}
+	}
+}

@@ -1,0 +1,39 @@
+@import '../../../sass/';
+
+.TextInput,
+.TextArea,
+.FileInput,
+.Dropdown {
+	&,
+	input,
+	textarea {
+		border-radius: $small-radius !important;
+	}
+	margin-bottom: 10px !important;
+	&:focus {
+		border-color: $pallet-color-two !important;
+	}
+}
+
+.LabelLeft {
+	border-top-left-radius: $small-radius !important;
+	border-bottom-left-radius: $small-radius !important;
+}
+
+.LabelRight {
+	border-top-right-radius: $small-radius !important;
+	border-bottom-right-radius: $small-radius !important;
+}
+
+.FormTitle {
+	color: $primary-black;
+	font-size: 18px;
+
+	&[data-size='med'] {
+		font-size: 22px;
+	}
+
+	&[data-size='large'] {
+		font-size: 26px;
+	}
+}

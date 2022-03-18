@@ -1,0 +1,33 @@
+@import '../../../sass/';
+
+.field > .selection.dropdown {
+	border-radius: $small-radius !important;
+	padding: 10px !important;
+	flex-wrap: wrap;
+}
+.ui.selection.dropdown .menu {
+	@include remove-scrollbar;
+	border-bottom-left-radius: $small-radius !important;
+	border-bottom-right-radius: $small-radius !important;
+}
+
+.ui.multiple.dropdown > .label {
+	border-radius: $small-radius !important;
+	padding: 10px 15px !important;
+	border: solid 1px $pallet-color-one !important;
+	box-shadow: none !important;
+	white-space: nowrap !important;
+
+	&,
+	i {
+		color: $pallet-color-two !important;
+	}
+	i {
+		margin-left: 15px !important;
+	}
+	background-color: white !important;
+}
+.field > .selection.dropdown {
+	@include flex-center;
+	padding: 10px 20px !important;
+}

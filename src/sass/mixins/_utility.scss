@@ -1,0 +1,37 @@
+@import '../variables/';
+
+@mixin light-hover {
+	background-color: rgb(248, 248, 248) !important;
+	box-shadow: $hover-inset !important;
+}
+@mixin light-hover-two {
+	background-color: rgba(244, 244, 244, 0.76) !important;
+	box-shadow: inset 1px 1px 6px rgba(192, 192, 192, 0.5) !important;
+}
+
+@mixin hover-shadow {
+	box-shadow: 2px 2px 5px rgba(38, 38, 38, 0.08) !important;
+}
+
+@mixin card-image-radius {
+	border-top-left-radius: $large-radius !important;
+	border-top-right-radius: $large-radius !important;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+
+@mixin no-select {
+	-webkit-touch-callout: none !important; /* iOS Safari */
+	-webkit-user-select: none !important; /* Safari */
+	-khtml-user-select: none !important; /* Konqueror HTML */
+	-moz-user-select: none !important; /* Old versions of Firefox */
+	-ms-user-select: none !important; /* Internet Explorer/Edge */
+	user-select: none !important; /* Non-prefixed version, currently
+										supported by Chrome, Edge, Opera and Firefox */
+}
+
+@mixin remove-scrollbar {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}

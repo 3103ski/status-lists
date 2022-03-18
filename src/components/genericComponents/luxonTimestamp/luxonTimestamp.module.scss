@@ -1,0 +1,13 @@
+@import '../../../sass/';
+
+.TimestampWrapper {
+	display: flex;
+	align-items: center;
+	padding: 0;
+
+	p {
+		margin: 0;
+		font-size: 11px;
+		color: $primary-grey-hover;
+	}
+}

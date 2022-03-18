@@ -1,0 +1,49 @@
+@import '../../../sass/';
+
+.OAuthBtn {
+	width: 100%;
+	transition: 0.2s;
+	border-radius: $small-radius;
+	outline: none;
+	border: none;
+	padding: 10px 0 8px 0;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+
+	img,
+	svg {
+		width: 15px;
+		padding: 0;
+		margin: 0 5px 0 0;
+	}
+
+	svg {
+		height: unset;
+	}
+
+	&.SpotifyBtn {
+		background-color: $spotify-green;
+	}
+
+	&.GoogleBtn {
+		background-color: $google-bg;
+	}
+
+	&.FacebookBtn {
+		background-color: $facebook-blue;
+	}
+
+	&.FacebookBtn,
+	&.SpotifyBtn {
+		color: white !important;
+		span {
+			color: white !important;
+		}
+	}
+
+	&:hover {
+		cursor: pointer;
+		opacity: 0.85;
+	}
+}

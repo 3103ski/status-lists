@@ -1,0 +1,131 @@
+@import '../../../sass/';
+
+.TriggerWrapper {
+	@include flex-center-row;
+
+	svg {
+		font-size: 26px;
+		color: $primary-black !important;
+
+		&:hover {
+			color: $pallet-color-one !important;
+		}
+	}
+
+	&[data-size='small'] {
+		svg {
+			font-size: 18px !important;
+		}
+	}
+
+	&[data-is-text='0'] {
+		$size: 30px;
+		height: $size;
+		width: $size;
+	}
+	&[data-is-text='1'] {
+		width: 100%;
+		padding: 12px 18px;
+		p {
+			margin: 0;
+			font-size: 16px;
+			font-weight: 300 !important;
+		}
+	}
+
+	&[data-is-button='1'] {
+		padding: 0 !important;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+.MenuWrapper {
+	.MenuListItem {
+		padding: 15px 20px;
+		z-index: 1905;
+		p {
+			font-size: 16px;
+			color: $primary-black;
+			white-space: nowrap;
+		}
+
+		&[data-divided='1'] {
+			border-bottom: 1px solid $passive-grey !important;
+		}
+		&[data-top-divided='1'] {
+			border-top: 1px solid $passive-grey !important;
+		}
+
+		&:hover {
+			cursor: pointer;
+			@include light-hover;
+		}
+
+		&:first-of-type {
+			border-top-left-radius: $large-radius;
+			border-top-right-radius: $large-radius;
+		}
+
+		&:last-child {
+			border-bottom-left-radius: $large-radius;
+			border-bottom-right-radius: $large-radius;
+		}
+	}
+}
+
+.TextTrigger {
+	width: 100%;
+}
+
+.PopupComponent {
+	padding: 0 !important;
+}
+
+.SubMenuWrapper {
+	width: 100%;
+	padding: 12px 18px;
+	font-size: 16px !important;
+
+	i {
+		margin-left: auto !important;
+	}
+
+	.SubMenuInner {
+		overflow: hidden;
+		border-radius: $large-radius !important;
+
+		.SubMenuInnerWrapper {
+			border-radius: $large-radius !important;
+			max-height: 300px;
+			overflow-y: scroll;
+			@include remove-scrollbar;
+		}
+	}
+
+	&:hover {
+		@include light-hover;
+		border-bottom-left-radius: $large-radius;
+		border-bottom-right-radius: $large-radius;
+	}
+
+	.SubMenuItem {
+		padding: 12px 18px;
+		display: flex;
+		justify-content: space-between !important;
+		width: 100%;
+
+		&[data-divided='1'] {
+			border-bottom: 1px solid $passive-grey !important;
+		}
+		&[data-top-divided='1'] {
+			border-top: 1px solid $passive-grey !important;
+		}
+
+		&:hover {
+			@include light-hover;
+			cursor: pointer;
+		}
+	}
+}

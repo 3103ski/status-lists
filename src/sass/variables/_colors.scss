@@ -1,0 +1,73 @@
+//•••••••••••••••••••
+// Util Colors
+//•••••••••••••••••••
+// Colors
+$rating-star-color: #ffc225;
+
+$end-red: rgba(246, 49, 80, 0.8);
+$end-red-hover: rgba(238, 20, 20, 0.8);
+
+$confirmation-green: #4ebf62;
+// $confirmation-green: rgb(26, 157, 30);
+$confirmation-green-hover: rgb(35, 184, 40);
+
+// Shades
+$primary-black: #585858;
+$primary-grey: rgb(100, 100, 100);
+$primary-grey-hover: rgba(100, 100, 100, 0.5);
+// $primary-black: #222;
+
+$passive-grey: rgba(192, 192, 192, 0.644);
+$passive-grey-hover: rgba(192, 192, 192, 0.4);
+
+$pale-grey: #d6d6d645;
+$pale-grey-two: #e0e0e029;
+
+$passive-white: #fff;
+$hover-inset: inset 0px 0px 5px $passive-grey-hover;
+
+// Brands
+$spotify-green: #1db954;
+$facebook-blue: #3b5998;
+$google-bg: #eaeaea;
+
+// Status Colors
+$status-red: rgba(246, 49, 80, 0.8);
+$status-yellow: rgba(236, 213, 58, 0.88);
+$status-green: $confirmation-green;
+$status-complete: rgb(21, 192, 64);
+
+//•••••••••••••••••••
+// Theme Pallet
+//•••••••••••••••••••
+
+// Colors
+// $pallet-color-one: #2554c2;
+// $pallet-color-one: #2085e3;
+$pallet-color-one: #558bcb;
+$pallet-color-one-hover: #558acbb2;
+// $pallet-color-one-hover: #2085e3d2;
+// $pallet-color-one-hover: #3161d1;
+// $pallet-color-two: #2085e3;
+$pallet-color-two: #6584cd;
+// $pallet-color-two: #012d94;
+
+$pallet-color-two-hover: #0738aa;
+$pallet-color-three: #5e7ce2;
+$pallet-color-three-hover: #5e7de2c0;
+$pallet-color-four: #329aa7;
+$pallet-color-four-hover: #3299a79d;
+$pallet-color-five: #cfdee7;
+
+//••••••••••••••••••••••••••
+// GLOBAL COLOR ASSIGNMENT
+//••••••••••••••••••••••••••
+
+// Backgrounds
+$nav-bg-color: $primary-black;
+$header-bg-color: $pallet-color-one;
+
+// Texts
+$dark-text: $primary-black;
+$light-text: white;
+$meta-grey: rgba(166, 162, 162, 1);

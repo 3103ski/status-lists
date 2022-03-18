@@ -1,0 +1,24 @@
+@import '../../../../sass/';
+
+.ChildrenWrapper {
+	@include remove-scrollbar;
+	position: relative !important;
+	padding: 50px 30px !important;
+	border-radius: 0 !important;
+	max-height: unset !important;
+	top: 0 !important;
+	height: 100vh !important;
+
+	.IconWrapper {
+		position: absolute;
+		right: 0;
+		svg {
+			font-size: 20px;
+			color: $passive-grey;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

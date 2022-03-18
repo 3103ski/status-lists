@@ -1,0 +1,33 @@
+@import '../../../../sass/';
+
+.TriggerWrapper {
+	margin: 0 10px;
+	display: flex;
+	align-items: center;
+
+	svg {
+		font-size: 25px;
+		color: white;
+		transition: 0.15s;
+	}
+
+	p {
+		margin: 0;
+		padding: 0 10px;
+		color: white;
+	}
+
+	&:hover {
+		cursor: pointer;
+
+		svg {
+			transform: scale(1.1);
+		}
+	}
+}
+
+.Information {
+	font-size: 17px;
+	letter-spacing: 1px;
+	line-height: 1.5;
+}

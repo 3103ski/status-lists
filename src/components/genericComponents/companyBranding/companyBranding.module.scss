@@ -1,0 +1,70 @@
+@import '../../../sass/';
+
+.BrandContainer {
+	@include flex-center;
+
+	.LogoText {
+		display: flex;
+		position: relative;
+		z-index: 910;
+		margin-left: 4px;
+
+		.Mix {
+			font-weight: 700;
+		}
+
+		.Studios {
+			font-weight: 300;
+			letter-spacing: 1px;
+		}
+
+		&[data-logo-color='1'] {
+			z-index: 911;
+			p {
+				color: white;
+			}
+		}
+	}
+
+	.LogoWrapper {
+		@include flex-center;
+		$size: 43px;
+		width: $size;
+		height: $size;
+		margin-right: 5px;
+		overflow: hidden;
+		position: absolute;
+		border-radius: 50%;
+		background-color: $pallet-color-one;
+
+		img {
+			width: calc(#{$size} * 0.7);
+		}
+	}
+
+	p {
+		font-size: 25px;
+		margin: 0;
+	}
+
+	&[data-inverted='1'] {
+		.LogoWrapper {
+			background-color: white;
+		}
+
+		.LogoText {
+			p {
+				color: white;
+			}
+			&[data-logo-color='1'] {
+				p {
+					color: $pallet-color-two;
+				}
+			}
+		}
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+}
