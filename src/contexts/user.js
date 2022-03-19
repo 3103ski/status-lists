@@ -182,6 +182,7 @@ const CurrentUserProvider = (props) => {
 		await localStorage.removeItem(TOKEN_TITLE);
 		client.clearStore();
 		dispatch({ type: 'LOGOUT' });
+
 		if (history) {
 			history.push(LOGIN);
 		}
@@ -348,6 +349,7 @@ const CurrentUserProvider = (props) => {
 			// we found a token in localStorage
 			refreshToken({ variables: { token: storedToken } });
 		}
+
 		if (!storedToken && state.token) {
 			// no token in local, but we had one in state
 			refreshToken({ variables: { token: state.token } });

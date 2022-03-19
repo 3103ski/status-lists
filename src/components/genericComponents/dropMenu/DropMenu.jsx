@@ -14,6 +14,7 @@ export default function DropMenu({
 	on = 'click',
 	text = null,
 	icon = null,
+	trigger: Trigger = null,
 	children,
 	size = 'normal',
 }) {
@@ -40,7 +41,9 @@ export default function DropMenu({
 					position={position}
 					content={<div className={style.MenuWrapper}>{children}</div>}
 					trigger={
-						text && button ? (
+						Trigger ? (
+							<Trigger />
+						) : text && button ? (
 							<Button btnColor={btnColor}>{text}</Button>
 						) : text ? (
 							<p className={style.TextTrigger}>{text}</p>
@@ -51,7 +54,7 @@ export default function DropMenu({
 				/>
 			</div>
 		),
-		[btnColor, button, children, icon, isOpen, on, position, size, text, toggleOpen, triggerMargin]
+		[Trigger, btnColor, button, children, icon, isOpen, on, position, size, text, toggleOpen, triggerMargin]
 	);
 }
 

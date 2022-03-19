@@ -51,9 +51,9 @@ export default function LoginForm({ history }) {
 			<Button as={Link} to={REGISTER}>
 				Register
 			</Button>
-			<Button as={Link} to={LANDING}>
+			{/* <Button as={Link} to={LANDING}>
 				Boiler Notes
-			</Button>
+			</Button> */}
 			{/* If not visible, toggle in config file */}
 			<GoogleLoginButton history={history} />
 		</Form>

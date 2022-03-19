@@ -1,5 +1,6 @@
 export const ICONIFY_ARROW_DOWN = 'eva:arrow-ios-downward-fill';
 export const ICONIFY_ARROW_UP = 'eva:arrow-ios-upward-fill';
+export const ICONIFY_NO_USER = `carbon:user-avatar-filled`;
 
 export const ICONIFY_CIRCLE_CHECK = 'akar-icons:circle-check-fill';
 export const ICONIFY_CIRCLE_REMOVE = 'clarity:remove-solid';

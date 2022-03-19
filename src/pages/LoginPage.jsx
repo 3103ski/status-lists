@@ -6,7 +6,7 @@ export default function LoginPage(props) {
 	return (
 		<Container>
 			<div style={{ padding: '30px 0', textAlign: 'left' }}>
-				<Card brand title='Register New User'>
+				<Card brand title='Sign In To Tommys New List App'>
 					<LoginForm history={props.history} />
 				</Card>
 			</div>

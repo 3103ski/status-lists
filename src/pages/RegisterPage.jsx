@@ -6,7 +6,7 @@ export default function RegisterUserView(props) {
 	return (
 		<Container>
 			<div style={{ padding: '30px 0', textAlign: 'left' }}>
-				<Card brand title='Register New User'>
+				<Card brand title='Register For Tommys New List App'>
 					<RegisterUserForm history={props.history} />
 				</Card>
 			</div>

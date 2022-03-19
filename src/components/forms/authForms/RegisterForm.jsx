@@ -64,9 +64,9 @@ export default function RegisterUserForm({ history }) {
 			<Button as={Link} to={LOGIN}>
 				Already signed up? Login
 			</Button>
-			<Button as={Link} to={LANDING}>
+			{/* <Button as={Link} to={LANDING}>
 				Boiler Notes
-			</Button>
+			</Button> */}
 
 			{/* If not visible, toggle in config file */}
 			<GoogleLoginButton history={history} />

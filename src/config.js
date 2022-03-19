@@ -21,7 +21,7 @@ export const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 // Set any oauth you are not including credentials for to false.
 
 export const USE_OAUTH = {
-	google: false,
+	google: true,
 };
 
 // Set token duration; must be <= duration of token on server

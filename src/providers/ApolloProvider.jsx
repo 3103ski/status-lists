@@ -8,6 +8,7 @@ import { setContext } from 'apollo-link-context';
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 
 import CombinedUserProvider from './CombinedUserProvider';
+import { DashboardProvider } from '../contexts';
 
 import App from '../App';
 

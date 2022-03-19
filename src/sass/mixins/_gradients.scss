@@ -6,3 +6,7 @@
 @mixin brand-gradient-h {
 	background: linear-gradient(90deg, #558bcb 0%, #c761eb 100%);
 }
+
+@mixin vertical-gradient {
+	background: linear-gradient(180deg, #c4c4c4 0%, rgba(104, 172, 235, 0.99) 0.01%, rgba(214, 141, 239, 0.3) 100%);
+}

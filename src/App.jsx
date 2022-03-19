@@ -14,7 +14,7 @@ function App() {
 				<Route exact path={LANDING} component={LandingPage} />
 				<Route exact path={LOGIN} component={LoginPage} />
 				<Route exact path={REGISTER} component={RegisterPage} />
-				<AuthRoute exact path={DASHBOARD} component={DashboardPage} />
+				<AuthRoute path={DASHBOARD} component={DashboardPage} />
 			</Router>
 		</div>
 	);

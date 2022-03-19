@@ -35,3 +35,11 @@ export { default as CompanyBranding } from './genericComponents/companyBranding/
 export { default as Loader } from './genericComponents/loader/Loader.jsx';
 export { default as LuxonTimestamp } from './genericComponents/luxonTimestamp/LuxonTimestamp.jsx';
 export { default as Rating } from './genericComponents/rating/Rating.jsx';
+
+//====================================
+//====================================
+//---->>> Presentational Components
+//====================================
+//====================================
+
+export { default as Navigation } from './presentationalComponents/navigation/Navigation.jsx';

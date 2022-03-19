@@ -1,7 +1,11 @@
 import React from 'react';
 
-import { CurrentUserProvider } from '../contexts/';
+import { CurrentUserProvider, DashboardProvider } from '../contexts/';
 
 export default function CombinedUserProvider({ children, ...rest }) {
-	return <CurrentUserProvider {...rest}>{children}</CurrentUserProvider>;
+	return (
+		<DashboardProvider {...rest}>
+			<CurrentUserProvider {...rest}>{children}</CurrentUserProvider>
+		</DashboardProvider>
+	);
 }

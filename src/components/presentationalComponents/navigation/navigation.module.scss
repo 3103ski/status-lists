@@ -1,0 +1,142 @@
+@import '../../../sass/';
+
+.MainWrapper {
+	@include vertical-gradient;
+	height: 100vh;
+	position: relative;
+
+	p,
+	a,
+	svg {
+		color: white;
+	}
+	.MenuWrapper {
+		@include flex-col-start;
+		position: relative;
+		height: 90vh;
+		padding: 70px 50px;
+	}
+	.UserDrop {
+		@include flex-center;
+		height: 10vh;
+		justify-content: center;
+		position: relative;
+	}
+}
+
+.UserMenuTrigger {
+	@include flex-center-center;
+	@include full-size;
+
+	.Trigger {
+		@include flex-center-center;
+		@include full-size;
+
+		z-index: 1000;
+
+		svg {
+			font-size: 40px;
+		}
+
+		img {
+			width: 40px;
+		}
+
+		img,
+		svg {
+			margin-right: 10px;
+		}
+
+		p {
+			font-size: 18px;
+		}
+	}
+
+	.TriggerMenuWrapper {
+		width: 100%;
+		position: absolute;
+		z-index: 999;
+
+		transition: 0.3s;
+		transition-timing-function: ease-in;
+
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	@keyframes enter-menu {
+		0% {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0px);
+		}
+	}
+
+	&:hover {
+		cursor: pointer;
+		.TriggerMenuWrapper {
+			bottom: 100%;
+			animation: enter-menu;
+			animation-duration: 0.2s;
+			animation-timing-function: ease-in;
+			animation-fill-mode: forwards;
+			animation-iteration-count: initial;
+		}
+	}
+}
+
+.UserMenuTriggerItem {
+	@include flex-center-center;
+
+	padding: 5px 10px;
+	p {
+		margin: 0;
+		font-size: 16px;
+	}
+}
+
+.ExpandLink,
+.RootLink {
+	padding: 10px 0px;
+	font-size: 25px;
+	margin-bottom: 8px !important;
+
+	p {
+		margin: 0;
+	}
+}
+
+.ExpandLink {
+	.ExpandLinkChildren {
+		transition: 0.15s;
+		transition-timing-function: ease-in-out;
+		overflow: hidden;
+		p {
+			font-size: 16px;
+		}
+	}
+}
+
+.ProjectLinkItem {
+	padding: 2px 0;
+}
+
+.MainWrapper,
+.UserMenuTrigger,
+.UserMenuTriggerItem,
+.ExpandLink,
+.RootLink {
+	@include no-select;
+}
+
+.UserMenuTrigger,
+.UserMenuTriggerItem,
+.ExpandLink,
+.RootLink {
+	&:hover {
+		cursor: pointer;
+	}
+}

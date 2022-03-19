@@ -8,6 +8,12 @@
 	align-items: center;
 }
 
+@mixin flex-center-center {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+}
+
 @mixin flex-end {
 	display: flex !important;
 	align-items: flex-end;
