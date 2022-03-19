@@ -18,8 +18,9 @@ export default function Navigation({ match }) {
 				<div className={style.MenuWrapper}>
 					<RootLink text='Overview' to={`${DASHBOARD}${OVERVIEW}`} />
 					<ExpandProjectLink text={'Some Project'} projectId={'23894cg293'}>
-						<ProjectLinkItem text='Some Task with Status' />
-						<ProjectLinkItem text='Another Task' />
+						<ProjectLinkItem text='Calvin Rising Singing' />
+						<ProjectLinkItem text='Fail On Things' />
+						<ProjectLinkItem text='Arrival Of SlamSonite' />
 					</ExpandProjectLink>
 					<ExpandProjectLink text={'Another Project'} projectId={'89qv3t59223jk4v'}>
 						<ProjectLinkItem text='slam things along' />

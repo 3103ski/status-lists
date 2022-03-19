@@ -7,9 +7,11 @@
 	&,
 	input,
 	textarea {
-		border-radius: $small-radius !important;
+		border-radius: $large-radius !important;
+		border-color: $pallet-color-two !important;
 	}
 	margin-bottom: 10px !important;
+
 	&:focus {
 		border-color: $pallet-color-two !important;
 	}

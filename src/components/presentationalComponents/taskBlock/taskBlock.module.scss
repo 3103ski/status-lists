@@ -1,0 +1,25 @@
+@import '../../../sass/';
+
+.Container {
+	margin-bottom: 50px;
+	.BlockHeader {
+		@include flex-center;
+		justify-content: space-between;
+
+		margin-bottom: 15px;
+		color: $primary-black;
+
+		.HeaderRight {
+			.CheckCircle {
+				border: 2px solid $primary-black;
+				border-radius: 100%;
+				width: 30px;
+				height: 30px;
+			}
+		}
+	}
+
+	.InputWrapper {
+		margin: 8px 0 15px 0px;
+	}
+}

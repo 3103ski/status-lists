@@ -1,0 +1,7 @@
+@import '../../sass';
+
+.ViewWrapper {
+	@include remove-scrollbar;
+	height: 100vh;
+	overflow-y: scroll;
+}

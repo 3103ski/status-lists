@@ -43,3 +43,8 @@ export { default as Rating } from './genericComponents/rating/Rating.jsx';
 //====================================
 
 export { default as Navigation } from './presentationalComponents/navigation/Navigation.jsx';
+
+export { default as TaskBlock } from './presentationalComponents/taskBlock/TaskBlock.jsx';
+
+export { default as StatusList } from './presentationalComponents/statusList/StatusList.jsx';
+export { default as StatusListItem } from './presentationalComponents/statusList/statusListItem/StatusListItem.jsx';

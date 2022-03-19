@@ -1,0 +1,80 @@
+@import '../../../../sass/';
+
+.Container {
+	justify-content: space-between;
+	padding: 4px 10px;
+	position: relative;
+
+	&,
+	.Left,
+	.Right {
+		@include flex-center;
+	}
+
+	p,
+	svg {
+		color: $primary-black;
+	}
+	p {
+		margin: 0;
+	}
+	&[data-even='1'] {
+		background-color: $passive-grey;
+	}
+
+	&[data-even='0'] {
+		background-color: $passive-grey-hover;
+	}
+
+	.Left {
+		p {
+			white-space: nowrap;
+			margin-left: 8px;
+			margin-bottom: 3px;
+		}
+
+		svg {
+			font-size: 25px;
+		}
+
+		img {
+			width: 25px;
+			border-radius: 100%;
+		}
+	}
+
+	.Filter {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: rgba(255, 253, 253, 0.6);
+		width: 100%;
+		height: 100%;
+	}
+
+	&[data-first='1'] {
+		.Filter {
+			opacity: 0;
+		}
+	}
+
+	&:first-of-type {
+		border-top-left-radius: $small-radius;
+		border-top-right-radius: $small-radius;
+	}
+
+	&:last-of-type {
+		border-bottom-left-radius: $small-radius;
+		border-bottom-right-radius: $small-radius;
+	}
+
+	.IconWrapper {
+		@include flex-center-center;
+		width: 30px;
+		height: 30px;
+
+		svg {
+			font-size: 20px;
+		}
+	}
+}

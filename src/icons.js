@@ -6,6 +6,7 @@ export const ICONIFY_CIRCLE_CHECK = 'akar-icons:circle-check-fill';
 export const ICONIFY_CIRCLE_REMOVE = 'clarity:remove-solid';
 
 export const ICONIFY_CLOSE = 'ep:close-bold';
+
 export const ICONIFY_NEW_FILE = 'ci:file-new';
 export const ICONIFY_MENU_EDIT = 'clarity:edit-line';
 export const ICONIFY_THREE_DOTS = 'bi:three-dots';
@@ -15,6 +16,8 @@ export const ICONIFY_TRASH = 'fluent:delete-24-filled';
 export const ICONIFY_MENU_PLAY = 'charm:media-play';
 export const ICONIFY_FILTERS = 'bi:filter-right';
 
+export const ICONIFY_BELL = 'bxs:bell';
+export const ICONIFY_CALENDAR = 'bx:calendar';
 export const ICONIFY_BOOKMARKS = 'bi:bookmarks';
 export const ICONIFY_EMPTY_HEART = 'bytesize:heart';
 export const ICONIFY_LIBRARY = 'fluent:library-28-regular';
