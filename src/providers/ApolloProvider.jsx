@@ -8,7 +8,6 @@ import { setContext } from 'apollo-link-context';
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 
 import CombinedUserProvider from './CombinedUserProvider';
-import { DashboardProvider } from '../contexts';
 
 import App from '../App';
 
@@ -19,6 +18,9 @@ const cache = new InMemoryCache({
 	typePolicies: {
 		User: {
 			keyFields: ['id'],
+		},
+		Project: {
+			keyFields: ['id', 'owner'],
 		},
 		UserInfo: {
 			keyFields: ['displayName', 'userId'],

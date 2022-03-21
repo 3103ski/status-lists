@@ -1,31 +1,48 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import { Link, useHistory, useLocation } from 'react-router-dom';
-
-import { CloudinaryImage } from '../../../components';
-import { CurrentUserContext, DashboardContext } from '../../../contexts';
+import { CloudinaryImage, Modal, CreateProjectForm, Button, Loader } from '../../../components';
+import { CurrentUserContext, DashboardContext, ProjectContext } from '../../../contexts';
 import { LOGIN, DASHBOARD, OVERVIEW, PROJECT, USER_SETTINGS } from '../../../routes';
 
 import * as style from './navigation.module.scss';
 
-export default function Navigation({ match }) {
+export default function Navigation() {
 	const { logout } = React.useContext(CurrentUserContext);
-	console.log('this', { match });
+
+	const {
+		createProject,
+		projects,
+		loadingProjects,
+		errorLoadingProjects,
+		isCreatingProject,
+		toggleIsCreatingProject,
+		serverCreatingProject,
+		errorCreatingProject,
+	} = React.useContext(ProjectContext);
 
 	return React.useMemo(
 		() => (
 			<nav className={style.MainWrapper}>
 				<div className={style.MenuWrapper}>
 					<RootLink text='Overview' to={`${DASHBOARD}${OVERVIEW}`} />
-					<ExpandProjectLink text={'Some Project'} projectId={'23894cg293'}>
-						<ProjectLinkItem text='Calvin Rising Singing' />
-						<ProjectLinkItem text='Fail On Things' />
-						<ProjectLinkItem text='Arrival Of SlamSonite' />
-					</ExpandProjectLink>
-					<ExpandProjectLink text={'Another Project'} projectId={'89qv3t59223jk4v'}>
-						<ProjectLinkItem text='slam things along' />
-						<ProjectLinkItem text='Bloo' />
-					</ExpandProjectLink>
+					{errorLoadingProjects || errorCreatingProject ? <p>Error</p> : null}
+					{loadingProjects ? (
+						<Loader loadingText='Getting Projects' />
+					) : (
+						projects.map((project) => {
+							return (
+								<ExpandProjectLink key={project.id} projectId={project.id} text={project.title}>
+									{project.tasks.map((task) => (
+										<ProjectLinkItem text={task.title} key={task.id} />
+									))}
+								</ExpandProjectLink>
+							);
+						})
+					)}
+					<div>
+						<Button onClick={() => toggleIsCreatingProject(true)}>Create Project</Button>
+					</div>
 				</div>
 				<div className={style.UserDrop}>
 					<UserMenuTrigger>
@@ -33,9 +50,30 @@ export default function Navigation({ match }) {
 						<UserMenuTriggerItem text={'Logout'} onClick={logout} href={LOGIN} />
 					</UserMenuTrigger>
 				</div>
+				<Modal open={isCreatingProject} toggle={toggleIsCreatingProject}>
+					{serverCreatingProject ? (
+						<Loader loadingText='Creating Project' />
+					) : (
+						<CreateProjectForm
+							callback={(values) => {
+								createProject(values);
+							}}
+						/>
+					)}
+				</Modal>
 			</nav>
 		),
-		[logout]
+		[
+			createProject,
+			errorCreatingProject,
+			errorLoadingProjects,
+			isCreatingProject,
+			loadingProjects,
+			logout,
+			projects,
+			serverCreatingProject,
+			toggleIsCreatingProject,
+		]
 	);
 }
 const ExpandProjectLink = ({ text, projectId, children, ...rest }) => {
@@ -44,10 +82,7 @@ const ExpandProjectLink = ({ text, projectId, children, ...rest }) => {
 	let outerId = `${text}_ExpandLink__outer`;
 	let innerId = `${text}_ExpandLink__inner`;
 
-	// console.log({ history: useHistory(), location: useLocation(), focusProject });
-
 	React.useEffect(() => {
-		console.log(`I ${text} saw the change in ${projectId} and ${focusProject}`);
 		if (projectId) {
 			let outerEl = document.getElementById(outerId);
 			let innerEl = document.getElementById(innerId);
@@ -56,11 +91,9 @@ const ExpandProjectLink = ({ text, projectId, children, ...rest }) => {
 				if (focusProject) {
 					let innerElHeight = innerEl.getBoundingClientRect().height;
 					if (outerEl.getBoundingClientRect().height === 0 && projectId === focusProject) {
-						console.log('it wanted to open');
 						outerEl.style.padding = `5px 0px 5px 10px`;
 						outerEl.style.height = `${innerElHeight}px`;
 					} else {
-						console.log(`${text} should be closed`);
 						outerEl.style.padding = `0px 0px 0px 10px`;
 						outerEl.style.height = '0px';
 					}

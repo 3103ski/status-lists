@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CurrentUserProvider, DashboardProvider } from '../contexts/';
+import { CurrentUserProvider, DashboardProvider, ProjectProvider } from '../contexts/';
 
 export default function CombinedUserProvider({ children, ...rest }) {
 	return (

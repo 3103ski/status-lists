@@ -148,9 +148,9 @@ const CurrentUserProvider = (props) => {
 		return axios({ url, data, hdrs, method })
 			.then(({ data: { success, token, user } }) => {
 				if (success) {
-					if (callback) callback();
 					if (history) {
 						authSuccess(token, user._id, user.info.avatar, user);
+						if (callback) callback();
 						return history.push(LOGIN_SUCCES_REDIRECT);
 					}
 				}

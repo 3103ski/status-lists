@@ -5,7 +5,7 @@ import { Form } from 'semantic-ui-react';
 
 import { GoogleLoginButton } from '../oAuthButtons';
 
-import { Button, TextInput, LocalFormErrors } from '../../../components';
+import { Button, TextInput, LocalFormErrors, Loader } from '../../../components';
 import { CurrentUserContext } from '../../../contexts';
 
 import { useForm } from '../../../hooks';
@@ -13,7 +13,7 @@ import { LOCAL_AUTH, REGISTER, LANDING } from '../../../routes';
 
 export default function LoginForm({ history }) {
 	// form uses authRegisterApi and not GQL query
-	const { authRegisterApi, clearErrors, errors } = useContext(CurrentUserContext);
+	const { authRegisterApi, clearErrors, errors, isLoading, isLoadingCurrentUser } = useContext(CurrentUserContext);
 
 	/** setup useForm hook */
 	const { values, onSubmit, onChange } = useForm(
@@ -34,7 +34,9 @@ export default function LoginForm({ history }) {
 		return () => clearErrors();
 	}, [clearErrors]);
 
-	return (
+	return isLoading || isLoadingCurrentUser ? (
+		<Loader loadingText='logging in...' />
+	) : (
 		<Form onSubmit={onSubmit}>
 			<TextInput name='email' value={values.email} placeholder='Email' onChange={onChange} />
 			<TextInput
@@ -51,10 +53,6 @@ export default function LoginForm({ history }) {
 			<Button as={Link} to={REGISTER}>
 				Register
 			</Button>
-			{/* <Button as={Link} to={LANDING}>
-				Boiler Notes
-			</Button> */}
-			{/* If not visible, toggle in config file */}
 			<GoogleLoginButton history={history} />
 		</Form>
 	);
