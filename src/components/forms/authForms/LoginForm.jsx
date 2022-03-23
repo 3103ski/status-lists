@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useApolloClient } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
 import { Form } from 'semantic-ui-react';
@@ -23,6 +24,9 @@ export default function LoginForm({ history }) {
 			onChangeCB: clearErrors,
 		}
 	);
+
+	let client = useApolloClient();
+	console.log({ client });
 
 	function loginInit() {
 		return authRegisterApi({ authEndpoint: LOCAL_AUTH, data: values }, history);

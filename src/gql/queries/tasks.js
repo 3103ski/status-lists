@@ -10,35 +10,20 @@ export const GET_TASK = gql`
 			isComplete
 			attentionFlag
 			createdAt
-			projectOwner {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			createdBy {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			users {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
+			projectOwner
+			createdBy
+			users
 			statuses {
 				id
+				projectOwner
+				taskCreator
+				createdBy
+				text
+				task
+				likes {
+					id
+				}
+				createdAt
 			}
 		}
 	}
@@ -54,35 +39,20 @@ export const GET_PROJECT_TASKS = gql`
 			isComplete
 			attentionFlag
 			createdAt
-			projectOwner {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			createdBy {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			users {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
+			projectOwner
+			createdBy
+			users
 			statuses {
 				id
+				projectOwner
+				taskCreator
+				createdBy
+				text
+				task
+				likes {
+					id
+				}
+				createdAt
 			}
 		}
 	}
@@ -98,35 +68,20 @@ export const GET_USER_TASKS = gql`
 			isComplete
 			attentionFlag
 			createdAt
-			projectOwner {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			createdBy {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			users {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
+			projectOwner
+			createdBy
+			users
 			statuses {
 				id
+				projectOwner
+				taskCreator
+				createdBy
+				text
+				task
+				likes {
+					id
+				}
+				createdAt
 			}
 		}
 	}
@@ -142,35 +97,20 @@ export const GET_TASKS_CREATED_BY_USER = gql`
 			isComplete
 			attentionFlag
 			createdAt
-			projectOwner {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			createdBy {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			users {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
+			projectOwner
+			createdBy
+			users
 			statuses {
 				id
+				projectOwner
+				taskCreator
+				createdBy
+				text
+				task
+				likes {
+					id
+				}
+				createdAt
 			}
 		}
 	}

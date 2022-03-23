@@ -11,8 +11,28 @@ export const GET_PROJECT = gql`
 			isArchived
 			bellCount
 			tasks {
-				title
 				id
+				title
+				notes
+				project
+				isComplete
+				attentionFlag
+				createdAt
+				projectOwner
+				createdBy
+				users
+				statuses {
+					id
+					projectOwner
+					taskCreator
+					createdBy
+					text
+					task
+					likes {
+						id
+					}
+					createdAt
+				}
 			}
 			createdAt
 		}

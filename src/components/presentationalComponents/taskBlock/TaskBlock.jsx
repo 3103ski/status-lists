@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { StatusList, TextInput } from '../../../components';
+import { StatusList, InputWithEnterButton } from '../../../components';
 import * as style from './taskBlock.module.scss';
 
-export default function TaskBlock({ task = { title: '' } }) {
+export default function TaskBlock({ task = { title: '' }, id }) {
+	console.log({ task });
 	return (
 		<div className={style.Container}>
 			<div className={style.BlockHeader}>
@@ -14,12 +15,12 @@ export default function TaskBlock({ task = { title: '' } }) {
 					<div className={style.CheckCircle}></div>
 				</div>
 			</div>
+			<StatusList task={task} />
 			<div className={style.InputWrapper}>
-				<Form>
-					<TextInput placeholder={`Update Status`} />
+				<Form style={{ width: '100%' }}>
+					<InputWithEnterButton border placeholder={`Update Status`} />
 				</Form>
 			</div>
-			<StatusList />
 		</div>
 	);
 }

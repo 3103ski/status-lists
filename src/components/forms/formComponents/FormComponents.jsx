@@ -1,22 +1,51 @@
 import React from 'react';
 
-import { Dropdown as SUI_DD, Form, Input, TextArea as SUI_TA, Label, Message } from 'semantic-ui-react';
+import { Icon } from '@iconify/react';
+import { ICONIFY_ENTER } from '../../../icons';
+import { Dropdown as SUI_DD, Form, Input, TextArea as SUI_TA, Label, Message, Loader } from 'semantic-ui-react';
 import { isNumber } from '../../../util/helpers';
 import style from './shared.module.scss';
 import './semanticUIOverride.scss';
 
-export function TextInput({ name, value, onChange, ...rest }) {
+export function TextInput({ name, value, onChange, border, ...rest }) {
 	return (
 		<Form.Field
 			control={Input}
 			className={style.TextInput}
 			name={name}
 			onChange={onChange}
+			data-border={border}
 			value={value}
 			{...rest}
 		/>
 	);
 }
+
+export function InputWithEnterButton({ name, value, onChange, border = null, loading, ...rest }) {
+	return (
+		<div className={style.InputWithEnterButton} data-border={border ? 1 : 0}>
+			{loading ? (
+				<Loader active={true} />
+			) : (
+				<>
+					<Form.Field
+						control={Input}
+						className={style.TextInput}
+						name={name}
+						onChange={onChange}
+						value={value}
+						data-border={'none'}
+						{...rest}
+					/>
+					<button type='submit' className={style.EnterWrapper}>
+						<Icon icon={ICONIFY_ENTER} />
+					</button>
+				</>
+			)}
+		</div>
+	);
+}
+
 export function TextArea({ name, value, onChange, ...rest }) {
 	return (
 		<Form.Field

@@ -70,7 +70,7 @@ const client = new ApolloClient({
 	link: authLink.concat(httpLink),
 	cache,
 });
-
+client.onResetStore();
 const Provider = (props) => {
 	return (
 		<ApolloProvider client={client}>

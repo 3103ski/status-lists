@@ -6,24 +6,8 @@ export const NEW_STATUS = gql`
 			id
 			text
 			task
-			projectOwner {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			taskCreator {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
+			projectOwner
+			taskCreator
 			createdBy {
 				id
 				info {

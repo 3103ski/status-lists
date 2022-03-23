@@ -10,12 +10,26 @@
 	svg {
 		color: white;
 	}
+
 	.MenuWrapper {
 		@include flex-col-start;
-		position: relative;
 		height: 90vh;
+		position: relative;
 		padding: 70px 50px;
+
+		.MenuTop {
+			height: 10vh;
+		}
+
+		.ProjectLinks {
+			@include remove-scrollbar;
+			padding-top: 20px;
+			height: 80vh;
+			overflow-y: scroll;
+			width: 100%;
+		}
 	}
+
 	.UserDrop {
 		@include flex-center;
 		height: 10vh;
@@ -100,11 +114,11 @@
 
 .ExpandLink,
 .RootLink {
-	padding: 10px 0px;
 	font-size: 25px;
 	margin-bottom: 8px !important;
 
 	p {
+		padding: 10px 0px;
 		margin: 0;
 	}
 }

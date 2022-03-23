@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { CloudinaryImage, Modal, CreateProjectForm, Button, Loader } from '../../../components';
-import { CurrentUserContext, DashboardContext, ProjectContext } from '../../../contexts';
+import { CurrentUserContext, ProjectContext } from '../../../contexts';
 import { LOGIN, DASHBOARD, OVERVIEW, PROJECT, USER_SETTINGS } from '../../../routes';
 
 import * as style from './navigation.module.scss';
@@ -25,23 +25,30 @@ export default function Navigation() {
 		() => (
 			<nav className={style.MainWrapper}>
 				<div className={style.MenuWrapper}>
-					<RootLink text='Overview' to={`${DASHBOARD}${OVERVIEW}`} />
-					{errorLoadingProjects || errorCreatingProject ? <p>Error</p> : null}
-					{loadingProjects ? (
-						<Loader loadingText='Getting Projects' />
-					) : (
-						projects.map((project) => {
-							return (
-								<ExpandProjectLink key={project.id} projectId={project.id} text={project.title}>
-									{project.tasks.map((task) => (
-										<ProjectLinkItem text={task.title} key={task.id} />
-									))}
-								</ExpandProjectLink>
-							);
-						})
-					)}
-					<div>
-						<Button onClick={() => toggleIsCreatingProject(true)}>Create Project</Button>
+					<div className={style.MenuTop}>
+						<RootLink text='Overview' to={`${DASHBOARD}${OVERVIEW}`} />
+						<CreateProjectForm
+							loading={serverCreatingProject}
+							callback={(values) => {
+								createProject(values);
+							}}
+						/>
+					</div>
+					<div className={style.ProjectLinks}>
+						{errorLoadingProjects || errorCreatingProject ? <p>Error</p> : null}
+						{loadingProjects ? (
+							<Loader loadingText='Getting Projects' />
+						) : (
+							projects.map((project) => {
+								return (
+									<ExpandProjectLink key={project.id} projectId={project.id} text={project.title}>
+										{project.tasks.map((task) => (
+											<ProjectLinkItem text={task.title} key={task.id} />
+										))}
+									</ExpandProjectLink>
+								);
+							})
+						)}
 					</div>
 				</div>
 				<div className={style.UserDrop}>
@@ -77,7 +84,7 @@ export default function Navigation() {
 	);
 }
 const ExpandProjectLink = ({ text, projectId, children, ...rest }) => {
-	const { focusProject } = React.useContext(DashboardContext);
+	const { focusProject } = React.useContext(ProjectContext);
 
 	let outerId = `${text}_ExpandLink__outer`;
 	let innerId = `${text}_ExpandLink__inner`;
@@ -134,7 +141,7 @@ const ProjectLinkItem = ({ text, ...rest }) => {
 };
 
 const RootLink = ({ text, to, ...rest }) => {
-	const { setFocusProject } = React.useContext(DashboardContext);
+	const { setFocusProject } = React.useContext(ProjectContext);
 	return (
 		<Link to={to} onClick={() => setFocusProject(null)} className={style.RootLink} {...rest}>
 			{text}
@@ -157,7 +164,7 @@ const UserMenuTrigger = ({ children }) => {
 };
 
 const UserMenuTriggerItem = ({ text, to, href, ...rest }) => {
-	const { setFocusProject, focusProject } = React.useContext(DashboardContext);
+	const { setFocusProject, focusProject } = React.useContext(ProjectContext);
 
 	function handleOnClick() {
 		if (focusProject) {

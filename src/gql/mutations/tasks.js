@@ -10,35 +10,12 @@ export const NEW_TASK = gql`
 			isComplete
 			attentionFlag
 			createdAt
-			projectOwner {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			createdBy {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-			users {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
+			projectOwner
+			users
+			createdBy
 			statuses {
 				id
+				task
 			}
 		}
 	}

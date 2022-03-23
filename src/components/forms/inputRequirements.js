@@ -1,3 +1,7 @@
+export const taskValidation = {
+	title: { errorMsg: 'You must include a title', min: 1 },
+};
+
 export const projectValidation = {
 	title: { errorMsg: 'You must include a title', min: 1 },
 };

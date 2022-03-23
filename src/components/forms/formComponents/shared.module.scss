@@ -15,6 +15,47 @@
 	&:focus {
 		border-color: $pallet-color-two !important;
 	}
+
+	[data-border='none'] {
+		input {
+			border: none !important;
+			box-shadow: none !important;
+			border-color: unset !important;
+		}
+		border: none !important;
+		box-shadow: none !important;
+	}
+}
+
+.InputWithEnterButton {
+	@include flex-center;
+	height: 40px;
+	width: 100%;
+	background-color: white;
+	border-radius: $large-radius;
+	padding: 3px;
+
+	.TextInput {
+		margin: 0 !important;
+		width: 100%;
+	}
+
+	.EnterWrapper {
+		@include flex-center-center;
+		background-color: $pallet-color-two;
+		border: none;
+		outline: none;
+		padding: 10px;
+		border-radius: $large-radius;
+		svg {
+			color: white;
+		}
+	}
+
+	&[data-border='1'] {
+		border: 1px solid $pallet-color-two;
+		border-radius: $large-radius;
+	}
 }
 
 .LabelLeft {

@@ -179,13 +179,12 @@ const CurrentUserProvider = (props) => {
 	};
 
 	async function logout() {
+		await client.clearStore();
+		await client.cache.reset();
 		await localStorage.removeItem(TOKEN_TITLE);
-		client.clearStore();
 		dispatch({ type: 'LOGOUT' });
 
-		if (history) {
-			history.push(LOGIN);
-		}
+		return client.resetStore();
 	}
 
 	function tokenErrorCheck(err) {

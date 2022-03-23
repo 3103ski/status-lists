@@ -4,6 +4,7 @@ export const ICONIFY_NO_USER = `carbon:user-avatar-filled`;
 
 export const ICONIFY_CIRCLE_CHECK = 'akar-icons:circle-check-fill';
 export const ICONIFY_CIRCLE_REMOVE = 'clarity:remove-solid';
+export const ICONIFY_ENTER = 'fluent:arrow-enter-left-20-filled';
 
 export const ICONIFY_CLOSE = 'ep:close-bold';
 

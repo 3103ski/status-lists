@@ -1,6 +1,9 @@
 import React from 'react';
-import { DashboardContext } from '../../contexts';
-import { TaskBlock } from '../../components/';
+
+import { useQuery } from '@apollo/client';
+import { ProjectContext } from '../../contexts';
+import { TaskBlock, Loader, CreateTaskForm } from '../../components/';
+import { GET_PROJECT } from '../../gql/';
 
 import * as style from './shared.module.scss';
 
@@ -9,22 +12,35 @@ export default function ProjectPage({
 		params: { projectId },
 	},
 }) {
-	const { setFocusProject, focusProject } = React.useContext(DashboardContext);
+	const { setFocusProject, focusProject, errorCreatingTask } = React.useContext(ProjectContext);
 
+	const {
+		data: project,
+		loading: loadingProject,
+		errors: errorLoadingProject,
+	} = useQuery(GET_PROJECT, {
+		variables: {
+			projectId,
+		},
+	});
 	React.useEffect(() => {
 		if (projectId && projectId !== focusProject) {
 			setFocusProject(projectId);
 		}
 	}, [focusProject, projectId, setFocusProject]);
 
-	return (
+	return loadingProject || project.project === -1 ? (
+		<Loader loadingText='Getting Project' />
+	) : (
 		<div style={{ padding: '50px 30px' }} className={style.ViewWrapper}>
 			<div style={{ marginBottom: '30px' }}>
-				<h1>Some Project {focusProject}</h1>
+				<h1>{project.project.title}</h1>
+				{errorCreatingTask || errorLoadingProject ? <p>Error</p> : null}
+				<CreateTaskForm />
 			</div>
-			<TaskBlock task={{ title: 'Calvin Rising Singing' }} />
-			<TaskBlock task={{ title: 'Fail On Things' }} />
-			<TaskBlock task={{ title: 'Arrival Of SlammSonite' }} />
+			{project.project.tasks.map((task) => (
+				<TaskBlock key={task.id} task={task} />
+			))}
 		</div>
 	);
 }

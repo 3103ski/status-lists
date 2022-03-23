@@ -7,4 +7,5 @@ export {
 	DollarInput,
 	Dropdown,
 	LocalFormErrors,
+	InputWithEnterButton,
 } from './FormComponents.jsx';
