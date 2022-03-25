@@ -1,23 +1,14 @@
 import gql from 'graphql-tag';
 
 export const NEW_STATUS = gql`
-	mutation NewStatus($text: String, $projectId: ID) {
-		newStatus(statusInput: { text: $text }) {
+	mutation NewStatus($text: String, $taskId: ID) {
+		newStatus(statusInput: { text: $text }, taskId: $taskId) {
 			id
 			text
 			task
 			projectOwner
 			taskCreator
-			createdBy {
-				id
-				info {
-					avatar
-					displayName
-					firstName
-					lastName
-				}
-			}
-
+			createdBy
 			likes {
 				id
 				userId

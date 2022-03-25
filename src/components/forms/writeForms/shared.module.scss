@@ -1,0 +1,46 @@
+@import '../../../sass/';
+
+.FormWrapper {
+	.CloseForm {
+		@include flex-center-center;
+		margin-right: 10px;
+		transition: 0.15s;
+		svg {
+			font-size: 30px;
+		}
+
+		&:hover {
+			cursor: pointer;
+			transform: scale(1.04);
+		}
+	}
+}
+
+.FormTrigger,
+.FormWrapper {
+	@include flex-center;
+	@include no-select;
+
+	padding: 10px 0;
+	transition: 0.15s;
+	width: 100%;
+}
+
+.FormTrigger {
+	svg {
+		font-size: 40px;
+		color: $primary-black;
+	}
+
+	p {
+		margin: 0;
+		margin-left: 15px;
+		font-size: 18px;
+		color: $primary-black;
+	}
+
+	&:hover {
+		cursor: pointer;
+		transform: scale(1.04);
+	}
+}

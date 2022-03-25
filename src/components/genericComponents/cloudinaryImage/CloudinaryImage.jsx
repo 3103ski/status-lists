@@ -10,14 +10,14 @@ export default function CloudinaryImage({
 	publicId,
 	width = '100%',
 	height = '',
-	cloudname = 'mixstudios',
+	cloudname = 'bjastski-apps',
 	round = null,
 }) {
 	return (
 		<CloudinaryContext cloudName={cloudname}>
 			{publicId ? (
 				<Image
-					style={{ display: 'flex', borderRadius: '5px' }}
+					style={{ display: 'flex', borderRadius: '100%' }}
 					publicId={`${publicId}`}
 					width={!height ? width : undefined}
 					height={height ? height : undefined}>

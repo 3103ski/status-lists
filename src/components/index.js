@@ -9,6 +9,7 @@ export { default as FormErrors } from './forms/FormErrors.jsx';
 // >>> Project Forms
 export { default as CreateProjectForm } from './forms/writeForms/CreateProejct.jsx';
 export { default as CreateTaskForm } from './forms/writeForms/CreateTask.jsx';
+export { default as CreateStatusForm } from './forms/writeForms/CreateStatus.jsx';
 
 // Genric Input & Interactive Components
 export { default as Button } from './genericComponents/button/Button.jsx';

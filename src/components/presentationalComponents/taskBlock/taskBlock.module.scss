@@ -2,19 +2,63 @@
 
 .Container {
 	margin-bottom: 50px;
+	transition: 0.2s;
+
 	.BlockHeader {
 		@include flex-center;
-		justify-content: space-between;
 
+		justify-content: space-between;
 		margin-bottom: 15px;
 		color: $primary-black;
 
 		.HeaderRight {
+			@include flex-center;
+
+			p {
+				margin: 0;
+				margin-right: 20px;
+			}
+
+			.Archived {
+				@include flex-center;
+				p {
+					margin: 0;
+					margin-right: 10px;
+				}
+				margin-right: 20px;
+			}
 			.CheckCircle {
-				border: 2px solid $primary-black;
-				border-radius: 100%;
+				@include flex-center-center;
+
 				width: 30px;
 				height: 30px;
+
+				svg {
+					font-size: 28px;
+					padding-right: 1px;
+				}
+
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+	}
+
+	&[data-show-list='0'] {
+		margin-bottom: 0;
+	}
+
+	&[data-complete='1'] {
+		opacity: 0.55;
+
+		h2 {
+			text-decoration: line-through;
+		}
+
+		.CheckCircle {
+			svg {
+				color: $confirmation-green;
 			}
 		}
 	}

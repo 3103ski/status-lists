@@ -1,7 +1,10 @@
 export const ICONIFY_ARROW_DOWN = 'eva:arrow-ios-downward-fill';
 export const ICONIFY_ARROW_UP = 'eva:arrow-ios-upward-fill';
+export const ICONIFY_PLUS = 'akar-icons:circle-plus-fill';
+
 export const ICONIFY_NO_USER = `carbon:user-avatar-filled`;
 
+export const ICONIFY_CIRCLE = 'akar-icons:circle';
 export const ICONIFY_CIRCLE_CHECK = 'akar-icons:circle-check-fill';
 export const ICONIFY_CIRCLE_REMOVE = 'clarity:remove-solid';
 export const ICONIFY_ENTER = 'fluent:arrow-enter-left-20-filled';
@@ -17,7 +20,8 @@ export const ICONIFY_TRASH = 'fluent:delete-24-filled';
 export const ICONIFY_MENU_PLAY = 'charm:media-play';
 export const ICONIFY_FILTERS = 'bi:filter-right';
 
-export const ICONIFY_BELL = 'bxs:bell';
+export const ICONIFY_BELL = 'bi:bell';
+export const ICONIFY_BELL_FILL = 'bi:bell-fill';
 export const ICONIFY_CALENDAR = 'bx:calendar';
 export const ICONIFY_BOOKMARKS = 'bi:bookmarks';
 export const ICONIFY_EMPTY_HEART = 'bytesize:heart';

@@ -1,9 +1,21 @@
 @import '../../../sass/';
 
 .Container {
-	// .ListWrapper {
-	// 	border-radius: $bor;
-	// 	overflow: hidden;
+	position: relative;
+	overflow: hidden;
 
-	// }
+	-moz-border-radius: $large-radius;
+	-webkit-border-radius: $large-radius;
+	border-radius: $large-radius;
+
+	.ListWrapper {
+		max-height: calc(#{$status-li-height} * 4);
+		overflow-y: scroll;
+	}
+
+	&[data-no-tasks='1'] {
+		.ListWrapper {
+			@include remove-scrollbar;
+		}
+	}
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { updateObj } from '../util';
 import { useMutation, useQuery } from '@apollo/client';
-import { NEW_PROJECT, GET_USER_PROJECTS, NEW_TASK, GET_PROJECT } from '../gql';
+import { NEW_PROJECT, GET_USER_PROJECTS, NEW_TASK, GET_PROJECT, NEW_STATUS, UPDATE_TASK } from '../gql';
 
 const initialState = {
 	isCreatingProject: false,
@@ -39,7 +39,12 @@ const ProjectProvider = (props) => {
 	};
 
 	// >>> GETTING USER PROJECTS
-	const { data: projects, loading: loadingProjects, error: errorLoadingProjects } = useQuery(GET_USER_PROJECTS);
+	const {
+		data: projects,
+		loading: loadingProjects,
+		error: errorLoadingProjects,
+		refetch: refetchUserProjects,
+	} = useQuery(GET_USER_PROJECTS);
 
 	// >>> CREATING NEW PROJECTS
 	const [createProject, { loading: serverCreatingProject, error: errorCreatingProject }] = useMutation(NEW_PROJECT, {
@@ -64,8 +69,9 @@ const ProjectProvider = (props) => {
 			cache.updateQuery({ query: GET_PROJECT, variables: { projectId: data.newTask.project } }, (qd) => {
 				let project = {
 					...qd.project,
-					tasks: [data.newTask, ...qd.project.tasks],
+					tasks: [...qd.project.tasks, data.newTask],
 				};
+
 				return {
 					project,
 				};
@@ -79,6 +85,57 @@ const ProjectProvider = (props) => {
 		dispatch({ type: 'TOGGLE_CREATING_TASK', isCreatingTask });
 	}
 
+	const activeProjectId = React.useCallback(() => state.focusProject, [state.focusProject]);
+
+	// >>>> CREATING A NEW STATUS FOR A TASK
+	const [newStatus, { loading: serverCreatingStatus, error: errorCreatingStatus }] = useMutation(NEW_STATUS, {
+		update(cache, { data }) {
+			cache.updateQuery({ query: GET_PROJECT, variables: { projectId: activeProjectId() } }, (qd) => {
+				let project = {
+					...qd.project,
+					tasks: qd.project.tasks.map((task) => {
+						if (task.id === data.newStatus.task) {
+							let t = {
+								...task,
+								attentionFlag: false,
+								statuses: [...task.statuses, data.newStatus],
+							};
+							return t;
+						}
+						return task;
+					}),
+				};
+				return {
+					project,
+				};
+			});
+		},
+	});
+
+	// >>>> UPDATING A TASK
+	const [updateTask, { loading: serverUpdatingTask, error: errorUpdatingTask }] = useMutation(UPDATE_TASK, {
+		update(cache, { data }) {
+			console.log({ data });
+			cache.updateQuery({ query: GET_PROJECT, variables: { projectId: activeProjectId() } }, (qd) => {
+				console.log({ qd });
+				if (qd) {
+					let project = {
+						...qd.project,
+						tasks: qd.project.tasks.map((task) => {
+							if (task.id === data.updatedTask.id) {
+								return data.updatedTask;
+							}
+							return task;
+						}),
+					};
+					return {
+						project,
+					};
+				}
+			});
+		},
+	});
+
 	return (
 		<ProjectContext.Provider
 			value={{
@@ -86,8 +143,10 @@ const ProjectProvider = (props) => {
 				focusProject: state.focusProject,
 				setFocusProject,
 
+				refetchUserProjects,
+
 				// >> Getting projects
-				projects: projects && projects.userProjects !== -1 ? projects.userProjects : [],
+				projects,
 				loadingProjects,
 				errorLoadingProjects,
 
@@ -102,6 +161,16 @@ const ProjectProvider = (props) => {
 				serverCreatingTask,
 				errorCreatingTask,
 				toggleIsCreatingTask,
+
+				// >> Creating Task Status
+				newStatus,
+				serverCreatingStatus,
+				errorCreatingStatus,
+
+				// >> Update Task
+				updateTask,
+				serverUpdatingTask,
+				errorUpdatingTask,
 
 				// Methods
 				createProject,

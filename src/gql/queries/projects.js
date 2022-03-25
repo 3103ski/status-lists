@@ -15,6 +15,7 @@ export const GET_PROJECT = gql`
 				title
 				notes
 				project
+				archived
 				isComplete
 				attentionFlag
 				createdAt
@@ -51,6 +52,9 @@ export const GET_USER_PROJECTS = gql`
 			bellCount
 			tasks {
 				title
+				attentionFlag
+				archived
+				isComplete
 				id
 			}
 			createdAt

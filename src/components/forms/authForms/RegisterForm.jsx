@@ -9,7 +9,7 @@ import { Button, TextInput, LocalFormErrors } from '../../../components';
 import { CurrentUserContext } from '../../../contexts';
 
 import { useForm } from '../../../hooks';
-import { LOCAL_REGISTER, LOGIN, LANDING } from '../../../routes.js';
+import { LOCAL_REGISTER, LOGIN } from '../../../routes.js';
 
 const formID = 'form_update_user_profile';
 

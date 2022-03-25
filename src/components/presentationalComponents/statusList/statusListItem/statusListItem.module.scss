@@ -2,7 +2,8 @@
 
 .Container {
 	justify-content: space-between;
-	padding: 4px 10px;
+	padding: 0px 10px;
+	height: $status-li-height;
 	position: relative;
 
 	&,
@@ -52,7 +53,7 @@
 		height: 100%;
 	}
 
-	&[data-first='1'] {
+	&[data-last='1'] {
 		.Filter {
 			opacity: 0;
 		}

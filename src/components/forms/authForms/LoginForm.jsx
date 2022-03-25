@@ -10,7 +10,7 @@ import { Button, TextInput, LocalFormErrors, Loader } from '../../../components'
 import { CurrentUserContext } from '../../../contexts';
 
 import { useForm } from '../../../hooks';
-import { LOCAL_AUTH, REGISTER, LANDING } from '../../../routes';
+import { LOCAL_AUTH, REGISTER } from '../../../routes';
 
 export default function LoginForm({ history }) {
 	// form uses authRegisterApi and not GQL query

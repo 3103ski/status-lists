@@ -15,16 +15,17 @@
 		@include flex-col-start;
 		height: 90vh;
 		position: relative;
-		padding: 70px 50px;
+		padding: 70px 0px 70px 0px;
 
 		.MenuTop {
-			height: 10vh;
+			height: 5vh;
+			padding: 0 40px;
 		}
 
 		.ProjectLinks {
 			@include remove-scrollbar;
-			padding-top: 20px;
-			height: 80vh;
+			padding: 20px 40px;
+			height: 85vh;
 			overflow-y: scroll;
 			width: 100%;
 		}
@@ -105,7 +106,7 @@
 .UserMenuTriggerItem {
 	@include flex-center-center;
 
-	padding: 5px 10px;
+	padding: 2px 10px;
 	p {
 		margin: 0;
 		font-size: 16px;
@@ -118,7 +119,7 @@
 	margin-bottom: 8px !important;
 
 	p {
-		padding: 10px 0px;
+		padding: 5px 0px;
 		margin: 0;
 	}
 }
@@ -127,15 +128,25 @@
 	.ExpandLinkChildren {
 		transition: 0.15s;
 		transition-timing-function: ease-in-out;
-		overflow: hidden;
+		overflow-y: scroll;
+		@include remove-scrollbar;
+
 		p {
+			padding: 0;
+			margin-bottom: 2px;
 			font-size: 16px;
 		}
 	}
 }
 
 .ProjectLinkItem {
+	@include flex-center;
 	padding: 2px 0;
+
+	svg {
+		font-size: 14px;
+		margin-left: 10px;
+	}
 }
 
 .MainWrapper,

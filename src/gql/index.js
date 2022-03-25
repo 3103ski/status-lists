@@ -6,6 +6,9 @@ export { UPDATE_USER, UPLOAD_AVATAR, UPDATE_USER_INFO, REFRESH_TOKEN, DELETE_USE
 export { GET_PROJECT, GET_USER_PROJECTS } from './queries/projects';
 export { NEW_PROJECT, UPDATED_PROJECT } from './mutations/projects';
 
-//Tasks
+// Tasks
 export { GET_TASK, GET_PROJECT_TASKS, GET_TASKS_CREATED_BY_USER, GET_USER_TASKS } from './queries/tasks';
-export { NEW_TASK, UPDATED_TASK } from './mutations/tasks';
+export { NEW_TASK, UPDATE_TASK } from './mutations/tasks';
+
+// Statuses
+export { NEW_STATUS, LIKE_STATUS, UNLIKE_STATUS } from './mutations/statuses';

@@ -8,6 +8,7 @@ export const GET_TASK = gql`
 			notes
 			project
 			isComplete
+			archived
 			attentionFlag
 			createdAt
 			projectOwner
@@ -36,6 +37,7 @@ export const GET_PROJECT_TASKS = gql`
 			title
 			notes
 			project
+			archived
 			isComplete
 			attentionFlag
 			createdAt
@@ -66,6 +68,7 @@ export const GET_USER_TASKS = gql`
 			notes
 			project
 			isComplete
+			archived
 			attentionFlag
 			createdAt
 			projectOwner
@@ -95,6 +98,7 @@ export const GET_TASKS_CREATED_BY_USER = gql`
 			notes
 			project
 			isComplete
+			archived
 			attentionFlag
 			createdAt
 			projectOwner

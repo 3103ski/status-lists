@@ -8,6 +8,7 @@ export const NEW_TASK = gql`
 			notes
 			project
 			isComplete
+			archived
 			attentionFlag
 			createdAt
 			projectOwner
@@ -15,23 +16,52 @@ export const NEW_TASK = gql`
 			createdBy
 			statuses {
 				id
+				text
 				task
+				projectOwner
+				taskCreator
+				createdBy
+				likes {
+					id
+					userId
+					likedStatusId
+					createdAt
+				}
 			}
 		}
 	}
 `;
-export const UPDATED_TASK = gql`
-	mutation UpdateTask($title: String, $notes: String, $isComplete: Boolean, $attentionFlag: Boolean) {
+
+export const UPDATE_TASK = gql`
+	mutation UpdateTask(
+		$title: String
+		$notes: String
+		$isComplete: Boolean
+		$archived: Boolean
+		$attentionFlag: Boolean
+		$taskId: ID
+	) {
 		updatedTask(
-			taskInput: { title: $title, notes: $notes, isComplete: $isComplete, attentionFlag: $attentionFlag }
+			taskInput: {
+				title: $title
+				notes: $notes
+				isComplete: $isComplete
+				archived: $archived
+				attentionFlag: $attentionFlag
+			}
+			taskId: $taskId
 		) {
 			id
 			title
 			notes
 			project
 			isComplete
+			archived
 			attentionFlag
 			createdAt
+			projectOwner
+			users
+			createdBy
 		}
 	}
 `;

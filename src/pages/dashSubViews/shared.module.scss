@@ -1,7 +1,18 @@
 @import '../../sass';
 
 .ViewWrapper {
-	@include remove-scrollbar;
+	// @include remove-scrollbar;
 	height: 100vh;
 	overflow-y: scroll;
+}
+
+.Archive {
+	@include flex-center;
+
+	color: $primary-black;
+
+	p {
+		margin: 0;
+		margin-right: 10px;
+	}
 }

@@ -178,10 +178,9 @@ const CurrentUserProvider = (props) => {
 			});
 	};
 
-	async function logout() {
-		await client.clearStore();
-		await client.cache.reset();
-		await localStorage.removeItem(TOKEN_TITLE);
+	function logout() {
+		client.clearStore();
+		localStorage.removeItem(TOKEN_TITLE);
 		dispatch({ type: 'LOGOUT' });
 
 		return client.resetStore();
