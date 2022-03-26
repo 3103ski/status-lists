@@ -16,8 +16,10 @@ export default function GoogleAuthButton({ history }) {
 	const { authRegisterApi } = useContext(CurrentUserContext);
 
 	const googleResponseCallback = ({ tokenId, error, details }) => {
-		const authEndpoint = GOOGLE_AUTH + tokenId;
-		return authRegisterApi({ authEndpoint, method: 'get' }, history);
+		if (tokenId && tokenId !== -1) {
+			const authEndpoint = GOOGLE_AUTH + tokenId;
+			return authRegisterApi({ authEndpoint, method: 'get' }, history);
+		}
 	};
 	return USE_OAUTH.google ? (
 		<GoogleLogin
