@@ -115,9 +115,7 @@ const ProjectProvider = (props) => {
 	// >>>> UPDATING A TASK
 	const [updateTask, { loading: serverUpdatingTask, error: errorUpdatingTask }] = useMutation(UPDATE_TASK, {
 		update(cache, { data }) {
-			console.log({ data });
 			cache.updateQuery({ query: GET_PROJECT, variables: { projectId: activeProjectId() } }, (qd) => {
-				console.log({ qd });
 				if (qd) {
 					let project = {
 						...qd.project,

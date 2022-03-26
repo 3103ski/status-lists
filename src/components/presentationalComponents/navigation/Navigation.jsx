@@ -108,7 +108,6 @@ const ExpandProjectLink = ({ text, projectId, children, match, ...rest }) => {
 	let innerId = `${text}_ExpandLink__inner`;
 
 	React.useEffect(() => {
-		console.log(`Expand Link sees ${focusProject}`);
 		if (projectId) {
 			let outerEl = document.getElementById(outerId);
 			let innerEl = document.getElementById(innerId);
@@ -135,19 +134,20 @@ const ExpandProjectLink = ({ text, projectId, children, match, ...rest }) => {
 
 	return React.useMemo(
 		() => (
-			<Link
-				to={`${DASHBOARD}${PROJECT}/${projectId}`}
-				className={style.ExpandLink}
-				data-active={projectId === focusProject ? 1 : 0}
-				{...rest}>
-				<p>{text}</p>
+			<div className={style.ExpandLink}>
+				<Link
+					to={`${DASHBOARD}${PROJECT}/${projectId}`}
+					data-active={projectId === focusProject ? 1 : 0}
+					{...rest}>
+					<p>{text}</p>
+				</Link>
 				<div
 					className={style.ExpandLinkChildren}
 					id={`${text}_ExpandLink__outer`}
 					style={{ height: '0px', padding: '0px 0px 0px 10px' }}>
 					<div id={`${text}_ExpandLink__inner`}>{children}</div>
 				</div>
-			</Link>
+			</div>
 		),
 		[children, focusProject, projectId, rest, text]
 	);

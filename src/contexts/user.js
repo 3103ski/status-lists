@@ -136,14 +136,11 @@ const CurrentUserProvider = (props) => {
 			},
 		};
 
-		console.log({ url });
-
 		/** the 'history' value is flagging if this api call should be treated as a login success/fail
 		 *  or an atttempt to just change data like auth email or update password
 		 */
 
 		if (history) await authStart();
-		console.log('tried in the user context');
 
 		return axios({ url, data, hdrs, method })
 			.then(({ data: { success, token, user } }) => {

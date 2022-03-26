@@ -25,14 +25,9 @@ export default function LoginForm({ history }) {
 		}
 	);
 
-	let client = useApolloClient();
-	console.log({ client });
-
 	function loginInit() {
 		return authRegisterApi({ authEndpoint: LOCAL_AUTH, data: values }, history);
 	}
-
-	console.log({ errors });
 
 	React.useEffect(() => {
 		return () => clearErrors();

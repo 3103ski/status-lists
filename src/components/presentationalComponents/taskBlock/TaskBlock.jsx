@@ -18,10 +18,8 @@ export default function TaskBlock({ task = { title: '' }, id, projectTitle = nul
 			let outerElHeight = outerEl.getBoundingClientRect().height;
 			let innerEl = document.getElementById(innerId);
 			let innerElHeight = innerEl.getBoundingClientRect().height;
-			// console.log({ innerElHeight });
+
 			if (outerElHeight !== innerElHeight) {
-				// outerEl.style.padding = `0px 0px 0px 10px`;
-				// outerEl.style.marginBottom = `15px`;
 				outerEl.style.height = `${innerElHeight}px`;
 			}
 		}

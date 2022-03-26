@@ -10,7 +10,6 @@ export default function useForm(callback, initialState = {}, options) {
 	const [validationErrors, setValidationErrors] = React.useState({});
 
 	function checkForAndAssignError({ value, key }) {
-		console.log({ changeVal: value, validationErrors, currentVal: values[key] });
 		function manageError(errorKey, action) {
 			// A function that adds and removes key messages from error object
 			let updatedErrors = { ...validationErrors };
@@ -46,7 +45,6 @@ export default function useForm(callback, initialState = {}, options) {
 
 	/** Handle change value on object data */
 	const onChange = (e, { drop = null, set = null }) => {
-		console.log({ drop });
 		if (!drop && !set) {
 			checkForAndAssignError({ key: e.target.name, value: e.target.value });
 			setValues({ ...values, [e.target.name]: e.target.value });
@@ -70,7 +68,7 @@ export default function useForm(callback, initialState = {}, options) {
 		for (let key in validate) {
 			if (Object.keys(validate).includes(key)) {
 				// The incoming value does not meet validation requirements
-				console.log({ key, value: values[key] });
+
 				if (
 					(Object.keys(validate[key]).includes('min') && values[key].length < validate[key].min) ||
 					(Object.keys(validate[key]).includes('exclude') && validate[key].exclude.includes(values[key])) ||

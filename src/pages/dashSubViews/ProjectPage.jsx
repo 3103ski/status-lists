@@ -25,7 +25,6 @@ export default function ProjectPage({
 	});
 	React.useEffect(() => {
 		if (projectId && projectId !== focusProject) {
-			console.log(`setting ${projectId} as focus project`);
 			setFocusProject(projectId);
 		}
 	}, [focusProject, projectId, setFocusProject]);
