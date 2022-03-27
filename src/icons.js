@@ -9,6 +9,8 @@ export const ICONIFY_CIRCLE_CHECK = 'akar-icons:circle-check-fill';
 export const ICONIFY_CIRCLE_REMOVE = 'clarity:remove-solid';
 export const ICONIFY_ENTER = 'fluent:arrow-enter-left-20-filled';
 
+export const ICONIFY_CANCEL = 'mdi:cancel';
+
 export const ICONIFY_CLOSE = 'ep:close-bold';
 
 export const ICONIFY_NEW_FILE = 'ci:file-new';

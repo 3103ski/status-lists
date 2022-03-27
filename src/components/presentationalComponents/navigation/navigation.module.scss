@@ -142,7 +142,9 @@
 .ProjectLinkItem {
 	@include flex-center;
 	padding: 2px 0;
-
+	&[data-is-complete='1'] {
+		text-decoration: line-through;
+	}
 	svg {
 		font-size: 14px;
 		margin-left: 10px;

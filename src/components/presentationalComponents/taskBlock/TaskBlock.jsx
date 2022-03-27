@@ -10,12 +10,19 @@ import {
 	ICONIFY_BELL_FILL,
 	ICONIFY_MENU_EDIT,
 	ICONIFY_CLOSE,
+	ICONIFY_CANCEL,
 } from '../../../icons';
 import * as style from './taskBlock.module.scss';
 
-export default function TaskBlock({ task = { title: '' }, id, projectTitle = null }) {
+export default function TaskBlock({
+	task = { title: '' },
+	id,
+	projectTitle = null,
+	globalHideList = false,
+	clearGlobalHide,
+}) {
 	const { updateTask } = React.useContext(ProjectContext);
-	const [showList, setShowList] = React.useState(false);
+	const [showList, setShowList] = React.useState(task.archived || task.isComplete ? false : true);
 	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
 
 	React.useEffect(() => {
@@ -54,18 +61,26 @@ export default function TaskBlock({ task = { title: '' }, id, projectTitle = nul
 						)}
 					</div>
 					<div className={style.HeaderRight}>
-						{task.isComplete ? (
-							<div className={style.Archived}>
-								<p>Show Status List</p>
-								<Checkbox
-									toggle
-									checked={showList}
-									onChange={(_, d) => {
-										setShowList(d.checked);
-									}}
-								/>
-							</div>
-						) : null}
+						<div className={style.Archived}>
+							{globalHideList === true ? (
+								<div className={style.GlobalHiddenBadge} onClick={clearGlobalHide}>
+									<Icon icon={ICONIFY_CANCEL} />
+									<p>Globally Hidden</p>
+								</div>
+							) : (
+								<>
+									<p>Show Status List</p>
+									<Checkbox
+										toggle
+										checked={showList}
+										onChange={(_, d) => {
+											setShowList(d.checked);
+										}}
+									/>
+								</>
+							)}
+						</div>
+
 						{task.isComplete ? (
 							<div className={style.Archived}>
 								<p>Archive</p>
@@ -107,7 +122,7 @@ export default function TaskBlock({ task = { title: '' }, id, projectTitle = nul
 						</div>
 					</div>
 				</div>
-				{!task.isComplete || showList === true ? <StatusList task={task} /> : null}
+				{showList ? <StatusList task={task} /> : null}
 				{task.isComplete ? null : (
 					<div className={style.InputWrapper}>
 						<CreateStatusForm task={task} />
@@ -115,6 +130,6 @@ export default function TaskBlock({ task = { title: '' }, id, projectTitle = nul
 				)}
 			</div>
 		),
-		[isEditingTitle, showList, task, updateTask]
+		[clearGlobalHide, globalHideList, isEditingTitle, showList, task, updateTask]
 	);
 }

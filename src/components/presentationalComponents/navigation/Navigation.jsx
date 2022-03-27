@@ -60,9 +60,11 @@ export default function Navigation() {
 											<p>No Tasks</p>
 										) : (
 											project.tasks.map((task) =>
-												task.isComplete ? null : (
+												task.archived ? null : (
 													<ProjectLinkItem
-														onClick={() => scrollToTask(task)}
+														onClick={
+															task.isComplete ? () => null : () => scrollToTask(task)
+														}
 														task={task}
 														key={task.id}
 													/>
@@ -163,7 +165,7 @@ const ProjectLinkItem = ({ task, ...rest }) => {
 			smooth={true}
 			activeClass={style.Active}
 			duration={300}>
-			<div className={style.ProjectLinkItem} {...rest}>
+			<div className={style.ProjectLinkItem} data-is-complete={task.isComplete ? 1 : 0} {...rest}>
 				<p>{task.title}</p>
 				{task.attentionFlag === true ? <Icon icon={ICONIFY_BELL_FILL} /> : null}
 			</div>
