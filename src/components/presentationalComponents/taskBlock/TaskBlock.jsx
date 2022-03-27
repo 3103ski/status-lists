@@ -122,7 +122,7 @@ export default function TaskBlock({
 						</div>
 					</div>
 				</div>
-				{showList ? <StatusList task={task} /> : null}
+				{showList && globalHideList === false ? <StatusList task={task} /> : null}
 				{task.isComplete ? null : (
 					<div className={style.InputWrapper}>
 						<CreateStatusForm task={task} />
