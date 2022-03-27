@@ -10,7 +10,7 @@ import { statusValidation } from '../inputRequirements';
 export default function CreateStatusForm({ task }) {
 	const { newStatus, serverCreatingStatus } = useContext(ProjectContext);
 	const initialState = { text: '' };
-	const { onChange, values, onSubmit, validationErrors, inputHasError, formIsValid } = useForm(
+	const { onChange, values, onSubmit, validationErrors, inputHasError, formIsValid, resetFormValues } = useForm(
 		handleSubmitForm,
 		initialState,
 		{
@@ -31,6 +31,7 @@ export default function CreateStatusForm({ task }) {
 		if (Object.keys(errors).length === 0) {
 			setSpinner(true);
 			newStatus({ variables: { ...values, taskId: task.id } });
+			resetFormValues();
 		}
 	}
 

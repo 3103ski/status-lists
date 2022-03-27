@@ -1,11 +1,14 @@
 @import '../../../sass/';
 
 .Container {
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 	transition: 0.2s;
+	position: relative;
 
 	.BlockHeader {
 		@include flex-center;
+		z-index: 900;
+		position: inherit;
 
 		justify-content: space-between;
 		margin-bottom: 20px;
@@ -93,7 +96,71 @@
 		}
 	}
 
-	.InputWrapper {
-		margin: 8px 0 15px 0px;
+	@keyframes show-input {
+		0% {
+			display: none;
+			opacity: 0;
+		}
+		10% {
+			display: block;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
+	.Bottom {
+		&:hover {
+			cursor: pointer;
+
+			.PlusIcon {
+				.Plus {
+					opacity: 1;
+				}
+			}
+		}
+
+		.InputWrapper {
+			@include flex-center-center;
+			$height: 45px;
+			margin: 8px 0 15px 0px;
+			position: relative;
+
+			height: 0;
+			overflow: hidden;
+			flex-direction: column;
+			transition: 0.25s;
+			z-index: 899;
+
+			.FormWrapper {
+				width: 100%;
+			}
+
+			&[data-is-adding-status='1'] {
+				opacity: 1;
+				height: $height;
+			}
+		}
+
+		.PlusIcon {
+			@include flex-center-center;
+			margin: 4px auto;
+			font-size: 24px;
+			position: absolute;
+			bottom: -0px;
+			width: 100%;
+
+			.Plus {
+				position: absolute;
+				opacity: 0;
+				transition: 0.2s;
+			}
+
+			&[data-is-adding-status='1'] {
+				.Plus {
+					opacity: 0 !important;
+				}
+			}
+		}
 	}
 }

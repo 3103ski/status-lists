@@ -3,7 +3,7 @@ export { GET_USERS, GET_USER, GET_USER_INFO } from './queries/users.js';
 export { UPDATE_USER, UPLOAD_AVATAR, UPDATE_USER_INFO, REFRESH_TOKEN, DELETE_USER_PICTURE } from './mutations/users.js';
 
 // Projects
-export { GET_PROJECT, GET_USER_PROJECTS } from './queries/projects';
+export { GET_PROJECT } from './queries/projects';
 export { NEW_PROJECT, UPDATED_PROJECT } from './mutations/projects';
 
 // Tasks

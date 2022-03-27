@@ -2,16 +2,7 @@ import React from 'react';
 
 import { updateObj } from '../util';
 import { useMutation } from '@apollo/client';
-import {
-	NEW_PROJECT,
-	GET_USER_PROJECTS,
-	NEW_TASK,
-	GET_PROJECT,
-	NEW_STATUS,
-	UPDATE_TASK,
-	UPDATED_PROJECT,
-	GET_USER,
-} from '../gql';
+import { NEW_PROJECT, NEW_TASK, GET_PROJECT, NEW_STATUS, UPDATE_TASK, UPDATED_PROJECT, GET_USER } from '../gql';
 
 const initialState = {
 	isCreatingProject: false,

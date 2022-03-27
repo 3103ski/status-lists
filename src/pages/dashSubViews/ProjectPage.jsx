@@ -2,7 +2,15 @@ import React from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import { useQuery } from '@apollo/client';
 import { ProjectContext, CurrentUserContext } from '../../contexts';
-import { TaskBlock, Loader, CreateTaskForm, UpdateProjectTitleInput, EditToggleIcon, Divider } from '../../components/';
+import {
+	TaskBlock,
+	Loader,
+	CreateTaskForm,
+	UpdateProjectTitleInput,
+	EditToggleIcon,
+	Divider,
+	List,
+} from '../../components/';
 import { GET_PROJECT } from '../../gql/';
 
 import * as style from './shared.module.scss';
@@ -12,10 +20,13 @@ export default function ProjectPage({
 		params: { projectId },
 	},
 }) {
+	// Context Data
+	//>>>>>>
+	const { loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
 	const { setFocusProject, focusProject, errorCreatingTask } = React.useContext(ProjectContext);
 
-	console.log({ projectId, focusProject });
-
+	// Fetch Project Data
+	//>>>>>>
 	const {
 		data: project,
 		loading: loadingProject,
@@ -26,25 +37,30 @@ export default function ProjectPage({
 		},
 	});
 
-	const { loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
+	//Edit states
+	//>>>>>>
+	const [isEditingProjectTitle, setIsEditingProjectTitle] = React.useState(false);
 
+	// List Filters
+	//>>>>>>
+	const [showArchived, setShowArchived] = React.useState(false);
+	const [showCompleted, setShowCompleted] = React.useState(false);
+	const [hideAllLists, setHideAllLists] = React.useState(false);
+
+	// Enture context sees correct id for loaded project
+	//>>>>>>
 	React.useEffect(() => {
 		if (projectId && projectId !== focusProject) {
 			setFocusProject(projectId);
 		}
 	}, [focusProject, projectId, setFocusProject]);
 
+	// If the page just loaded, scroll the view component to the top
+	//>>>>>>
 	React.useEffect(() => {
 		const project = document.getElementById(`${focusProject}-wrapper`);
 		if (project) project.scrollTop = 0;
 	}, [focusProject]);
-
-	const [showArchived, setShowArchived] = React.useState(false);
-	const [showCompleted, setShowCompleted] = React.useState(false);
-
-	const [hideAllLists, setHideAllLists] = React.useState(false);
-
-	const [isEditingProjectTitle, setIsEditingProjectTitle] = React.useState(false);
 
 	return React.useMemo(
 		() =>
@@ -93,7 +109,6 @@ export default function ProjectPage({
 								}}
 							/>
 						</div>
-
 						<div className={style.Archive} onClick={() => setShowCompleted(!showCompleted)}>
 							<p>
 								Show Both (
@@ -171,20 +186,25 @@ export default function ProjectPage({
 							<Divider />
 						</>
 					)}
-					{project.project.tasks.map((task) => {
-						if (task.archived === false && task.isComplete === false) {
-							return (
-								<TaskBlock
-									key={task.id}
-									projectTitle={project.project.title}
-									task={task}
-									globalHideList={hideAllLists}
-									clearGlobalHide={() => setHideAllLists(false)}
-								/>
-							);
-						}
-						return null;
-					})}
+					{project.project.tasks.filter((task) => task.archived === false && task.isComplete === false)
+						.length === 0 ? (
+						<List.Empty title={`${project.project.title} has no active tasks`} minHeight='50px' />
+					) : (
+						project.project.tasks.map((task) => {
+							if (task.archived === false && task.isComplete === false) {
+								return (
+									<TaskBlock
+										key={task.id}
+										projectTitle={project.project.title}
+										task={task}
+										globalHideList={hideAllLists}
+										clearGlobalHide={() => setHideAllLists(false)}
+									/>
+								);
+							}
+							return null;
+						})
+					)}
 					<CreateTaskForm wrapperId={`${project.project.id}-wrapper`} />
 				</div>
 			),

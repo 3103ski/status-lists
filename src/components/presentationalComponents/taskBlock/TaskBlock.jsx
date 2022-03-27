@@ -5,6 +5,7 @@ import { StatusList, CreateStatusForm, UpdateTaskTitleInput } from '../../../com
 import { ProjectContext } from '../../../contexts';
 import {
 	ICONIFY_CIRCLE_CHECK,
+	ICONIFY_PLUS,
 	ICONIFY_CIRCLE,
 	ICONIFY_BELL,
 	ICONIFY_BELL_FILL,
@@ -39,6 +40,40 @@ export default function TaskBlock({
 			}
 		}
 	}, [projectTitle]);
+
+	const [isAddingStatus, setIsAddingStatus] = React.useState(false);
+
+	function clickIsOutside(e) {
+		const el = document.getElementById(`task_block_${task.id}_${task.title}`);
+		console.log(e);
+		let clickX = e.clientX;
+		let clickY = e.clientY;
+
+		let elTop = el.getBoundingClientRect().top;
+		let elRight = el.getBoundingClientRect().right;
+		let elBottom = el.getBoundingClientRect().bottom;
+		let elLeft = el.getBoundingClientRect().left;
+
+		console.log({
+			clickX,
+			clickY,
+			elBottom,
+			elTop,
+			elRight,
+			elLeft,
+		});
+
+		if (clickX < elLeft || clickX > elRight || clickY < elTop || clickY > elBottom) {
+			setIsAddingStatus(false);
+		}
+	}
+
+	React.useEffect(() => {
+		if (isAddingStatus) {
+			document.addEventListener('click', clickIsOutside);
+		}
+		return () => document.removeEventListener('click', clickIsOutside);
+	});
 
 	return React.useMemo(
 		() => (
@@ -122,14 +157,21 @@ export default function TaskBlock({
 						</div>
 					</div>
 				</div>
-				{showList && globalHideList === false ? <StatusList task={task} /> : null}
-				{task.isComplete ? null : (
-					<div className={style.InputWrapper}>
-						<CreateStatusForm task={task} />
+				<div className={style.Bottom} onClick={() => setIsAddingStatus(!isAddingStatus)}>
+					{showList && globalHideList === false ? <StatusList task={task} /> : null}
+					{task.isComplete || globalHideList === true || showList === false ? null : (
+						<div className={style.InputWrapper} data-is-adding-status={isAddingStatus ? 1 : 0}>
+							<div className={style.FormWrapper}>
+								<CreateStatusForm task={task} />
+							</div>
+						</div>
+					)}
+					<div className={style.PlusIcon} data-is-adding-status={isAddingStatus ? 1 : 0}>
+						<Icon icon={ICONIFY_PLUS} className={style.Plus} onClick={() => setIsAddingStatus(true)} />
 					</div>
-				)}
+				</div>
 			</div>
 		),
-		[clearGlobalHide, globalHideList, isEditingTitle, showList, task, updateTask]
+		[clearGlobalHide, globalHideList, isAddingStatus, isEditingTitle, showList, task, updateTask]
 	);
 }
