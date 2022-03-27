@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 
 import { CloudinaryImage, CreateProjectForm, Loader } from '../../../components';
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
-import { LOGIN, DASHBOARD, OVERVIEW, PROJECT, USER_SETTINGS } from '../../../routes';
+import { LOGIN, DASHBOARD, OVERVIEW, PROJECT } from '../../../routes';
 
 import { ICONIFY_BELL_FILL } from '../../../icons';
 
@@ -83,7 +83,6 @@ export default function Navigation() {
 				</div>
 				<div className={style.UserDrop}>
 					<UserMenuTrigger>
-						<UserMenuTriggerItem text={'Profile Settings'} to={`${DASHBOARD}${USER_SETTINGS}`} />
 						<UserMenuTriggerItem text={'Logout'} onClick={logout} href={LOGIN} />
 					</UserMenuTrigger>
 				</div>
@@ -189,7 +188,7 @@ const UserMenuTrigger = ({ children }) => {
 				<CloudinaryImage
 					publicId={currentUser.user.info.avatar !== (null || '' || -1) ? currentUser.user.info.avatar : null}
 				/>
-				<p>{currentUser.user.info.displayName}</p>
+				<p>{currentUser.user.email}</p>
 			</div>
 			<div className={style.TriggerMenuWrapper}>{children}</div>
 		</div>
