@@ -28,7 +28,25 @@ export const GET_USER = gql`
 			email
 			isPublic
 			googleId
-			projects
+			projects {
+				id
+				owner
+				users
+				title
+				notes
+				isArchived
+				bellCount
+				tasks {
+					id
+					title
+					archived
+					isComplete
+					attentionFlag
+					createdAt
+					users
+				}
+				createdAt
+			}
 			info {
 				displayName
 				userId
@@ -48,7 +66,10 @@ export const GET_USER_INFO = gql`
 	query GetUserInfo($userId: ID) {
 		user(userId: $userId) {
 			id
-			projects
+			projects {
+				id
+				title
+			}
 			info {
 				userId
 				displayName

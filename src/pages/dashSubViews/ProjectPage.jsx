@@ -1,7 +1,7 @@
 import React from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import { useQuery } from '@apollo/client';
-import { ProjectContext } from '../../contexts';
+import { ProjectContext, CurrentUserContext } from '../../contexts';
 import { TaskBlock, Loader, CreateTaskForm, UpdateProjectTitleInput, EditToggleIcon, Divider } from '../../components/';
 import { GET_PROJECT } from '../../gql/';
 
@@ -14,6 +14,8 @@ export default function ProjectPage({
 }) {
 	const { setFocusProject, focusProject, errorCreatingTask } = React.useContext(ProjectContext);
 
+	console.log({ projectId, focusProject });
+
 	const {
 		data: project,
 		loading: loadingProject,
@@ -23,6 +25,8 @@ export default function ProjectPage({
 			projectId,
 		},
 	});
+
+	const { loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
 
 	React.useEffect(() => {
 		if (projectId && projectId !== focusProject) {
@@ -44,7 +48,7 @@ export default function ProjectPage({
 
 	return React.useMemo(
 		() =>
-			loadingProject || project.project === -1 ? (
+			loadingProject || project.project === -1 || !focusProject || !currentUser || loadingCurrentUser ? (
 				<Loader loadingText='Getting Project' />
 			) : (
 				<div id={`${project.project.id}-wrapper`} className={style.ViewWrapper}>
@@ -185,10 +189,13 @@ export default function ProjectPage({
 				</div>
 			),
 		[
+			currentUser,
 			errorCreatingTask,
 			errorLoadingProject,
+			focusProject,
 			hideAllLists,
 			isEditingProjectTitle,
+			loadingCurrentUser,
 			loadingProject,
 			project,
 			showArchived,

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { updateObj } from '../util';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import {
 	NEW_PROJECT,
 	GET_USER_PROJECTS,
@@ -10,6 +10,7 @@ import {
 	NEW_STATUS,
 	UPDATE_TASK,
 	UPDATED_PROJECT,
+	GET_USER,
 } from '../gql';
 
 const initialState = {
@@ -46,22 +47,17 @@ const ProjectProvider = (props) => {
 		return dispatch({ type: 'SET_FOCUS', focusProject });
 	};
 
-	// >>> GETTING USER PROJECTS
-	const {
-		data: projects,
-		loading: loadingProjects,
-		error: errorLoadingProjects,
-		refetch: refetchUserProjects,
-	} = useQuery(GET_USER_PROJECTS);
-
 	// >>> CREATING NEW PROJECTS
 	const [createProject, { loading: serverCreatingProject, error: errorCreatingProject }] = useMutation(NEW_PROJECT, {
 		update(cache, { data }) {
-			cache.updateQuery({ query: GET_USER_PROJECTS }, (qd) => {
-				let userProjects = [...qd.userProjects, data.newProject];
+			cache.updateQuery({ query: GET_USER, variables: { userId: data.newProject.owner } }, (qd) => {
+				let projects = [...qd.user.projects, data.newProject];
 				toggleIsCreatingProject(false);
 				return {
-					userProjects,
+					user: {
+						...qd.user,
+						projects,
+					},
 				};
 			});
 		},
@@ -167,12 +163,6 @@ const ProjectProvider = (props) => {
 				// State
 				focusProject: state.focusProject,
 				setFocusProject,
-				refetchUserProjects,
-
-				// >> Getting projects
-				projects,
-				loadingProjects,
-				errorLoadingProjects,
 
 				// >> Creating projects
 				isCreatingProject: state.isCreatingProject,

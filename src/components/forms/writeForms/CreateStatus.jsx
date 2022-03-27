@@ -10,9 +10,13 @@ import { statusValidation } from '../inputRequirements';
 export default function CreateStatusForm({ task }) {
 	const { newStatus, serverCreatingStatus } = useContext(ProjectContext);
 	const initialState = { text: '' };
-	const { onChange, values, onSubmit, validationErrors, inputHasError } = useForm(handleSubmitForm, initialState, {
-		validate: statusValidation,
-	});
+	const { onChange, values, onSubmit, validationErrors, inputHasError, formIsValid } = useForm(
+		handleSubmitForm,
+		initialState,
+		{
+			validate: statusValidation,
+		}
+	);
 
 	/**
 	 * 		NOTE: this 'spinner' flag works with the 'serverCreatingStatus' to determine
@@ -22,10 +26,12 @@ export default function CreateStatusForm({ task }) {
 	 */
 	const [spinner, setSpinner] = React.useState(false);
 
-	function handleSubmitForm() {
-		//
-		setSpinner(true);
-		newStatus({ variables: { ...values, taskId: task.id } });
+	async function handleSubmitForm() {
+		let errors = await formIsValid();
+		if (Object.keys(errors).length === 0) {
+			setSpinner(true);
+			newStatus({ variables: { ...values, taskId: task.id } });
+		}
 	}
 
 	React.useEffect(() => {

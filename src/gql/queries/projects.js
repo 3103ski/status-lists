@@ -41,23 +41,49 @@ export const GET_PROJECT = gql`
 `;
 
 export const GET_USER_PROJECTS = gql`
-	query GetUserProjects {
-		userProjects {
+	query GetUserProjects($userId: ID) {
+		# userProjects {
+		# 	id
+		# 	owner
+		# 	users
+		# 	title
+		# 	notes
+		# 	isArchived
+		# 	bellCount
+		# 	tasks {
+		# 		title
+		# 		attentionFlag
+		# 		archived
+		# 		isComplete
+		# 		id
+		# 	}
+		# 	createdAt
+		# }
+		user(userId: $userId) {
 			id
-			owner
-			users
-			title
-			notes
-			isArchived
-			bellCount
-			tasks {
-				title
-				attentionFlag
-				archived
-				isComplete
+			projects {
 				id
+				owner
+				users
+				title
+				notes
+				isArchived
+				bellCount
+				tasks {
+					id
+					title
+					notes
+					project
+					archived
+					isComplete
+					attentionFlag
+					createdAt
+					projectOwner
+					createdBy
+					users
+				}
+				createdAt
 			}
-			createdAt
 		}
 	}
 `;

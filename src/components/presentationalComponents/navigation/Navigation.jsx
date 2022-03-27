@@ -13,33 +13,23 @@ import { ICONIFY_BELL_FILL } from '../../../icons';
 import * as style from './navigation.module.scss';
 
 export default function Navigation() {
-	const { logout } = React.useContext(CurrentUserContext);
+	const { logout, loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
 
-	const {
-		createProject,
-		serverCreatingProject,
-		errorCreatingProject,
-		focusProject,
-		projects,
-		loadingProjects,
-		errorLoadingProjects,
-		refetchUserProjects,
-	} = React.useContext(ProjectContext);
+	const { createProject, serverCreatingProject, errorCreatingProject, focusProject } =
+		React.useContext(ProjectContext);
 
 	const scrollToTask = React.useCallback(
 		async (task) => {
-			const block = await document.getElementById(`task_block_${task.id}_${task.title}`);
-			const project = await document.getElementById(`${focusProject}-wrapper`);
-			const blockScrollHeight = await block.getBoundingClientRect();
+			if (task && focusProject) {
+				const block = await document.getElementById(`task_block_${task.id}_${task.title}`);
+				const project = await document.getElementById(`${focusProject}-wrapper`);
+				const blockScrollHeight = await block.getBoundingClientRect();
 
-			project.scrollTop = blockScrollHeight.y + 50;
+				project.scrollTop = blockScrollHeight.y + 50;
+			}
 		},
 		[focusProject]
 	);
-
-	React.useEffect(() => {
-		refetchUserProjects();
-	}, [refetchUserProjects]);
 
 	return React.useMemo(
 		() => (
@@ -49,11 +39,11 @@ export default function Navigation() {
 						<RootLink text='Overview' to={`${DASHBOARD}${OVERVIEW}`} />
 					</div>
 					<div className={style.ProjectLinks}>
-						{errorLoadingProjects || errorCreatingProject ? <p>Error</p> : null}
-						{loadingProjects || !projects || projects.userProjects === -1 ? (
+						{errorCreatingProject ? <p>Error</p> : null}
+						{loadingCurrentUser || !currentUser || currentUser.user === -1 ? (
 							<Loader loadingText='Getting Projects' />
 						) : (
-							projects.userProjects.map((project) => {
+							currentUser.user.projects.map((project) => {
 								return (
 									<ExpandProjectLink key={project.id} projectId={project.id} text={project.title}>
 										{project.tasks.length === 0 ? (
@@ -92,11 +82,10 @@ export default function Navigation() {
 		),
 		[
 			createProject,
+			currentUser,
 			errorCreatingProject,
-			errorLoadingProjects,
-			loadingProjects,
+			loadingCurrentUser,
 			logout,
-			projects,
 			scrollToTask,
 			serverCreatingProject,
 		]
