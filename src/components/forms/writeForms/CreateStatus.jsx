@@ -46,6 +46,7 @@ export default function CreateStatusForm({ task }) {
 				values={values.text}
 				name='text'
 				border
+				iconDirection='up'
 				placeholder={`Update status for ${task.title}`}
 			/>
 			<FormErrors errors={validationErrors} />

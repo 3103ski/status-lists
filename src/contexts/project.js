@@ -2,7 +2,15 @@ import React from 'react';
 
 import { updateObj } from '../util';
 import { useMutation, useQuery } from '@apollo/client';
-import { NEW_PROJECT, GET_USER_PROJECTS, NEW_TASK, GET_PROJECT, NEW_STATUS, UPDATE_TASK } from '../gql';
+import {
+	NEW_PROJECT,
+	GET_USER_PROJECTS,
+	NEW_TASK,
+	GET_PROJECT,
+	NEW_STATUS,
+	UPDATE_TASK,
+	UPDATED_PROJECT,
+} from '../gql';
 
 const initialState = {
 	isCreatingProject: false,
@@ -134,13 +142,31 @@ const ProjectProvider = (props) => {
 		},
 	});
 
+	//>>>> UPDATING A PROJECT
+	const [updateProject, { loading: serverUpdatingProject, error: errorUpdatingProject }] = useMutation(
+		UPDATED_PROJECT,
+		{
+			update(cache, { data }) {
+				cache.updateQuery({ query: GET_PROJECT, variables: { projectId: data.updatedProject.id } }, (qd) => {
+					if (qd) {
+						return {
+							project: {
+								...qd.project,
+								...data.updatedProject,
+							},
+						};
+					}
+				});
+			},
+		}
+	);
+
 	return (
 		<ProjectContext.Provider
 			value={{
 				// State
 				focusProject: state.focusProject,
 				setFocusProject,
-
 				refetchUserProjects,
 
 				// >> Getting projects
@@ -153,6 +179,11 @@ const ProjectProvider = (props) => {
 				toggleIsCreatingProject,
 				serverCreatingProject,
 				errorCreatingProject,
+
+				// >> Updating A Project
+				updateProject,
+				serverUpdatingProject,
+				errorUpdatingProject,
 
 				// >> Creating Project Tasks
 				isCreatingTask: state.isCreatingTask,

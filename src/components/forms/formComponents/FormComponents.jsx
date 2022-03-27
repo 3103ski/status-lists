@@ -21,7 +21,15 @@ export function TextInput({ name, value, onChange, border, ...rest }) {
 	);
 }
 
-export function InputWithEnterButton({ name, value, onChange, border = null, loading, ...rest }) {
+export function InputWithEnterButton({
+	name,
+	value,
+	onChange,
+	iconDirection = 'left',
+	border = null,
+	loading,
+	...rest
+}) {
 	return (
 		<div className={style.InputWithEnterButton} data-border={border ? 1 : 0}>
 			{loading ? (
@@ -37,7 +45,7 @@ export function InputWithEnterButton({ name, value, onChange, border = null, loa
 						data-border={'none'}
 						{...rest}
 					/>
-					<button type='submit' className={style.EnterWrapper}>
+					<button type='submit' className={style.EnterWrapper} data-icon-direction={iconDirection}>
 						<Icon icon={ICONIFY_ENTER} />
 					</button>
 				</>

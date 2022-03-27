@@ -11,6 +11,9 @@ export { default as CreateProjectForm } from './forms/writeForms/CreateProejct.j
 export { default as CreateTaskForm } from './forms/writeForms/CreateTask.jsx';
 export { default as CreateStatusForm } from './forms/writeForms/CreateStatus.jsx';
 
+export { default as UpdateTaskTitleInput } from './forms/updateForms/UpdateTaskTitle.jsx';
+export { default as UpdateProjectTitleInput } from './forms/updateForms/UpdateProjectTitle';
+
 // Genric Input & Interactive Components
 export { default as Button } from './genericComponents/button/Button.jsx';
 export { default as DropMenu } from './genericComponents/dropMenu/DropMenu.jsx';
@@ -24,6 +27,7 @@ export * from './forms/formComponents';
 
 // Utility
 export * from './genericComponents/utilityComponents';
+export * from './genericComponents/utilityButtons';
 
 // Modals
 export * from './genericComponents/modals';

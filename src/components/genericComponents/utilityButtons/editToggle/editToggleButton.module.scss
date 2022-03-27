@@ -1,0 +1,17 @@
+@import '../../../../sass/';
+
+.Wrapper {
+	@include flex-center-center;
+	width: 30px;
+	height: 30px;
+
+	margin-left: 10px;
+
+	svg {
+		font-size: 15px;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+}

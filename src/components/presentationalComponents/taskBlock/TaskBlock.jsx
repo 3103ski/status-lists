@@ -1,14 +1,22 @@
 import React from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import { Icon } from '@iconify/react';
-import { StatusList, CreateStatusForm } from '../../../components';
+import { StatusList, CreateStatusForm, UpdateTaskTitleInput } from '../../../components';
 import { ProjectContext } from '../../../contexts';
-import { ICONIFY_CIRCLE_CHECK, ICONIFY_CIRCLE, ICONIFY_BELL, ICONIFY_BELL_FILL } from '../../../icons';
+import {
+	ICONIFY_CIRCLE_CHECK,
+	ICONIFY_CIRCLE,
+	ICONIFY_BELL,
+	ICONIFY_BELL_FILL,
+	ICONIFY_MENU_EDIT,
+	ICONIFY_CLOSE,
+} from '../../../icons';
 import * as style from './taskBlock.module.scss';
 
 export default function TaskBlock({ task = { title: '' }, id, projectTitle = null }) {
 	const { updateTask } = React.useContext(ProjectContext);
 	const [showList, setShowList] = React.useState(false);
+	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
 
 	React.useEffect(() => {
 		if (projectTitle) {
@@ -24,6 +32,7 @@ export default function TaskBlock({ task = { title: '' }, id, projectTitle = nul
 			}
 		}
 	}, [projectTitle]);
+
 	return React.useMemo(
 		() => (
 			<div
@@ -33,7 +42,16 @@ export default function TaskBlock({ task = { title: '' }, id, projectTitle = nul
 				data-complete={task.isComplete ? 1 : 0}>
 				<div className={style.BlockHeader}>
 					<div className={style.HeaderLeft}>
-						<h2>{task.title}</h2>
+						{!isEditingTitle ? (
+							<h2 onDoubleClick={() => setIsEditingTitle(!isEditingTitle)}>{task.title}</h2>
+						) : (
+							<UpdateTaskTitleInput task={task} callback={() => setIsEditingTitle(false)} />
+						)}
+						{isEditingTitle ? (
+							<Icon onClick={() => setIsEditingTitle(!isEditingTitle)} icon={ICONIFY_CLOSE} />
+						) : (
+							<Icon onClick={() => setIsEditingTitle(!isEditingTitle)} icon={ICONIFY_MENU_EDIT} />
+						)}
 					</div>
 					<div className={style.HeaderRight}>
 						{task.isComplete ? (
@@ -97,6 +115,6 @@ export default function TaskBlock({ task = { title: '' }, id, projectTitle = nul
 				)}
 			</div>
 		),
-		[showList, task, updateTask]
+		[isEditingTitle, showList, task, updateTask]
 	);
 }

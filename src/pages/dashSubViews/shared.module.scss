@@ -4,15 +4,24 @@
 	// @include remove-scrollbar;
 	height: 100vh;
 	overflow-y: scroll;
-}
 
-.Archive {
-	@include flex-center;
+	.HeaderWrapper {
+		.TitleWrapper {
+			@include flex-center;
+			margin-bottom: 10px;
+			h1 {
+				margin: 0;
+			}
+		}
+		.Archive {
+			@include flex-center;
 
-	color: $primary-black;
+			color: $primary-black;
 
-	p {
-		margin: 0;
-		margin-right: 10px;
+			p {
+				margin: 0;
+				margin-right: 10px;
+			}
+		}
 	}
 }

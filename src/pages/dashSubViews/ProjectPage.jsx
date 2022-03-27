@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import { useQuery } from '@apollo/client';
 import { ProjectContext } from '../../contexts';
-import { TaskBlock, Loader, CreateTaskForm } from '../../components/';
+import { TaskBlock, Loader, CreateTaskForm, UpdateProjectTitleInput, EditToggleIcon } from '../../components/';
 import { GET_PROJECT } from '../../gql/';
 
 import * as style from './shared.module.scss';
@@ -23,6 +23,7 @@ export default function ProjectPage({
 			projectId,
 		},
 	});
+
 	React.useEffect(() => {
 		if (projectId && projectId !== focusProject) {
 			setFocusProject(projectId);
@@ -35,6 +36,7 @@ export default function ProjectPage({
 	}, [focusProject]);
 
 	const [showArchived, setShowArchived] = React.useState(false);
+	const [isEditingProjectTitle, setIsEditingProjectTitle] = React.useState(false);
 
 	return React.useMemo(
 		() =>
@@ -45,8 +47,18 @@ export default function ProjectPage({
 					style={{ padding: '50px 30px' }}
 					id={`${project.project.id}-wrapper`}
 					className={style.ViewWrapper}>
-					<div style={{ marginBottom: '30px' }}>
-						<h1>{project.project.title}</h1>
+					<div style={{ marginBottom: '30px' }} className={style.HeaderWrapper}>
+						<div className={style.TitleWrapper}>
+							{!isEditingProjectTitle ? (
+								<h1 onDoubleClick={() => setIsEditingProjectTitle(true)}>{project.project.title}</h1>
+							) : (
+								<UpdateProjectTitleInput
+									project={project.project !== -1 ? project.project : {}}
+									callback={() => setIsEditingProjectTitle(false)}
+								/>
+							)}
+							<EditToggleIcon isEditing={isEditingProjectTitle} setIsEditing={setIsEditingProjectTitle} />
+						</div>
 						<div className={style.Archive} onClick={() => setShowArchived(!showArchived)}>
 							<p>
 								Show Archived Tasks ({project.project.tasks.filter((t) => t.archived === true).length})
@@ -70,6 +82,6 @@ export default function ProjectPage({
 					<CreateTaskForm wrapperId={`${project.project.id}-wrapper`} />
 				</div>
 			),
-		[errorCreatingTask, errorLoadingProject, loadingProject, project, showArchived]
+		[errorCreatingTask, errorLoadingProject, isEditingProjectTitle, loadingProject, project, showArchived]
 	);
 }

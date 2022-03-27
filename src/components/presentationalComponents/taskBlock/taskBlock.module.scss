@@ -8,8 +8,25 @@
 		@include flex-center;
 
 		justify-content: space-between;
-		margin-bottom: 15px;
+		margin-bottom: 20px;
 		color: $primary-black;
+
+		.HeaderLeft {
+			@include flex-center;
+			position: relative;
+
+			h2 {
+				margin: 0;
+			}
+
+			svg {
+				margin-left: 10px;
+
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
 
 		.HeaderRight {
 			@include flex-center;

@@ -19,8 +19,8 @@ export const NEW_PROJECT = gql`
 	}
 `;
 export const UPDATED_PROJECT = gql`
-	mutation UpdateProject($title: String, $notes: String, $isArchived: Boolean) {
-		updatedProject(projectInput: { title: $title, notes: $notes, isArchived: $isArchived }) {
+	mutation UpdateProject($title: String, $notes: String, $isArchived: Boolean, $projectId: ID) {
+		updatedProject(projectInput: { title: $title, notes: $notes, isArchived: $isArchived }, projectId: $projectId) {
 			id
 			owner
 			users
@@ -28,10 +28,6 @@ export const UPDATED_PROJECT = gql`
 			notes
 			isArchived
 			bellCount
-			tasks {
-				title
-				id
-			}
 			createdAt
 		}
 	}

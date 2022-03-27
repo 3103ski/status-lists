@@ -37,7 +37,8 @@
 
 	.TextInput {
 		margin: 0 !important;
-		width: 100%;
+		width: calc(100% - 35px);
+		@include flex-center;
 	}
 
 	.EnterWrapper {
@@ -45,10 +46,20 @@
 		background-color: $pallet-color-two;
 		border: none;
 		outline: none;
-		padding: 10px;
 		border-radius: $large-radius;
+		height: 35px;
+		width: 35px;
+		padding: 0;
+
 		svg {
+			margin: 0 !important;
 			color: white;
+		}
+
+		&[data-icon-direction='up'] {
+			svg {
+				transform: rotate(90deg);
+			}
 		}
 	}
 
