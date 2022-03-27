@@ -114,7 +114,8 @@ const ExpandProjectLink = ({ text, projectId, children, match, ...rest }) => {
 			if (outerEl && innerEl) {
 				if (focusProject) {
 					let innerElHeight = innerEl.getBoundingClientRect().height;
-					if (outerEl.getBoundingClientRect().height === 0 && projectId === focusProject) {
+
+					if (projectId === focusProject) {
 						outerEl.style.padding = `0px 0px 0px 10px`;
 						outerEl.style.marginBottom = `15px`;
 						outerEl.style.height = `${innerElHeight}px`;
