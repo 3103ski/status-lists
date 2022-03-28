@@ -27,15 +27,19 @@
 }
 
 .FormTrigger {
+	padding: 0 25px;
+	svg,
+	p {
+		font-size: 20px;
+		opacity: 0.5;
+	}
 	svg {
-		font-size: 40px;
 		color: $primary-black;
+		margin-right: 5px;
 	}
 
 	p {
 		margin: 0;
-		margin-left: 15px;
-		font-size: 18px;
 		color: $primary-black;
 	}
 

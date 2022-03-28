@@ -125,6 +125,16 @@ export default function TaskBlock({
 						</div>
 					</div>
 					<div className={style.HeaderRight}>
+						{task.isComplete ? (
+							<BubbleToggle
+								active={task.archived}
+								icon={task.archived ? ICONIFY_ARCHIVE_FILL : ICONIFY_ARCHIVE}
+								onClick={() => {
+									updateTask({ variables: { taskId: task.id, archived: !task.archived } });
+								}}
+							/>
+						) : null}
+
 						{globalHideList === true ? (
 							<div className={style.GlobalHiddenBadge} onClick={clearGlobalHide}>
 								<Icon icon={ICONIFY_CANCEL} />
@@ -139,16 +149,6 @@ export default function TaskBlock({
 								icon={ICONIFY_CLIPBOARD}
 							/>
 						)}
-
-						{task.isComplete ? (
-							<BubbleToggle
-								active={task.archived}
-								icon={task.archived ? ICONIFY_ARCHIVE_FILL : ICONIFY_ARCHIVE}
-								onClick={() => {
-									updateTask({ variables: { taskId: task.id, archived: !task.archived } });
-								}}
-							/>
-						) : null}
 
 						<BubbleToggle
 							active={task.attentionFlag}

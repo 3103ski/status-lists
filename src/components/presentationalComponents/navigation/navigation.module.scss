@@ -15,16 +15,16 @@
 		@include flex-col-start;
 		height: 90vh;
 		position: relative;
-		padding: 70px 0px 70px 0px;
+		padding: 30px 0px 70px 0px;
 
 		.MenuTop {
 			height: 5vh;
-			padding: 0 40px;
+			padding: 0 25px;
 		}
 
 		.ProjectLinks {
 			@include remove-scrollbar;
-			padding: 20px 40px;
+			padding: 20px 0;
 			height: 85vh;
 			overflow-y: scroll;
 
@@ -125,13 +125,36 @@
 	}
 }
 
+.RootLink {
+	font-weight: 600;
+}
+
 .ExpandLink {
+	padding: 0 10px;
+
+	.Title {
+		padding: 0 15px;
+		border-radius: $small-radius;
+		transition: 0.14s;
+	}
+	&[data-active='1'] {
+		.Title {
+			padding: 5px 15px;
+			background-color: rgba(255, 255, 255, 0.15);
+		}
+	}
+
+	&:hover {
+		.Title {
+			background-color: rgba(255, 255, 255, 0.15);
+		}
+	}
+
 	.ExpandLinkChildren {
 		transition: 0.15s;
 		transition-timing-function: ease-in-out;
 		overflow-y: scroll;
 
-		padding-left: 20px !important;
 		@include remove-scrollbar;
 
 		p {
@@ -154,9 +177,7 @@
 
 	svg {
 		font-size: 14px;
-		margin-right: 10px;
-		position: absolute;
-		transform: translateX(-20px);
+		margin-right: 7px;
 	}
 }
 

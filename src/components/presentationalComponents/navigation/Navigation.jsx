@@ -8,7 +8,7 @@ import { CloudinaryImage, CreateProjectForm, Loader } from '../../../components'
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
 import { LOGIN, DASHBOARD, OVERVIEW, PROJECT } from '../../../routes';
 
-import { ICONIFY_BELL_FILL } from '../../../icons';
+import { ICONIFY_BELL_FILL, ICONIFY_BELL } from '../../../icons';
 
 import * as style from './navigation.module.scss';
 
@@ -36,7 +36,7 @@ export default function Navigation() {
 			<nav className={style.MainWrapper}>
 				<div className={style.MenuWrapper}>
 					<div className={style.MenuTop}>
-						<RootLink text='Overview' to={`${DASHBOARD}${OVERVIEW}`} />
+						<RootLink text='Dashboard' to={`${DASHBOARD}${OVERVIEW}`} />
 					</div>
 					<div className={style.ProjectLinks}>
 						{errorCreatingProject ? <p>Error</p> : null}
@@ -107,16 +107,16 @@ const ExpandProjectLink = ({ text, projectId, children, match, ...rest }) => {
 					let innerElHeight = innerEl.getBoundingClientRect().height;
 
 					if (projectId === focusProject) {
-						outerEl.style.padding = `0px 0px 0px 10px`;
-						outerEl.style.marginBottom = `15px`;
+						outerEl.style.padding = `0px 0px 0px 15px`;
+						outerEl.style.marginBottom = `0px`;
 						outerEl.style.height = `${innerElHeight}px`;
 					} else {
-						outerEl.style.padding = `0px 0px 0px 10px`;
+						outerEl.style.padding = `0px 0px 0px 15px`;
 						outerEl.style.marginBottom = `0px`;
 						outerEl.style.height = '0px';
 					}
 				} else {
-					outerEl.style.padding = `0px 0px 0px 10px`;
+					outerEl.style.padding = `0px 0px 0px 15px`;
 					outerEl.style.height = '0px';
 				}
 			}
@@ -125,12 +125,12 @@ const ExpandProjectLink = ({ text, projectId, children, match, ...rest }) => {
 
 	return React.useMemo(
 		() => (
-			<div className={style.ExpandLink}>
+			<div className={style.ExpandLink} data-active={focusProject === projectId ? 1 : 0}>
 				<Link
 					to={`${DASHBOARD}${PROJECT}/${projectId}`}
 					data-active={projectId === focusProject ? 1 : 0}
 					{...rest}>
-					<p>{text}</p>
+					<p className={style.Title}>{text}</p>
 				</Link>
 				<div
 					className={style.ExpandLinkChildren}
@@ -155,7 +155,7 @@ const ProjectLinkItem = ({ task, ...rest }) => {
 			activeClass={style.Active}
 			duration={300}>
 			<div className={style.ProjectLinkItem} data-is-complete={task.isComplete ? 1 : 0} {...rest}>
-				{task.attentionFlag === true ? <Icon icon={ICONIFY_BELL_FILL} /> : null}
+				<Icon icon={task.attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL} />
 				<p>{task.title}</p>
 			</div>
 		</ScrollLink>
