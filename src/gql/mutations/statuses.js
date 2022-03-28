@@ -9,6 +9,7 @@ export const NEW_STATUS = gql`
 			projectOwner
 			taskCreator
 			createdBy
+			createdAt
 			likes {
 				id
 				userId

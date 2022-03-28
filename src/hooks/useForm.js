@@ -91,6 +91,7 @@ export default function useForm(callback, initialState = {}, options) {
 
 	/** Add ability to reset form to initial state */
 	function resetFormValues() {
+		console.log('should be reseting');
 		return setValues(initialState);
 	}
 

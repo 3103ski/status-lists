@@ -9,10 +9,10 @@ import { statusValidation } from '../inputRequirements';
 
 export default function CreateStatusForm({ task }) {
 	const { newStatus, serverCreatingStatus } = useContext(ProjectContext);
-	const initialState = { text: '' };
+	// const initialState = { text: '' };
 	const { onChange, values, onSubmit, validationErrors, inputHasError, formIsValid, resetFormValues } = useForm(
 		handleSubmitForm,
-		initialState,
+		{ text: '' },
 		{
 			validate: statusValidation,
 		}
@@ -30,9 +30,10 @@ export default function CreateStatusForm({ task }) {
 		let errors = await formIsValid();
 		if (Object.keys(errors).length === 0) {
 			setSpinner(true);
-			newStatus({ variables: { ...values, taskId: task.id } });
-			resetFormValues();
+			await newStatus({ variables: { ...values, taskId: task.id } });
 		}
+		console.log('got there');
+		return resetFormValues();
 	}
 
 	React.useEffect(() => {
@@ -43,6 +44,9 @@ export default function CreateStatusForm({ task }) {
 			setSpinner(false);
 		}
 	}, [spinner, serverCreatingStatus]);
+	React.useEffect(() => {
+		console.log({ values });
+	}, [values]);
 
 	return (
 		<Form onSubmit={onSubmit} style={{ width: '100%' }}>
@@ -50,7 +54,7 @@ export default function CreateStatusForm({ task }) {
 				error={inputHasError('text')}
 				loading={serverCreatingStatus && spinner}
 				onChange={onChange}
-				values={values.text}
+				value={values.text}
 				name='text'
 				border
 				iconDirection='up'

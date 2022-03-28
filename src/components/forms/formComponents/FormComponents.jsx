@@ -30,6 +30,10 @@ export function InputWithEnterButton({
 	loading,
 	...rest
 }) {
+	React.useEffect(() => {
+		console.log('input saw the change');
+		console.log({ value });
+	}, [value]);
 	return (
 		<div className={style.InputWithEnterButton} data-border={border ? 1 : 0}>
 			{loading ? (
