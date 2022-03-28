@@ -6,7 +6,7 @@ import { InputWithEnterButton, FormErrors } from '../../../components';
 import { ProjectContext } from '../../../contexts';
 import { useForm } from '../../../hooks';
 import { taskValidation } from '../inputRequirements';
-import { ICONIFY_PLUS, ICONIFY_CLOSE } from '../../../icons';
+import { ICONIFY_PLUS, ICONIFY_CLOSE, ICONIFY_ADD_LIST } from '../../../icons';
 
 import * as style from './shared.module.scss';
 
@@ -54,9 +54,10 @@ export default function CreateTaskForm() {
 	) : (
 		<div
 			className={style.FormTrigger}
+			data-size='large'
 			style={{ justifyContent: 'center' }}
 			onClick={() => toggleIsCreatingTask(true)}>
-			<Icon icon={ICONIFY_PLUS} />
+			<Icon icon={ICONIFY_ADD_LIST} />
 		</div>
 	);
 }

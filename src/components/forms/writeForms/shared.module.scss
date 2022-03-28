@@ -33,6 +33,12 @@
 		font-size: 20px;
 		opacity: 0.5;
 	}
+
+	&[data-size='large'] {
+		svg {
+			font-size: 45px;
+		}
+	}
 	svg {
 		color: $primary-black;
 		margin-right: 5px;

@@ -11,6 +11,7 @@ export const ICONIFY_ENTER = 'akar-icons:circle-chevron-up-fill';
 // export const ICONIFY_ENTER = 'fluent:arrow-enter-left-20-filled';
 
 export const ICONIFY_CANCEL = 'mdi:cancel';
+export const ICONIFY_ADD_LIST = 'ic:sharp-playlist-add-circle';
 
 export const ICONIFY_CLOSE = 'ep:close-bold';
 
