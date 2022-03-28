@@ -1,0 +1,45 @@
+@import '../../../../sass';
+
+.Container {
+	border: 1px solid $pallet-color-two;
+	border-radius: $small-radius;
+	padding: 4px 10px;
+	transition: 0.2s;
+
+	margin: 0 5px 5px 0;
+
+	p,
+	svg {
+		font-size: 14px;
+		color: $pallet-color-two;
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	&[data-active='1'] {
+		background-color: $pallet-color-two;
+
+		p,
+		svg {
+			color: white;
+		}
+	}
+
+	&[data-size='tiny'] {
+		p {
+			font-size: 10px;
+		}
+	}
+
+	&[data-icon='1'] {
+		@include flex-center-center;
+		border-radius: 100%;
+		width: 30px;
+		height: 30px;
+		padding: 0;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+}

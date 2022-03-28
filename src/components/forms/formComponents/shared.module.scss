@@ -33,7 +33,7 @@
 	width: 100%;
 	background-color: white;
 	border-radius: $large-radius;
-	padding: 3px;
+	padding: 3px 5px;
 
 	.TextInput {
 		margin: 0 !important;
@@ -43,23 +43,26 @@
 
 	.EnterWrapper {
 		@include flex-center-center;
-		background-color: $pallet-color-two;
+		background-color: white;
 		border: none;
 		outline: none;
 		border-radius: $large-radius;
-		height: 35px;
-		width: 35px;
+		height: 26px;
+		width: 26px;
 		padding: 0;
+		margin-left: auto;
+		transition: 0.17s;
 
 		svg {
 			margin: 0 !important;
-			color: white;
+			color: $pallet-color-two;
+			font-size: 24px;
+			margin: 0 !important;
 		}
 
-		&[data-icon-direction='up'] {
-			svg {
-				transform: rotate(90deg);
-			}
+		&:hover {
+			cursor: pointer;
+			transform: scale(1.03);
 		}
 	}
 

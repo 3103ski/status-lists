@@ -7,7 +7,8 @@ export const ICONIFY_NO_USER = `carbon:user-avatar-filled`;
 export const ICONIFY_CIRCLE = 'akar-icons:circle';
 export const ICONIFY_CIRCLE_CHECK = 'akar-icons:circle-check-fill';
 export const ICONIFY_CIRCLE_REMOVE = 'clarity:remove-solid';
-export const ICONIFY_ENTER = 'fluent:arrow-enter-left-20-filled';
+export const ICONIFY_ENTER = 'akar-icons:circle-chevron-up-fill';
+// export const ICONIFY_ENTER = 'fluent:arrow-enter-left-20-filled';
 
 export const ICONIFY_CANCEL = 'mdi:cancel';
 
@@ -34,10 +35,13 @@ export const ICONIFY_MUSIC_NOTE = 'clarity:music-note-solid';
 export const ICONIFY_OVERVIEW = 'icomoon-free:stats-dots';
 export const ICONIFY_PROFILE = 'carbon:user-avatar';
 export const ICONIFY_PROJECTS = 'fa6-solid:diagram-project';
-export const ICONIFY_PROPOSALS = 'clarity:clipboard-line';
+export const ICONIFY_CLIPBOARD = 'clarity:clipboard-line';
 
 export const ICONIFY_VISIBLE_NO = `gridicons:not-visible`;
 export const ICONIFY_VISIBLE_YES = `gridicons:visible`;
+
+export const ICONIFY_ARCHIVE = `bi:archive`;
+export const ICONIFY_ARCHIVE_FILL = `bi:archive-fill`;
 
 // Social Icons
 export const ICONIFY_INSTAGRAM = `akar-icons:instagram-fill`;

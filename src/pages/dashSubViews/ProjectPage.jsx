@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox } from 'semantic-ui-react';
+
 import { useQuery } from '@apollo/client';
 import { ProjectContext, CurrentUserContext } from '../../contexts';
 import {
@@ -10,6 +10,7 @@ import {
 	EditToggleIcon,
 	Divider,
 	List,
+	BubbleToggle,
 } from '../../components/';
 import { GET_PROJECT } from '../../gql/';
 
@@ -52,6 +53,9 @@ export default function ProjectPage({
 	React.useEffect(() => {
 		if (projectId && projectId !== focusProject) {
 			setFocusProject(projectId);
+			setShowCompleted(false);
+			setShowArchived(false);
+			setHideAllLists(false);
 		}
 	}, [focusProject, projectId, setFocusProject]);
 
@@ -80,63 +84,23 @@ export default function ProjectPage({
 							)}
 							<EditToggleIcon isEditing={isEditingProjectTitle} setIsEditing={setIsEditingProjectTitle} />
 						</div>
-						<div className={style.Archive} onClick={() => setShowArchived(!showArchived)}>
-							<p>
+						<div className={style.BubbleBlock}>
+							<BubbleToggle active={showArchived} setActive={setShowArchived}>
 								Show Archived Tasks ({project.project.tasks.filter((t) => t.archived === true).length})
-							</p>
-							<Checkbox
-								toggle
-								checked={showArchived}
-								onChange={(_, d) => {
-									setShowArchived(d.checked);
-								}}
-							/>
-						</div>
-						<div className={style.Archive} onClick={() => setShowCompleted(!showCompleted)}>
-							<p>
+							</BubbleToggle>
+							<BubbleToggle active={showCompleted} setActive={setShowCompleted}>
 								Show Completed Tasks (
 								{
 									project.project.tasks.filter((t) => t.isComplete === true && t.archived === false)
 										.length
 								}
 								)
-							</p>
-							<Checkbox
-								toggle
-								checked={showCompleted}
-								onChange={(_, d) => {
-									setShowCompleted(d.checked);
-								}}
-							/>
+							</BubbleToggle>
+							<BubbleToggle active={hideAllLists} setActive={setHideAllLists}>
+								Hide All Status Lists
+							</BubbleToggle>
 						</div>
-						<div className={style.Archive} onClick={() => setShowCompleted(!showCompleted)}>
-							<p>
-								Show Both (
-								{
-									project.project.tasks.filter((t) => t.isComplete === true || t.archived === true)
-										.length
-								}
-								)
-							</p>
-							<Checkbox
-								toggle
-								checked={showCompleted && showArchived}
-								onChange={(_, d) => {
-									setShowCompleted(d.checked);
-									setShowArchived(d.checked);
-								}}
-							/>
-						</div>
-						<div className={style.Archive} onClick={() => setHideAllLists(!hideAllLists)}>
-							<p>Hide All Lists</p>
-							<Checkbox
-								toggle
-								checked={hideAllLists}
-								onChange={(_, d) => {
-									setHideAllLists(d.checked);
-								}}
-							/>
-						</div>
+
 						{errorCreatingTask || errorLoadingProject ? <p>Error</p> : null}
 					</div>
 					{showArchived === false ? null : (

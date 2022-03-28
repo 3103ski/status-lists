@@ -27,6 +27,7 @@
 			padding: 20px 40px;
 			height: 85vh;
 			overflow-y: scroll;
+
 			width: 100%;
 		}
 	}
@@ -129,6 +130,8 @@
 		transition: 0.15s;
 		transition-timing-function: ease-in-out;
 		overflow-y: scroll;
+
+		padding-left: 20px !important;
 		@include remove-scrollbar;
 
 		p {
@@ -142,12 +145,18 @@
 .ProjectLinkItem {
 	@include flex-center;
 	padding: 2px 0;
+	overflow: visible;
+
 	&[data-is-complete='1'] {
 		text-decoration: line-through;
 	}
+	position: relative;
+
 	svg {
 		font-size: 14px;
-		margin-left: 10px;
+		margin-right: 10px;
+		position: absolute;
+		transform: translateX(-20px);
 	}
 }
 

@@ -17,6 +17,7 @@ export const GET_PROJECT = gql`
 				project
 				archived
 				isComplete
+				listExpanded
 				attentionFlag
 				createdAt
 				projectOwner

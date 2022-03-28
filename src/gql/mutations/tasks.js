@@ -12,6 +12,7 @@ export const NEW_TASK = gql`
 			attentionFlag
 			createdAt
 			projectOwner
+			listExpanded
 			users
 			createdBy
 			statuses {
@@ -39,6 +40,7 @@ export const UPDATE_TASK = gql`
 		$isComplete: Boolean
 		$archived: Boolean
 		$attentionFlag: Boolean
+		$listExpanded: Boolean
 		$taskId: ID
 	) {
 		updatedTask(
@@ -48,6 +50,7 @@ export const UPDATE_TASK = gql`
 				isComplete: $isComplete
 				archived: $archived
 				attentionFlag: $attentionFlag
+				listExpanded: $listExpanded
 			}
 			taskId: $taskId
 		) {
@@ -56,6 +59,7 @@ export const UPDATE_TASK = gql`
 			notes
 			project
 			isComplete
+			listExpanded
 			archived
 			attentionFlag
 			createdAt

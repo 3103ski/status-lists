@@ -155,8 +155,8 @@ const ProjectLinkItem = ({ task, ...rest }) => {
 			activeClass={style.Active}
 			duration={300}>
 			<div className={style.ProjectLinkItem} data-is-complete={task.isComplete ? 1 : 0} {...rest}>
-				<p>{task.title}</p>
 				{task.attentionFlag === true ? <Icon icon={ICONIFY_BELL_FILL} /> : null}
+				<p>{task.title}</p>
 			</div>
 		</ScrollLink>
 	);
