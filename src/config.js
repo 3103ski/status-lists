@@ -25,7 +25,7 @@ export const USE_OAUTH = {
 };
 
 // Set token duration; must be <= duration of token on server
-const minutesForToken = 60;
+const minutesForToken = 1440;
 const tokenDuration = 1000 * 60 * minutesForToken; // 1s ••to•• 1min ••to•• TotalTime
 export const TOKEN_DURATION = { ms: tokenDuration, s: tokenDuration / 1000 };
 
