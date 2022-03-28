@@ -173,7 +173,7 @@ export default function TaskBlock({
 					{task.isComplete || globalHideList === true || task.listExpanded === false ? null : (
 						<div className={style.InputWrapper} data-is-adding-status={isAddingStatus ? 1 : 0}>
 							<div className={style.FormWrapper}>
-								<CreateStatusForm task={task} />
+								<CreateStatusForm task={task} callback={() => setIsAddingStatus(false)} />
 							</div>
 						</div>
 					)}

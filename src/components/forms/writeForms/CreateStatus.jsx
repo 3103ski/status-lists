@@ -7,7 +7,7 @@ import { ProjectContext } from '../../../contexts';
 import { useForm } from '../../../hooks';
 import { statusValidation } from '../inputRequirements';
 
-export default function CreateStatusForm({ task }) {
+export default function CreateStatusForm({ task, callback }) {
 	const { newStatus, serverCreatingStatus } = useContext(ProjectContext);
 	// const initialState = { text: '' };
 	const { onChange, values, onSubmit, validationErrors, inputHasError, formIsValid, resetFormValues } = useForm(
@@ -32,7 +32,7 @@ export default function CreateStatusForm({ task }) {
 			setSpinner(true);
 			await newStatus({ variables: { ...values, taskId: task.id } });
 		}
-		console.log('got there');
+		if (callback) callback();
 		return resetFormValues();
 	}
 
