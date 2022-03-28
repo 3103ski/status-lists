@@ -157,16 +157,13 @@ export default function ProjectPage({
 						project.project.tasks.map((task) => {
 							if (task.archived === false && task.isComplete === false) {
 								return (
-									<>
-										<TaskBlock
-											key={task.id}
-											projectTitle={project.project.title}
-											task={task}
-											globalHideList={hideAllLists}
-											clearGlobalHide={() => setHideAllLists(false)}
-										/>
-										<Divider />
-									</>
+									<TaskBlock
+										key={task.id}
+										projectTitle={project.project.title}
+										task={task}
+										globalHideList={hideAllLists}
+										clearGlobalHide={() => setHideAllLists(false)}
+									/>
 								);
 							}
 							return null;
