@@ -3,10 +3,11 @@ import { Icon } from '@iconify/react';
 import { Form } from 'semantic-ui-react';
 
 import { InputWithEnterButton, FormErrors } from '../../../components';
+import { clickIsOutsideEl } from '../../../util';
 import { ProjectContext } from '../../../contexts';
 import { useForm } from '../../../hooks';
 import { taskValidation } from '../inputRequirements';
-import { ICONIFY_PLUS, ICONIFY_CLOSE, ICONIFY_ADD_LIST } from '../../../icons';
+import { ICONIFY_CLOSE, ICONIFY_ADD_LIST } from '../../../icons';
 
 import * as style from './shared.module.scss';
 
@@ -31,12 +32,21 @@ export default function CreateTaskForm() {
 		}
 	}
 
+	function clickListenerCallback(e) {
+		clickIsOutsideEl(e, 'add-task-form', () => toggleIsCreatingTask(false));
+	}
+
+	React.useEffect(() => {
+		if (isCreatingTask) {
+			document.addEventListener('click', clickListenerCallback);
+		}
+
+		return () => document.removeEventListener('click', clickListenerCallback);
+	});
+
 	return isCreatingTask ? (
 		<>
-			<div className={style.FormWrapper}>
-				<div className={style.CloseForm} onClick={() => toggleIsCreatingTask(false)}>
-					<Icon icon={ICONIFY_CLOSE} />
-				</div>
+			<div id='add-task-form' className={style.FormWrapper}>
 				<Form onSubmit={onSubmit} style={{ width: '100%' }}>
 					<InputWithEnterButton
 						error={inputHasError('title')}

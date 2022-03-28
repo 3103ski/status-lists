@@ -1,7 +1,7 @@
 import React from 'react';
-import { Checkbox } from 'semantic-ui-react';
 import { Icon } from '@iconify/react';
 import { StatusList, CreateStatusForm, UpdateTaskTitleInput, BubbleToggle } from '../../../components';
+import { clickIsOutsideEl } from '../../../util';
 import { ProjectContext } from '../../../contexts';
 import {
 	ICONIFY_CIRCLE_CHECK,
@@ -48,36 +48,16 @@ export default function TaskBlock({
 
 	const [isAddingStatus, setIsAddingStatus] = React.useState(false);
 
-	function clickIsOutside(e) {
-		const el = document.getElementById(`task_block_${task.id}_${task.title}`);
-		console.log(e);
-		let clickX = e.clientX;
-		let clickY = e.clientY;
-
-		let elTop = el.getBoundingClientRect().top;
-		let elRight = el.getBoundingClientRect().right;
-		let elBottom = el.getBoundingClientRect().bottom;
-		let elLeft = el.getBoundingClientRect().left;
-
-		console.log({
-			clickX,
-			clickY,
-			elBottom,
-			elTop,
-			elRight,
-			elLeft,
-		});
-
-		if (clickX < elLeft || clickX > elRight || clickY < elTop || clickY > elBottom) {
-			setIsAddingStatus(false);
-		}
+	function listenerCallback(e) {
+		// executes callback if click is outside of the task block
+		clickIsOutsideEl(e, `task_block_${task.id}_${task.title}`, () => setIsAddingStatus(false));
 	}
 
 	React.useEffect(() => {
 		if (isAddingStatus) {
-			document.addEventListener('click', clickIsOutside);
+			document.addEventListener('click', listenerCallback);
 		}
-		return () => document.removeEventListener('click', clickIsOutside);
+		return () => document.removeEventListener('click', listenerCallback);
 	});
 
 	return React.useMemo(

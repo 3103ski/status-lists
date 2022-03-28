@@ -65,6 +65,7 @@ export default function Navigation() {
 								);
 							})
 						)}
+
 						<CreateProjectForm
 							loading={serverCreatingProject}
 							callback={(values) => {

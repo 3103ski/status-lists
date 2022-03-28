@@ -7,7 +7,19 @@ import checkForKey from './checkForKey';
 import formatSeconds from './formatSeconds';
 import isNumber from './isNumber';
 
+import clickIsOutsideEl from './clickIsOutsideEl';
+
 export * from './readableStringFunctions';
 export * from './readableArrayFunctions';
 
-export { formatFileSize, randomHexColor, slugToText, updateObj, titleCaps, checkForKey, formatSeconds, isNumber };
+export {
+	formatFileSize,
+	randomHexColor,
+	clickIsOutsideEl,
+	slugToText,
+	updateObj,
+	titleCaps,
+	checkForKey,
+	formatSeconds,
+	isNumber,
+};

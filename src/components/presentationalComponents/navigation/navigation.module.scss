@@ -28,6 +28,11 @@
 			height: 85vh;
 			overflow-y: scroll;
 
+			.FormWrapper {
+				width: 100%;
+				padding: 0px 25px !important;
+			}
+
 			width: 100%;
 		}
 	}
