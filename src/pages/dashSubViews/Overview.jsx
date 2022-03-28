@@ -1,12 +1,12 @@
 import React from 'react';
-// import { CurrentUserContext } from '../../contexts/';
+import { List } from '../../components';
 
 export default function OverviewPage() {
 	// const { currentUser } = React.useContext(CurrentUserContext);
 
 	return (
-		<div>
-			<h1>Overview Page</h1>
+		<div style={{ padding: '30px' }}>
+			<List.Empty title={'Dashboard is in the works!'} />
 		</div>
 	);
 }

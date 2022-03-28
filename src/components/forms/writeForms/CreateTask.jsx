@@ -46,7 +46,7 @@ export default function CreateTaskForm() {
 
 	return isCreatingTask ? (
 		<>
-			<div id='add-task-form' className={style.FormWrapper}>
+			<div id='add-task-form' className={style.FormWrapper} style={{ marginBottom: '45px' }}>
 				<Form onSubmit={onSubmit} style={{ width: '100%' }}>
 					<InputWithEnterButton
 						error={inputHasError('title')}
@@ -65,7 +65,7 @@ export default function CreateTaskForm() {
 		<div
 			className={style.FormTrigger}
 			data-size='large'
-			style={{ justifyContent: 'center' }}
+			style={{ justifyContent: 'center', marginBottom: '45px' }}
 			onClick={() => toggleIsCreatingTask(true)}>
 			<Icon icon={ICONIFY_ADD_LIST} />
 		</div>
