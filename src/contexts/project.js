@@ -42,12 +42,16 @@ const ProjectProvider = (props) => {
 	const [createProject, { loading: serverCreatingProject, error: errorCreatingProject }] = useMutation(NEW_PROJECT, {
 		update(cache, { data }) {
 			cache.updateQuery({ query: GET_USER, variables: { userId: data.newProject.owner } }, (qd) => {
-				let projects = [...qd.user.projects, data.newProject];
+				let projects = [...qd.user.projectFolder.projects, data.newProject];
 				toggleIsCreatingProject(false);
 				return {
 					user: {
 						...qd.user,
 						projects,
+						projectFolder: {
+							...qd.user.projectFolder,
+							projects,
+						},
 					},
 				};
 			});

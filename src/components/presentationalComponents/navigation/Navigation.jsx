@@ -43,7 +43,7 @@ export default function Navigation() {
 						{loadingCurrentUser || !currentUser || currentUser.user === -1 ? (
 							<Loader loadingText='Getting Projects' />
 						) : (
-							currentUser.user.projects.map((project) => {
+							currentUser.user.projectFolder.projects.map((project) => {
 								return (
 									<ExpandProjectLink key={project.id} projectId={project.id} text={project.title}>
 										{project.tasks.length === 0 ? (

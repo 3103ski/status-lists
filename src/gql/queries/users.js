@@ -28,6 +28,27 @@ export const GET_USER = gql`
 			email
 			isPublic
 			googleId
+			projectFolder {
+				id
+				projects {
+					id
+					owner
+					users
+					title
+					isArchived
+					bellCount
+					tasks {
+						id
+						title
+						archived
+						isComplete
+						attentionFlag
+						createdAt
+						users
+					}
+					createdAt
+				}
+			}
 			projects {
 				id
 				owner
