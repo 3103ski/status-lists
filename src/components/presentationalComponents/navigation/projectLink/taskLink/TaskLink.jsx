@@ -39,6 +39,12 @@ export default function TaskLink({ task, ...rest }) {
 		});
 	}, [task, updateTask]);
 
+	React.useEffect(() => {
+		if (attentionFlag !== task.attentionFlag) {
+			setAttentionFlag(task.attentionFlag);
+		}
+	}, [attentionFlag, task.attentionFlag]);
+
 	return (
 		<ScrollLink
 			offset={-50}

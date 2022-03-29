@@ -1,16 +1,18 @@
 @import '../../../sass/';
 
 .Container {
-	margin-bottom: 2px;
+	@include light-hover;
+	margin-bottom: 6px;
 	transition: 0.175s;
 	transition-timing-function: ease-in-out;
 	position: relative;
 	padding: 5px 15px 5px 15px;
-	border-radius: $small-radius;
+	border-radius: $large-radius;
 	transform: scaleY(1);
 
 	&:hover {
-		@include light-hover;
+		// transform: scaleY(1.04);
+		@include focus-hover;
 	}
 
 	.BlockHeader {
@@ -28,6 +30,8 @@
 
 			.CheckCircle {
 				@include flex-center-center;
+				@include hover-cursor;
+
 				margin-right: 5px;
 				transition: 0.15;
 
@@ -35,11 +39,6 @@
 					font-size: 32px;
 					color: $pallet-color-two;
 					padding-right: 1px;
-				}
-
-				&:hover {
-					cursor: pointer;
-					transform: scale(1.04);
 				}
 			}
 		}
@@ -51,16 +50,14 @@
 			position: relative;
 
 			h2 {
+				@include hover-cursor;
 				margin: 0;
 				font-size: 18px;
 			}
 
 			.EditIcon {
+				@include hover-cursor;
 				margin-left: 7px;
-
-				&:hover {
-					cursor: pointer;
-				}
 			}
 			.EditWrapper {
 				@include flex-center-center;
@@ -75,8 +72,6 @@
 			}
 
 			&:hover {
-				cursor: pointer;
-
 				.EditWrapper {
 					opacity: 1;
 				}
@@ -102,16 +97,13 @@
 
 			.GlobalHiddenBadge {
 				@include flex-center;
+				@include hover-cursor;
 				p {
 					white-space: nowrap;
 				}
 				svg {
 					margin-right: 10px;
 					color: rgba(219, 26, 26, 0.952);
-				}
-
-				&:hover {
-					cursor: pointer;
 				}
 			}
 		}
@@ -153,18 +145,10 @@
 	}
 
 	.Bottom {
-		&:hover {
-			cursor: pointer;
-
-			.PlusIcon {
-				.Plus {
-					opacity: 1;
-				}
-			}
-		}
-
+		@include hover-cursor;
 		.InputWrapper {
 			@include flex-center-center;
+
 			$height: 45px;
 			margin: 8px 0 0px 0px;
 			position: relative;
@@ -185,16 +169,24 @@
 			}
 		}
 
+		&:hover {
+			.PlusIcon {
+				.Plus {
+					opacity: 0.55;
+				}
+			}
+		}
+
 		.PlusIcon {
 			@include flex-center-center;
-			margin: 4px auto;
 			font-size: 24px;
 			position: absolute;
-			bottom: -0px;
+			bottom: 10px;
 			width: 100%;
 
 			.Plus {
 				position: absolute;
+				margin: 0px auto;
 				opacity: 0;
 				transition: 0.2s;
 			}
