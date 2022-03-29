@@ -25,6 +25,8 @@ export default function TaskBlock({
 	clearGlobalHide,
 }) {
 	const { updateTask } = React.useContext(ProjectContext);
+	const blockID = `task_block_${task.id}`;
+	const sortID = `task_block_${task.id}`;
 
 	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
 
@@ -48,9 +50,9 @@ export default function TaskBlock({
 	const listenerCallback = React.useCallback(
 		(e) => {
 			// executes callback if click is outside of the task block
-			clickIsOutsideEl(e, `task_block_${task.id}_${task.title}`, () => setIsAddingStatus(false));
+			clickIsOutsideEl(e, blockID, () => setIsAddingStatus(false));
 		},
-		[task.id, task.title]
+		[blockID]
 	);
 
 	React.useEffect(() => {
@@ -60,46 +62,48 @@ export default function TaskBlock({
 		return () => document.removeEventListener('click', listenerCallback);
 	}, [isAddingStatus, listenerCallback]);
 
+	// Manage Draggin Events
+
 	const dragOver = React.useCallback(() => {
-		let thisEl = document.getElementById(`${task.id}`);
-		thisEl.style.borderBottom = '10px solid rgba(0,0,0,.14)';
-	}, [task]);
+		let sortableEl = document.getElementById(sortID);
+		sortableEl.style.borderBottom = '10px solid rgba(0,0,0,.14)';
+	}, [sortID]);
 
 	const dragLeave = React.useCallback(() => {
-		let thisEl = document.getElementById(`${task.id}`);
-		thisEl.style.borderBottom = '0px solid rgba(0,0,0,0)';
-	}, [task]);
+		let sortableEl = document.getElementById(sortID);
+		sortableEl.style.borderBottom = '0px solid rgba(0,0,0,0)';
+	}, [sortID]);
 
 	const dragEnd = React.useCallback(() => {
-		let taskBlock = document.getElementById(`task_block_${task.id}_${task.title}`);
-		let thisEl = document.getElementById(`${task.id}`);
+		let taskBlock = document.getElementById(blockID);
+		let sortableEl = document.getElementById(sortID);
 
-		thisEl.style.borderBottom = 'none';
+		sortableEl.style.borderBottom = 'none';
 
-		thisEl.style.opacity = '1';
+		sortableEl.style.opacity = '1';
 		taskBlock.style.opacity = '1';
-	}, [task]);
+	}, [blockID, sortID]);
 
 	const drag = React.useCallback(() => {
-		let thisEl = document.getElementById(`${task.id}`);
-		let taskBlock = document.getElementById(`task_block_${task.id}_${task.title}`);
+		let sortableEl = document.getElementById(sortID);
+		let taskBlock = document.getElementById(blockID);
 
-		thisEl.style.opacity = '.25';
+		sortableEl.style.opacity = '.25';
 		taskBlock.style.opacity = '.25';
-	}, [task]);
+	}, [blockID, sortID]);
 
 	React.useEffect(() => {
-		let thisEl = document.getElementById(`${task.id}`);
-		if (thisEl) {
-			thisEl.style.transitionTimingFunction = 'ease';
-			thisEl.style.transition = '.35';
-			thisEl.addEventListener('dragover', dragOver);
-			thisEl.addEventListener('dragend', dragEnd);
-			thisEl.addEventListener('drop', dragEnd);
-			thisEl.addEventListener('drag', drag);
-			thisEl.addEventListener('dragleave', dragLeave);
+		let sortableEl = document.getElementById(sortID);
+		if (sortableEl) {
+			sortableEl.style.transitionTimingFunction = 'ease';
+			sortableEl.style.transition = '.35';
+			sortableEl.addEventListener('dragover', dragOver);
+			sortableEl.addEventListener('dragend', dragEnd);
+			sortableEl.addEventListener('drop', dragEnd);
+			sortableEl.addEventListener('drag', drag);
+			sortableEl.addEventListener('dragleave', dragLeave);
 		}
-	}, [drag, dragEnd, dragLeave, dragOver, task]);
+	}, [drag, dragEnd, dragLeave, dragOver, sortID, task]);
 
 	//>>>  Toggle Complete
 	const [isComplete, setIsComplete] = React.useState(task.isComplete);
@@ -154,7 +158,7 @@ export default function TaskBlock({
 		() => (
 			<div
 				className={style.Container}
-				id={`task_block_${task.id}_${task.title}`}
+				id={blockID}
 				data-show-list={!task.isComplete || listExpanded ? 1 : 0}
 				data-complete={task.isComplete ? 1 : 0}>
 				<div className={style.BlockHeader}>
@@ -230,6 +234,7 @@ export default function TaskBlock({
 		[
 			archived,
 			attentionFlag,
+			blockID,
 			clearGlobalHide,
 			globalHideList,
 			handleToggleArchived,

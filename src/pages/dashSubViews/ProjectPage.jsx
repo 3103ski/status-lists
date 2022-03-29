@@ -188,7 +188,6 @@ export default function ProjectPage({
 											<TaskBlock
 												projectTitle={project.project.title}
 												task={task}
-												hoverId={`bottomDrop_${task.id}`}
 												globalHideList={hideAllLists}
 												clearGlobalHide={() => setHideAllLists(false)}
 											/>

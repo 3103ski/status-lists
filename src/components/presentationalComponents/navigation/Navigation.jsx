@@ -1,38 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Link as ScrollLink } from 'react-scroll';
-import { Icon } from '@iconify/react';
-
 import ProjectLink from './projectLink/ProjectLink.jsx';
-import TaskLink from './projectLink/taskLink/TaskLink.jsx';
 
 import { CloudinaryImage, CreateProjectForm, Loader } from '../../../components';
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
-import { LOGIN, DASHBOARD, OVERVIEW, PROJECT } from '../../../routes';
-
-import { ICONIFY_BELL_FILL, ICONIFY_BELL } from '../../../icons';
+import { LOGIN, DASHBOARD, OVERVIEW } from '../../../routes';
 
 import * as style from './navigation.module.scss';
 
 export default function Navigation() {
 	const { logout, loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
 
-	const { createProject, serverCreatingProject, errorCreatingProject, focusProject } =
-		React.useContext(ProjectContext);
-
-	const scrollToTask = React.useCallback(
-		async (task) => {
-			if (task && focusProject) {
-				const block = await document.getElementById(`task_block_${task.id}_${task.title}`);
-				const project = await document.getElementById(`${focusProject}-wrapper`);
-				const blockScrollHeight = await block.getBoundingClientRect();
-
-				project.scrollTop = blockScrollHeight.y + 50;
-			}
-		},
-		[focusProject]
-	);
+	const { createProject, serverCreatingProject, errorCreatingProject } = React.useContext(ProjectContext);
 
 	return React.useMemo(
 		() => (
@@ -53,34 +33,7 @@ export default function Navigation() {
 											key={project.id}
 											project={project}
 											projectId={project.id}
-											text={project.title}>
-											{project.tasks.length === 0 ? (
-												<p>No Tasks</p>
-											) : (
-												project.tasks
-													.filter((t) => t.archived === false && t.isComplete === false)
-													.map((task) => (
-														<TaskLink
-															onClick={
-																task.isComplete ? () => null : () => scrollToTask(task)
-															}
-															task={task}
-															key={task.id}
-														/>
-													))
-											)}
-											{project.tasks
-												.filter((t) => t.isComplete === true && t.archived === false)
-												.map((task) => (
-													<TaskLink
-														onClick={
-															task.isComplete ? () => null : () => scrollToTask(task)
-														}
-														task={task}
-														key={task.id}
-													/>
-												))}
-										</ProjectLink>
+											text={project.title}></ProjectLink>
 									);
 								})}
 							</>
@@ -101,87 +54,9 @@ export default function Navigation() {
 				</div>
 			</nav>
 		),
-		[
-			createProject,
-			currentUser,
-			errorCreatingProject,
-			loadingCurrentUser,
-			logout,
-			scrollToTask,
-			serverCreatingProject,
-		]
+		[createProject, currentUser, errorCreatingProject, loadingCurrentUser, logout, serverCreatingProject]
 	);
 }
-const ExpandProjectLink = ({ text, projectId, children, match, ...rest }) => {
-	const { focusProject } = React.useContext(ProjectContext);
-
-	let outerId = `${text}_ExpandLink__outer`;
-	let innerId = `${text}_ExpandLink__inner`;
-
-	React.useEffect(() => {
-		if (projectId) {
-			let outerEl = document.getElementById(outerId);
-			let innerEl = document.getElementById(innerId);
-
-			if (outerEl && innerEl) {
-				if (focusProject) {
-					let innerElHeight = innerEl.getBoundingClientRect().height;
-
-					if (projectId === focusProject) {
-						outerEl.style.padding = `0px 0px 0px 15px`;
-						outerEl.style.marginBottom = `0px`;
-						outerEl.style.height = `${innerElHeight}px`;
-					} else {
-						outerEl.style.padding = `0px 0px 0px 15px`;
-						outerEl.style.marginBottom = `0px`;
-						outerEl.style.height = '0px';
-					}
-				} else {
-					outerEl.style.padding = `0px 0px 0px 15px`;
-					outerEl.style.height = '0px';
-				}
-			}
-		}
-	}, [focusProject, innerId, outerId, projectId, text]);
-
-	return React.useMemo(
-		() => (
-			<div className={style.ExpandLink} data-active={focusProject === projectId ? 1 : 0}>
-				<Link
-					to={`${DASHBOARD}${PROJECT}/${projectId}`}
-					data-active={projectId === focusProject ? 1 : 0}
-					{...rest}>
-					<p className={style.Title}>{text}</p>
-				</Link>
-				<div
-					className={style.ExpandLinkChildren}
-					id={`${text}_ExpandLink__outer`}
-					style={{ height: '0px', padding: '0px 0px 0px 10px' }}>
-					<div id={`${text}_ExpandLink__inner`}>{children}</div>
-				</div>
-			</div>
-		),
-		[children, focusProject, projectId, rest, text]
-	);
-};
-
-const ProjectLinkItem = ({ task, ...rest }) => {
-	const { focusProject } = React.useContext(ProjectContext);
-	return (
-		<ScrollLink
-			offset={-50}
-			to={`task_block_${task.id}_${task.title}`}
-			containerId={`${focusProject}-wrapper`}
-			smooth={true}
-			activeClass={style.Active}
-			duration={300}>
-			<div className={style.ProjectLinkItem} data-is-complete={task.isComplete ? 1 : 0} {...rest}>
-				<Icon icon={task.attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL} />
-				<p>{task.title}</p>
-			</div>
-		</ScrollLink>
-	);
-};
 
 const RootLink = ({ text, to, ...rest }) => {
 	const { setFocusProject } = React.useContext(ProjectContext);
