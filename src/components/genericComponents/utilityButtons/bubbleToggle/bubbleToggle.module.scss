@@ -6,7 +6,13 @@
 	padding: 4px 10px;
 	transition: 0.2s;
 
-	margin: 0 5px 5px 0;
+	&[data-margin='1'] {
+		margin: 0 5px 5px 0;
+	}
+
+	&[data-margin='0'] {
+		margin: 0 5px 0px 0;
+	}
 
 	p,
 	svg {

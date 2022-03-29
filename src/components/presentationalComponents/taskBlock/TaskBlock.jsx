@@ -167,21 +167,24 @@ export default function TaskBlock({
 						</div>
 					</div>
 					<div className={style.HeaderRight}>
+						{globalHideList === true ? (
+							<div className={style.GlobalHiddenBadge} onClick={clearGlobalHide}>
+								<Icon icon={ICONIFY_CANCEL} />
+								<p>Globally Hidden</p>
+							</div>
+						) : null}
 						{isComplete ? (
 							<BubbleToggle
+								margin={false}
 								active={archived}
 								icon={archived ? ICONIFY_ARCHIVE_FILL : ICONIFY_ARCHIVE}
 								onClick={handleToggleArchived}
 							/>
 						) : null}
 
-						{globalHideList === true ? (
-							<div className={style.GlobalHiddenBadge} onClick={clearGlobalHide}>
-								<Icon icon={ICONIFY_CANCEL} />
-								<p>Globally Hidden</p>
-							</div>
-						) : (
+						{globalHideList === true ? null : (
 							<BubbleToggle
+								margin={false}
 								active={listExpanded}
 								onClick={handleToggleListExpanded}
 								icon={ICONIFY_CLIPBOARD}
@@ -189,6 +192,7 @@ export default function TaskBlock({
 						)}
 
 						<BubbleToggle
+							margin={false}
 							active={attentionFlag}
 							onClick={handleToggleAttentionFlag}
 							icon={attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL}

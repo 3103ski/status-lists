@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 import { Icon } from '@iconify/react';
 
+import ProjectLink from './projectLink/ProjectLink.jsx';
+import TaskLink from './projectLink/taskLink/TaskLink.jsx';
+
 import { CloudinaryImage, CreateProjectForm, Loader } from '../../../components';
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
 import { LOGIN, DASHBOARD, OVERVIEW, PROJECT } from '../../../routes';
@@ -45,13 +48,17 @@ export default function Navigation() {
 						) : (
 							currentUser.user.projectFolder.projects.map((project) => {
 								return (
-									<ExpandProjectLink key={project.id} projectId={project.id} text={project.title}>
+									<ProjectLink
+										key={project.id}
+										project={project}
+										projectId={project.id}
+										text={project.title}>
 										{project.tasks.length === 0 ? (
 											<p>No Tasks</p>
 										) : (
 											project.tasks.map((task) =>
 												task.archived ? null : (
-													<ProjectLinkItem
+													<TaskLink
 														onClick={
 															task.isComplete ? () => null : () => scrollToTask(task)
 														}
@@ -61,7 +68,7 @@ export default function Navigation() {
 												)
 											)
 										)}
-									</ExpandProjectLink>
+									</ProjectLink>
 								);
 							})
 						)}

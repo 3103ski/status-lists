@@ -40,3 +40,40 @@
 	width: 100%;
 	height: 100%;
 }
+
+@mixin ellipsis-overflow {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+@mixin hover-cursor {
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+@mixin hover-bg {
+	border-radius: $small-radius;
+	&,
+	p,
+	h1,
+	h2,
+	h3,
+	svg {
+		transition: 0.18s;
+	}
+
+	&:hover {
+		&,
+		p,
+		h1,
+		h2,
+		h3,
+		svg {
+			color: $primary-grey;
+		}
+		cursor: pointer;
+		background-color: rgba(255, 255, 255, 0.15);
+	}
+}
