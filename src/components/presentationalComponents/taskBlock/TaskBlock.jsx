@@ -20,14 +20,11 @@ import * as style from './taskBlock.module.scss';
 
 export default function TaskBlock({
 	task = { title: '' },
-	id,
 	projectTitle = null,
 	globalHideList = false,
 	clearGlobalHide,
 }) {
-	// console.log({ task });
 	const { updateTask } = React.useContext(ProjectContext);
-	// const [showList, setShowList] = React.useState(task.listExpanded);
 
 	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
 
@@ -82,6 +79,7 @@ export default function TaskBlock({
 		thisEl.style.opacity = '1';
 		taskBlock.style.opacity = '1';
 	}, [task]);
+
 	const drag = React.useCallback(() => {
 		let thisEl = document.getElementById(`${task.id}`);
 		let taskBlock = document.getElementById(`task_block_${task.id}_${task.title}`);
@@ -100,32 +98,59 @@ export default function TaskBlock({
 			thisEl.addEventListener('drop', dragEnd);
 			thisEl.addEventListener('drag', drag);
 			thisEl.addEventListener('dragleave', dragLeave);
-
-			console.log(thisEl);
 		}
 	}, [drag, dragEnd, dragLeave, dragOver, task]);
+
+	//>>>  Toggle Complete
+	const [isComplete, setIsComplete] = React.useState(task.isComplete);
+	const handleToggleComplete = React.useCallback(() => {
+		setIsComplete(!task.isComplete);
+		updateTask({
+			variables: {
+				taskId: task.id,
+				isComplete: !task.isComplete,
+				archived: !task.isComplete === false ? false : task.archived,
+			},
+		});
+	}, [task.archived, task.id, task.isComplete, updateTask]);
+
+	// >>>> Toggle List Expanded
+	const [listExpanded, setListExpanded] = React.useState(task.listExpanded);
+	const handleToggleListExpanded = React.useCallback(async () => {
+		await setListExpanded(!task.listExpanded);
+		updateTask({ variables: { taskId: task.id, listExpanded: !task.listExpanded } });
+	}, [task, updateTask]);
+
+	// >>>> Toggle Attention Flag
+	const [attentionFlag, setAttentionFlag] = React.useState(task.attentionFlag);
+	const handleToggleAttentionFlag = React.useCallback(() => {
+		setAttentionFlag(!task.attentionFlag);
+		updateTask({
+			variables: {
+				taskId: task.id,
+				attentionFlag: !task.attentionFlag,
+			},
+		});
+	}, [task, updateTask]);
+
+	// >>>> Toggle Archived
+	const [archived, setArchived] = React.useState(task.archived);
+	const handleToggleArchived = React.useCallback(() => {
+		setArchived(!task.archived);
+		updateTask({ variables: { taskId: task.id, archived: !task.archived } });
+	}, [task, updateTask]);
 
 	return React.useMemo(
 		() => (
 			<div
 				className={style.Container}
 				id={`task_block_${task.id}_${task.title}`}
-				data-show-list={!task.isComplete || task.listExpanded ? 1 : 0}
+				data-show-list={!task.isComplete || listExpanded ? 1 : 0}
 				data-complete={task.isComplete ? 1 : 0}>
 				<div className={style.BlockHeader}>
 					<div className={style.HeaderLeft}>
-						<div
-							className={style.CheckCircle}
-							onClick={() =>
-								updateTask({
-									variables: {
-										taskId: task.id,
-										isComplete: !task.isComplete,
-										archived: !task.isComplete === false ? false : task.archived,
-									},
-								})
-							}>
-							{task.isComplete ? <Icon icon={ICONIFY_CIRCLE_CHECK} /> : <Icon icon={ICONIFY_CIRCLE} />}
+						<div className={style.CheckCircle} onClick={handleToggleComplete}>
+							{isComplete ? <Icon icon={ICONIFY_CIRCLE_CHECK} /> : <Icon icon={ICONIFY_CIRCLE} />}
 						</div>
 						{!isEditingTitle ? (
 							<h2 onClick={() => setIsEditingTitle(!isEditingTitle)}>{task.title}</h2>
@@ -134,29 +159,19 @@ export default function TaskBlock({
 						)}
 
 						<div className={style.EditWrapper}>
-							{isEditingTitle ? (
-								<Icon
-									className={style.EditIcon}
-									onClick={() => setIsEditingTitle(!isEditingTitle)}
-									icon={ICONIFY_CLOSE}
-								/>
-							) : (
-								<Icon
-									className={style.EditIcon}
-									onClick={() => setIsEditingTitle(!isEditingTitle)}
-									icon={ICONIFY_MENU_EDIT}
-								/>
-							)}
+							<Icon
+								className={style.EditIcon}
+								onClick={() => setIsEditingTitle(!isEditingTitle)}
+								icon={isEditingTitle ? ICONIFY_CLOSE : ICONIFY_MENU_EDIT}
+							/>
 						</div>
 					</div>
 					<div className={style.HeaderRight}>
-						{task.isComplete ? (
+						{isComplete ? (
 							<BubbleToggle
-								active={task.archived}
-								icon={task.archived ? ICONIFY_ARCHIVE_FILL : ICONIFY_ARCHIVE}
-								onClick={() => {
-									updateTask({ variables: { taskId: task.id, archived: !task.archived } });
-								}}
+								active={archived}
+								icon={archived ? ICONIFY_ARCHIVE_FILL : ICONIFY_ARCHIVE}
+								onClick={handleToggleArchived}
 							/>
 						) : null}
 
@@ -167,35 +182,26 @@ export default function TaskBlock({
 							</div>
 						) : (
 							<BubbleToggle
-								active={task.listExpanded}
-								onClick={() => {
-									updateTask({ variables: { taskId: task.id, listExpanded: !task.listExpanded } });
-								}}
+								active={listExpanded}
+								onClick={handleToggleListExpanded}
 								icon={ICONIFY_CLIPBOARD}
 							/>
 						)}
 
 						<BubbleToggle
-							active={task.attentionFlag}
-							onClick={() =>
-								updateTask({
-									variables: {
-										taskId: task.id,
-										attentionFlag: !task.attentionFlag,
-									},
-								})
-							}
-							icon={task.attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL}
+							active={attentionFlag}
+							onClick={handleToggleAttentionFlag}
+							icon={attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL}
 						/>
 					</div>
 				</div>
 				<div className={style.Bottom}>
-					{task.listExpanded && globalHideList === false ? (
+					{listExpanded && globalHideList === false ? (
 						<div onClick={() => setIsAddingStatus(!isAddingStatus)}>
 							<StatusList task={task} />
 						</div>
 					) : null}
-					{task.isComplete || globalHideList === true || task.listExpanded === false ? null : (
+					{isComplete || globalHideList === true || listExpanded === false ? null : (
 						<div className={style.InputWrapper} data-is-adding-status={isAddingStatus ? 1 : 0}>
 							<div className={style.FormWrapper}>
 								<CreateStatusForm task={task} callback={() => setIsAddingStatus(false)} />
@@ -208,6 +214,20 @@ export default function TaskBlock({
 				</div>
 			</div>
 		),
-		[clearGlobalHide, globalHideList, isAddingStatus, isEditingTitle, task, updateTask]
+		[
+			archived,
+			attentionFlag,
+			clearGlobalHide,
+			globalHideList,
+			handleToggleArchived,
+			handleToggleAttentionFlag,
+			handleToggleComplete,
+			handleToggleListExpanded,
+			isAddingStatus,
+			isComplete,
+			isEditingTitle,
+			listExpanded,
+			task,
+		]
 	);
 }
