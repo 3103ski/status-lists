@@ -129,7 +129,10 @@ const ProjectProvider = (props) => {
 						...qd.project,
 						tasks: qd.project.tasks.map((task) => {
 							if (task.id === data.updatedTask.id) {
-								return data.updatedTask;
+								return {
+									...task,
+									...data.updatedTask,
+								};
 							}
 							return task;
 						}),

@@ -54,13 +54,10 @@ export default function ProjectPage({
 
 	React.useEffect(() => {
 		if (project && project.project !== -1) {
-			if (!state || project.project.tasks.length !== state.length) {
-				let tasks = project.project.tasks.map((t) => ({ ...t }));
-				setState(tasks);
-			}
+			let tasks = project.project.tasks.map((t) => ({ ...t }));
+			setState(tasks);
 		}
-		console.log({ state });
-	}, [state, project]);
+	}, [project]);
 
 	const swap = React.useCallback(
 		(oldIndex, newIndex) => {

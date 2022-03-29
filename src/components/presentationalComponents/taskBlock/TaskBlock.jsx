@@ -48,17 +48,20 @@ export default function TaskBlock({
 
 	const [isAddingStatus, setIsAddingStatus] = React.useState(false);
 
-	function listenerCallback(e) {
-		// executes callback if click is outside of the task block
-		clickIsOutsideEl(e, `task_block_${task.id}_${task.title}`, () => setIsAddingStatus(false));
-	}
+	const listenerCallback = React.useCallback(
+		(e) => {
+			// executes callback if click is outside of the task block
+			clickIsOutsideEl(e, `task_block_${task.id}_${task.title}`, () => setIsAddingStatus(false));
+		},
+		[task.id, task.title]
+	);
 
 	React.useEffect(() => {
 		if (isAddingStatus) {
 			document.addEventListener('click', listenerCallback);
 		}
 		return () => document.removeEventListener('click', listenerCallback);
-	});
+	}, [isAddingStatus, listenerCallback]);
 
 	const dragOver = React.useCallback(() => {
 		let thisEl = document.getElementById(`${task.id}`);
@@ -106,7 +109,6 @@ export default function TaskBlock({
 		() => (
 			<div
 				className={style.Container}
-				onDrag={() => console.log('dragging!')}
 				id={`task_block_${task.id}_${task.title}`}
 				data-show-list={!task.isComplete || task.listExpanded ? 1 : 0}
 				data-complete={task.isComplete ? 1 : 0}>
