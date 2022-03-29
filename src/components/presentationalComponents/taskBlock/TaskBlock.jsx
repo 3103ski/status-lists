@@ -109,6 +109,8 @@ export default function TaskBlock({
 			variables: {
 				taskId: task.id,
 				isComplete: !task.isComplete,
+				attentionFlag: false,
+				listExpanded: !task.isComplete === true ? false : true,
 				archived: !task.isComplete === false ? false : task.archived,
 			},
 		});
@@ -128,6 +130,7 @@ export default function TaskBlock({
 		updateTask({
 			variables: {
 				taskId: task.id,
+				isComplete: !task.attentionFlag === true ? false : task.isComplete,
 				attentionFlag: !task.attentionFlag,
 			},
 		});
@@ -140,6 +143,13 @@ export default function TaskBlock({
 		updateTask({ variables: { taskId: task.id, archived: !task.archived } });
 	}, [task, updateTask]);
 
+	React.useEffect(() => {
+		// update the toggles if the task is updated from elsewheres
+		if (task.attentionFlag !== attentionFlag) {
+			setAttentionFlag(task.attentionFlag);
+		}
+	}, [attentionFlag, task.attentionFlag]);
+
 	return React.useMemo(
 		() => (
 			<div
@@ -149,15 +159,22 @@ export default function TaskBlock({
 				data-complete={task.isComplete ? 1 : 0}>
 				<div className={style.BlockHeader}>
 					<div className={style.HeaderLeft}>
+						<BubbleToggle
+							margin={false}
+							active={attentionFlag}
+							onClick={handleToggleAttentionFlag}
+							icon={attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL}
+						/>
 						<div className={style.CheckCircle} onClick={handleToggleComplete}>
 							{isComplete ? <Icon icon={ICONIFY_CIRCLE_CHECK} /> : <Icon icon={ICONIFY_CIRCLE} />}
 						</div>
+					</div>
+					<div className={style.HeaderCenter}>
 						{!isEditingTitle ? (
-							<h2 onClick={() => setIsEditingTitle(!isEditingTitle)}>{task.title}</h2>
+							<h2 onClick={handleToggleListExpanded}>{task.title}</h2>
 						) : (
 							<UpdateTaskTitleInput task={task} callback={() => setIsEditingTitle(false)} />
 						)}
-
 						<div className={style.EditWrapper}>
 							<Icon
 								className={style.EditIcon}
@@ -170,7 +187,7 @@ export default function TaskBlock({
 						{globalHideList === true ? (
 							<div className={style.GlobalHiddenBadge} onClick={clearGlobalHide}>
 								<Icon icon={ICONIFY_CANCEL} />
-								<p>Globally Hidden</p>
+								<p>All Lists Hidden</p>
 							</div>
 						) : null}
 						{isComplete ? (
@@ -181,7 +198,6 @@ export default function TaskBlock({
 								onClick={handleToggleArchived}
 							/>
 						) : null}
-
 						{globalHideList === true ? null : (
 							<BubbleToggle
 								margin={false}
@@ -190,13 +206,6 @@ export default function TaskBlock({
 								icon={ICONIFY_CLIPBOARD}
 							/>
 						)}
-
-						<BubbleToggle
-							margin={false}
-							active={attentionFlag}
-							onClick={handleToggleAttentionFlag}
-							icon={attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL}
-						/>
 					</div>
 				</div>
 				<div className={style.Bottom}>

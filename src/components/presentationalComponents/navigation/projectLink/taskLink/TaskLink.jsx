@@ -9,7 +9,8 @@ import { ICONIFY_BELL_FILL, ICONIFY_BELL } from '../../../../../icons';
 import * as style from './taskLink.module.scss';
 
 export default function TaskLink({ task, ...rest }) {
-	const { focusProject } = React.useContext(ProjectContext);
+	const { focusProject, updateTask } = React.useContext(ProjectContext);
+
 	const blockID = `task_block_${task.id}_${task.title}`;
 
 	function highlightBlock() {
@@ -26,6 +27,18 @@ export default function TaskLink({ task, ...rest }) {
 		}
 	}
 
+	const [attentionFlag, setAttentionFlag] = React.useState(task.attentionFlag);
+	const handleToggleAttentionFlag = React.useCallback(() => {
+		setAttentionFlag(!task.attentionFlag);
+		updateTask({
+			variables: {
+				taskId: task.id,
+				isComplete: !task.attentionFlag === true ? false : task.isComplete,
+				attentionFlag: !task.attentionFlag,
+			},
+		});
+	}, [task, updateTask]);
+
 	return (
 		<ScrollLink
 			offset={-50}
@@ -36,8 +49,8 @@ export default function TaskLink({ task, ...rest }) {
 			activeClass={style.Active}
 			duration={300}>
 			<div className={style.ProjectLinkItem} data-is-complete={task.isComplete ? 1 : 0} {...rest}>
-				<div className={style.BellWrapper}>
-					<Icon icon={task.attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL} />
+				<div className={style.BellWrapper} onClick={handleToggleAttentionFlag}>
+					<Icon icon={attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL} />
 				</div>
 				<p>{task.title}</p>
 			</div>

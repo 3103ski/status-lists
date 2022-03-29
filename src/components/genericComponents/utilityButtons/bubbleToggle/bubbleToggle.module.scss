@@ -40,8 +40,8 @@
 	&[data-icon='1'] {
 		@include flex-center-center;
 		border-radius: 100%;
-		width: 30px;
-		height: 30px;
+		width: 30px !important;
+		height: 30px !important;
 		padding: 0;
 	}
 

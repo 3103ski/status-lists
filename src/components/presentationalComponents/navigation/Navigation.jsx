@@ -46,18 +46,32 @@ export default function Navigation() {
 						{loadingCurrentUser || !currentUser || currentUser.user === -1 ? (
 							<Loader loadingText='Getting Projects' />
 						) : (
-							currentUser.user.projectFolder.projects.map((project) => {
-								return (
-									<ProjectLink
-										key={project.id}
-										project={project}
-										projectId={project.id}
-										text={project.title}>
-										{project.tasks.length === 0 ? (
-											<p>No Tasks</p>
-										) : (
-											project.tasks.map((task) =>
-												task.archived ? null : (
+							<>
+								{currentUser.user.projectFolder.projects.map((project) => {
+									return (
+										<ProjectLink
+											key={project.id}
+											project={project}
+											projectId={project.id}
+											text={project.title}>
+											{project.tasks.length === 0 ? (
+												<p>No Tasks</p>
+											) : (
+												project.tasks
+													.filter((t) => t.archived === false && t.isComplete === false)
+													.map((task) => (
+														<TaskLink
+															onClick={
+																task.isComplete ? () => null : () => scrollToTask(task)
+															}
+															task={task}
+															key={task.id}
+														/>
+													))
+											)}
+											{project.tasks
+												.filter((t) => t.isComplete === true && t.archived === false)
+												.map((task) => (
 													<TaskLink
 														onClick={
 															task.isComplete ? () => null : () => scrollToTask(task)
@@ -65,12 +79,11 @@ export default function Navigation() {
 														task={task}
 														key={task.id}
 													/>
-												)
-											)
-										)}
-									</ProjectLink>
-								);
-							})
+												))}
+										</ProjectLink>
+									);
+								})}
+							</>
 						)}
 
 						<CreateProjectForm

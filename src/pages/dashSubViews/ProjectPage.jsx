@@ -101,7 +101,7 @@ export default function ProjectPage({
 					<div className={style.HeaderWrapper}>
 						<div className={style.TitleWrapper}>
 							{!isEditingProjectTitle ? (
-								<h1 onDoubleClick={() => setIsEditingProjectTitle(true)}>{project.project.title}</h1>
+								<h1 onClick={() => setIsEditingProjectTitle(true)}>{project.project.title}</h1>
 							) : (
 								<UpdateProjectTitleInput
 									project={project.project !== -1 ? project.project : {}}
