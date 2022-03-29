@@ -69,3 +69,13 @@ export const UPDATE_TASK = gql`
 		}
 	}
 `;
+
+export const SWAP_TASK_POS = gql`
+	mutation SwapTaskPos($projectId: ID, $oldIndex: Int, $newIndex: Int) {
+		swapTaskPos(swapTaskInput: { projectId: $projectId, oldIndex: $oldIndex, newIndex: $newIndex }) {
+			projectId
+			oldIndex
+			newIndex
+		}
+	}
+`;

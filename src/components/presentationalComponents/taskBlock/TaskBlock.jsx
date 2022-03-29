@@ -25,9 +25,9 @@ export default function TaskBlock({
 	globalHideList = false,
 	clearGlobalHide,
 }) {
-	console.log({ task });
+	// console.log({ task });
 	const { updateTask } = React.useContext(ProjectContext);
-	const [showList, setShowList] = React.useState(task.listExpanded);
+	// const [showList, setShowList] = React.useState(task.listExpanded);
 
 	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
 
@@ -60,10 +60,53 @@ export default function TaskBlock({
 		return () => document.removeEventListener('click', listenerCallback);
 	});
 
+	const dragOver = React.useCallback(() => {
+		let thisEl = document.getElementById(`${task.id}`);
+		thisEl.style.borderBottom = '10px solid rgba(0,0,0,.14)';
+	}, [task]);
+
+	const dragLeave = React.useCallback(() => {
+		let thisEl = document.getElementById(`${task.id}`);
+		thisEl.style.borderBottom = '0px solid rgba(0,0,0,0)';
+	}, [task]);
+
+	const dragEnd = React.useCallback(() => {
+		let taskBlock = document.getElementById(`task_block_${task.id}_${task.title}`);
+		let thisEl = document.getElementById(`${task.id}`);
+
+		thisEl.style.borderBottom = 'none';
+
+		thisEl.style.opacity = '1';
+		taskBlock.style.opacity = '1';
+	}, [task]);
+	const drag = React.useCallback(() => {
+		let thisEl = document.getElementById(`${task.id}`);
+		let taskBlock = document.getElementById(`task_block_${task.id}_${task.title}`);
+
+		thisEl.style.opacity = '.25';
+		taskBlock.style.opacity = '.25';
+	}, [task]);
+
+	React.useEffect(() => {
+		let thisEl = document.getElementById(`${task.id}`);
+		if (thisEl) {
+			thisEl.style.transitionTimingFunction = 'ease';
+			thisEl.style.transition = '.35';
+			thisEl.addEventListener('dragover', dragOver);
+			thisEl.addEventListener('dragend', dragEnd);
+			thisEl.addEventListener('drop', dragEnd);
+			thisEl.addEventListener('drag', drag);
+			thisEl.addEventListener('dragleave', dragLeave);
+
+			console.log(thisEl);
+		}
+	}, [drag, dragEnd, dragLeave, dragOver, task]);
+
 	return React.useMemo(
 		() => (
 			<div
 				className={style.Container}
+				onDrag={() => console.log('dragging!')}
 				id={`task_block_${task.id}_${task.title}`}
 				data-show-list={!task.isComplete || task.listExpanded ? 1 : 0}
 				data-complete={task.isComplete ? 1 : 0}>

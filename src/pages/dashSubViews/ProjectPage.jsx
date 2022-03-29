@@ -1,4 +1,5 @@
 import React from 'react';
+import { SortableItem, swapArrayPositions } from 'react-sort-list';
 
 import { useQuery } from '@apollo/client';
 import { ProjectContext, CurrentUserContext } from '../../contexts';
@@ -12,6 +13,7 @@ import {
 	List,
 	BubbleToggle,
 } from '../../components/';
+
 import { GET_PROJECT } from '../../gql/';
 
 import * as style from './shared.module.scss';
@@ -24,7 +26,7 @@ export default function ProjectPage({
 	// Context Data
 	//>>>>>>
 	const { loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
-	const { setFocusProject, focusProject, errorCreatingTask } = React.useContext(ProjectContext);
+	const { setFocusProject, focusProject, errorCreatingTask, swapTaskPos } = React.useContext(ProjectContext);
 
 	// Fetch Project Data
 	//>>>>>>
@@ -48,6 +50,33 @@ export default function ProjectPage({
 	const [showCompleted, setShowCompleted] = React.useState(false);
 	const [hideAllLists, setHideAllLists] = React.useState(false);
 
+	const [state, setState] = React.useState(null);
+
+	React.useEffect(() => {
+		if (project && project.project !== -1) {
+			if (!state || project.project.tasks.length !== state.length) {
+				let tasks = project.project.tasks.map((t) => ({ ...t }));
+				setState(tasks);
+			}
+		}
+		console.log({ state });
+	}, [state, project]);
+
+	const swap = React.useCallback(
+		(oldIndex, newIndex) => {
+			let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
+			setState([...swappedTodos]);
+			swapTaskPos({
+				variables: {
+					projectId,
+					oldIndex,
+					newIndex,
+				},
+			});
+		},
+		[projectId, state, swapTaskPos]
+	);
+
 	// Enture context sees correct id for loaded project
 	//>>>>>>
 	React.useEffect(() => {
@@ -68,7 +97,7 @@ export default function ProjectPage({
 
 	return React.useMemo(
 		() =>
-			loadingProject || project.project === -1 || !focusProject || !currentUser || loadingCurrentUser ? (
+			loadingProject || !state || !focusProject || !currentUser || loadingCurrentUser ? (
 				<Loader loadingText='Getting Project' />
 			) : (
 				<div id={`${project.project.id}-wrapper`} className={style.ViewWrapper}>
@@ -154,36 +183,43 @@ export default function ProjectPage({
 						.length === 0 ? (
 						<List.Empty title={`${project.project.title} has no active tasks`} minHeight='50px' />
 					) : (
-						project.project.tasks.map((task) => {
-							if (task.archived === false && task.isComplete === false) {
-								return (
-									<TaskBlock
-										key={task.id}
-										projectTitle={project.project.title}
-										task={task}
-										globalHideList={hideAllLists}
-										clearGlobalHide={() => setHideAllLists(false)}
-									/>
-								);
-							}
-							return null;
-						})
+						<>
+							{state.map((task) => {
+								if (task.archived === false && task.isComplete === false) {
+									return (
+										<SortableItem items={state} id={`${task.id}`} key={`${task.id}`} swap={swap}>
+											<TaskBlock
+												projectTitle={project.project.title}
+												task={task}
+												hoverId={`bottomDrop_${task.id}`}
+												globalHideList={hideAllLists}
+												clearGlobalHide={() => setHideAllLists(false)}
+											/>
+										</SortableItem>
+									);
+								}
+								return null;
+							})}
+						</>
 					)}
+
 					<CreateTaskForm wrapperId={`${project.project.id}-wrapper`} />
 				</div>
 			),
 		[
-			currentUser,
-			errorCreatingTask,
-			errorLoadingProject,
-			focusProject,
-			hideAllLists,
-			isEditingProjectTitle,
-			loadingCurrentUser,
 			loadingProject,
+			state,
+			focusProject,
+			currentUser,
+			loadingCurrentUser,
 			project,
+			isEditingProjectTitle,
 			showArchived,
 			showCompleted,
+			hideAllLists,
+			errorCreatingTask,
+			errorLoadingProject,
+			swap,
 		]
 	);
 }

@@ -8,7 +8,7 @@ export { NEW_PROJECT, UPDATED_PROJECT } from './mutations/projects';
 
 // Tasks
 export { GET_TASK, GET_PROJECT_TASKS, GET_TASKS_CREATED_BY_USER, GET_USER_TASKS } from './queries/tasks';
-export { NEW_TASK, UPDATE_TASK } from './mutations/tasks';
+export { NEW_TASK, UPDATE_TASK, SWAP_TASK_POS } from './mutations/tasks';
 
 // Statuses
 export { NEW_STATUS, LIKE_STATUS, UNLIKE_STATUS } from './mutations/statuses';

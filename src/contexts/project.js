@@ -2,7 +2,16 @@ import React from 'react';
 
 import { updateObj } from '../util';
 import { useMutation } from '@apollo/client';
-import { NEW_PROJECT, NEW_TASK, GET_PROJECT, NEW_STATUS, UPDATE_TASK, UPDATED_PROJECT, GET_USER } from '../gql';
+import {
+	NEW_PROJECT,
+	NEW_TASK,
+	GET_PROJECT,
+	NEW_STATUS,
+	UPDATE_TASK,
+	UPDATED_PROJECT,
+	GET_USER,
+	SWAP_TASK_POS,
+} from '../gql';
 
 const initialState = {
 	isCreatingProject: false,
@@ -133,6 +142,25 @@ const ProjectProvider = (props) => {
 		},
 	});
 
+	const [swapTaskPos, { loading: swappingTaskPos, error: errorSwappingTaskPos }] = useMutation(SWAP_TASK_POS, {
+		update(cache, { data }) {
+			cache.updateQuery({ query: GET_PROJECT, variables: { projectId: data.swapTaskPos.projectId } }, (qd) => {
+				if (qd) {
+					let tasks = [...qd.project.tasks];
+					let task = tasks.splice(data.swapTaskPos.oldIndex, 1)[0];
+					tasks.splice(data.swapTaskPos.newIndex, 0, task);
+					let project = {
+						...qd.project,
+						tasks,
+					};
+					return {
+						project,
+					};
+				}
+			});
+		},
+	});
+
 	//>>>> UPDATING A PROJECT
 	const [updateProject, { loading: serverUpdatingProject, error: errorUpdatingProject }] = useMutation(
 		UPDATED_PROJECT,
@@ -186,6 +214,9 @@ const ProjectProvider = (props) => {
 				serverUpdatingTask,
 				errorUpdatingTask,
 
+				swapTaskPos,
+				swappingTaskPos,
+				errorSwappingTaskPos,
 				// Methods
 				createProject,
 				newTask,
