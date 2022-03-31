@@ -88,3 +88,36 @@ export const DELETE_USER_PICTURE = gql`
 		}
 	}
 `;
+
+export const CREATE_LABEL = gql`
+	mutation CreateLabel($label: String, $color: String, $addToTaskId: ID) {
+		label(label: $label, color: $color, addToTaskId: $addToTaskId) {
+			id
+			label
+			color
+			userId
+		}
+	}
+`;
+
+export const UPDATE_LABEL = gql`
+	mutation UpdateLabel($label: String, $color: String, $labelId: ID) {
+		updatedLabel(updateLabelInput: { label: $label, color: $color, labelId: $labelId }) {
+			id
+			label
+			color
+			userId
+		}
+	}
+`;
+
+export const DELETE_LABEL = gql`
+	mutation DeleteLabel($labelId: ID) {
+		deletedLabel(labelId: $labelId) {
+			id
+			label
+			color
+			userId
+		}
+	}
+`;

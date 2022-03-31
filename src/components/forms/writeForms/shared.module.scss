@@ -58,3 +58,18 @@
 .CreateProjectFormWrapper {
 	padding: 0 25px;
 }
+
+.PreviewWrapper {
+	@include flex-center-center;
+	flex-direction: column;
+	margin-bottom: 20px;
+	h2 {
+		color: $pallet-color-two;
+		font-size: 16px;
+		margin-bottom: 13px;
+	}
+}
+
+.ButtonWrapper {
+	@include flex-center;
+}

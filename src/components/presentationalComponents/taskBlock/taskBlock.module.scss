@@ -51,7 +51,7 @@
 
 			h2 {
 				@include hover-cursor;
-				margin: 0;
+				margin: 5px 0 5px 10px;
 				font-size: 18px;
 			}
 
@@ -59,20 +59,32 @@
 				@include hover-cursor;
 				margin-left: 7px;
 			}
-			.EditWrapper {
+
+			.EditWrapper,
+			.LabelWrapper {
+				opacity: 0;
 				@include flex-center-center;
 				width: 30px;
 				height: 30px;
 				opacity: 0;
 				transition: 0.13s;
+			}
 
+			.EditWrapper {
 				svg {
 					font-size: 13px;
 				}
 			}
 
+			.LabelWrapper {
+				svg {
+					font-size: 18px;
+				}
+			}
+
 			&:hover {
-				.EditWrapper {
+				.EditWrapper,
+				.LabelWrapper {
 					opacity: 1;
 				}
 			}

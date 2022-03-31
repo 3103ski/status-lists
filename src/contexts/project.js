@@ -11,17 +11,21 @@ import {
 	UPDATED_PROJECT,
 	GET_USER,
 	SWAP_TASK_POS,
+	CREATE_LABEL,
+	UPDATE_LABEL,
+	DELETE_LABEL,
 } from '../gql';
 
 const initialState = {
 	isCreatingProject: false,
 	isCreatingTask: false,
 	focusProject: null,
+	isManagingLabels: false,
 };
 
 const ProjectContext = React.createContext(initialState);
 
-const projectReducer = (state, { type, isCreatingProject, focusProject, isCreatingTask }) => {
+const projectReducer = (state, { type, isCreatingProject, focusProject, isCreatingTask, key, val }) => {
 	switch (type) {
 		case 'SET_FOCUS':
 			return updateObj(state, {
@@ -34,6 +38,10 @@ const projectReducer = (state, { type, isCreatingProject, focusProject, isCreati
 		case 'TOGGLE_CREATING_TASK':
 			return updateObj(state, {
 				isCreatingTask,
+			});
+		case 'UPDATE_VAL':
+			return updateObj(state, {
+				[key]: val,
 			});
 		default:
 			return state;
@@ -93,7 +101,110 @@ const ProjectProvider = (props) => {
 		dispatch({ type: 'TOGGLE_CREATING_TASK', isCreatingTask });
 	}
 
+	function updateVal(key, val) {
+		dispatch({ type: 'UPDATE_VAL', key, val });
+	}
+
 	const activeProjectId = React.useCallback(() => state.focusProject, [state.focusProject]);
+
+	// >>>> CREATING A NEW LABEL
+	const [createLabel, { loading: serverCreatingLabel, error: errorCreatingLabel }] = useMutation(CREATE_LABEL, {
+		update(cache, { data }) {
+			console.log({ data });
+			cache.updateQuery({ query: GET_USER, variables: { userId: data.label.userId } }, (qd) => {
+				if (qd) {
+					return {
+						user: {
+							...qd.user,
+							labels: [...qd.user.labels, data.label],
+						},
+					};
+				}
+			});
+		},
+	});
+
+	const [updateLabel, { loading: serverUpdatingLabel, error: errorUpdatingLabel }] = useMutation(UPDATE_LABEL, {
+		update(cache, { data }) {
+			cache.updateQuery({ query: GET_USER, variables: { userId: data.updatedLabel.userId } }, (qd) => {
+				if (qd) {
+					let labels = qd.user.labels.map((label) =>
+						label.id === data.updatedLabel.id ? data.updatedLabel : label
+					);
+					return {
+						user: {
+							...qd.user,
+							labels,
+						},
+					};
+				}
+			});
+		},
+	});
+
+	const [deleteLabel, { loading: serverDeletingLabel, error: errorDeletingLabel }] = useMutation(DELETE_LABEL, {
+		update(cache, { data }) {
+			let activeProjectTasklistUpdate = [];
+
+			cache.updateQuery({ query: GET_USER, variables: { userId: data.deletedLabel.userId } }, (qd) => {
+				if (qd) {
+					// copy projects
+					let projects = [...qd.user.projectFolder.projects];
+
+					for (let a = 0; a < projects.length; a++) {
+						// grab each project
+						let project = { ...projects[a] };
+
+						for (let b = 0; b < project.tasks.length; b++) {
+							// remove label from all tasks in project that have it
+							let tasks = project.tasks.map((task) => {
+								console.log({ task, label: data.deletedLabel.id });
+								if (task.label && task.label.id === data.deletedLabel.id) {
+									return {
+										...task,
+										label: null,
+									};
+								}
+								return task;
+							});
+							project.tasks = [...tasks];
+
+							if (project.id === state.focusProject) {
+								activeProjectTasklistUpdate = [...tasks];
+							}
+						}
+
+						// assign project
+						projects[a] = project;
+					}
+
+					let labels = qd.user.labels;
+					labels = labels.filter((l) => l.id !== data.deletedLabel.id);
+
+					return {
+						user: {
+							...qd.user,
+							labels,
+							projectFolder: {
+								...qd.user.projectFolder,
+								projects,
+							},
+						},
+					};
+				}
+			});
+			if (state.focusProject) {
+				cache.updateQuery({ query: GET_PROJECT, variables: { projectId: state.focusProject } }, (qd) => {
+					if (qd) {
+						console.log({ activeProjectTasklistUpdate });
+						return {
+							project: { ...qd.project, tasks: [...activeProjectTasklistUpdate] },
+						};
+					}
+				});
+			}
+		},
+	});
 
 	// >>>> CREATING A NEW STATUS FOR A TASK
 	const [newStatus, { loading: serverCreatingStatus, error: errorCreatingStatus }] = useMutation(NEW_STATUS, {
@@ -123,6 +234,7 @@ const ProjectProvider = (props) => {
 	// >>>> UPDATING A TASK
 	const [updateTask, { loading: serverUpdatingTask, error: errorUpdatingTask }] = useMutation(UPDATE_TASK, {
 		update(cache, { data }) {
+			console.log({ data });
 			cache.updateQuery({ query: GET_PROJECT, variables: { projectId: activeProjectId() } }, (qd) => {
 				if (qd) {
 					let project = {
@@ -223,6 +335,21 @@ const ProjectProvider = (props) => {
 				// Methods
 				createProject,
 				newTask,
+
+				// Managing user labels
+				isManagingLabels: state.isManagingLabels,
+				createLabel,
+				updateLabel,
+				serverCreatingLabel,
+				errorCreatingLabel,
+				serverUpdatingLabel,
+				errorUpdatingLabel,
+				deleteLabel,
+				serverDeletingLabel,
+				errorDeletingLabel,
+
+				// Update any single value
+				updateVal,
 			}}
 			{...props}
 		/>

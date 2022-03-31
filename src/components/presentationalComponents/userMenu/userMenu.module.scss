@@ -1,0 +1,62 @@
+@import '../../../sass/';
+
+.Menu {
+	@include no-select;
+	$trigger-size: 45px;
+
+	height: $trigger-size;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	z-index: 900;
+
+	.Trigger {
+		$margin: 10px;
+
+		margin: $margin $margin $margin 0;
+
+		img {
+			width: $trigger-size;
+		}
+	}
+
+	.MenuWrapper {
+		@include light-hover;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: flex-start;
+
+		padding: 12px 0px;
+		border-top-left-radius: $large-radius;
+		border-bottom-left-radius: $large-radius;
+
+		transform: translateX(100%);
+		transition: 0.16s;
+		transition-timing-function: ease-in-out;
+
+		.MenuLink {
+			@include hover-cursor;
+
+			padding: 2px 20px;
+			margin-bottom: 3px;
+			color: $primary-black;
+
+			&:hover {
+				color: $pallet-color-two;
+			}
+		}
+	}
+
+	&:hover {
+		height: unset;
+		.MenuWrapper {
+			transform: translateX(0%);
+		}
+	}
+}

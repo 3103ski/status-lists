@@ -5,10 +5,10 @@
 
 	svg {
 		font-size: 26px;
-		color: $primary-black !important;
+		color: $pallet-color-two !important;
 
 		&:hover {
-			color: $pallet-color-one !important;
+			// color: $pallet-color-one !important;
 		}
 	}
 
@@ -42,8 +42,9 @@
 	}
 }
 .MenuWrapper {
+	border-radius: $large-radius !important;
 	.MenuListItem {
-		padding: 15px 20px;
+		padding: 7px 20px;
 		z-index: 1905;
 		p {
 			font-size: 16px;
@@ -81,6 +82,7 @@
 
 .PopupComponent {
 	padding: 0 !important;
+	border-radius: $large-radius !important;
 }
 
 .SubMenuWrapper {

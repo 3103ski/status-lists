@@ -1,0 +1,14 @@
+@import '../../../../sass/';
+
+.LabelsWrapper {
+	@include flex-center;
+	flex-wrap: wrap;
+	width: 100%;
+	padding: 0 0 20px 0;
+	margin-bottom: 25px;
+	// border-bottom: 1px solid $pallet-color-two;
+}
+
+.Title {
+	color: $pallet-color-two;
+}

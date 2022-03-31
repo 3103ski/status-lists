@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container, Grid } from 'semantic-ui-react';
 
-import { Navigation } from '../components';
+import { Navigation, UserMenu } from '../components';
 import { ProjectProvider } from '../contexts';
 
 import { OverView, Project, UserSettings } from './dashSubViews/';
@@ -13,8 +13,9 @@ import * as style from './shared.module.scss';
 export default function DashboardPage() {
 	return React.useMemo(
 		() => (
-			<Container fluid>
-				<ProjectProvider>
+			<ProjectProvider>
+				<UserMenu />
+				<Container fluid>
 					<Router>
 						<Grid>
 							<Grid.Row className={style.DashContainer}>
@@ -39,8 +40,8 @@ export default function DashboardPage() {
 							</Grid.Row>
 						</Grid>
 					</Router>
-				</ProjectProvider>
-			</Container>
+				</Container>
+			</ProjectProvider>
 		),
 		[]
 	);

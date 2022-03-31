@@ -1,0 +1,12 @@
+@import '../../../sass/';
+
+.PreviewWrapper {
+	@include flex-center-center;
+	flex-direction: column;
+	margin-bottom: 20px;
+	h2 {
+		color: $pallet-color-two;
+		font-size: 16px;
+		margin-bottom: 13px;
+	}
+}

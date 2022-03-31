@@ -42,6 +42,12 @@ export const GET_USER = gql`
 						title
 						archived
 						isComplete
+						label {
+							label
+							color
+							id
+							userId
+						}
 						attentionFlag
 						createdAt
 						users
@@ -78,6 +84,12 @@ export const GET_USER = gql`
 				bio
 				profileBanner
 				avatar
+			}
+			labels {
+				label
+				color
+				id
+				userId
 			}
 		}
 	}

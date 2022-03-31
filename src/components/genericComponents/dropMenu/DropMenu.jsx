@@ -17,6 +17,7 @@ export default function DropMenu({
 	trigger: Trigger = null,
 	children,
 	size = 'normal',
+	...rest
 }) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
@@ -37,8 +38,10 @@ export default function DropMenu({
 					on={on}
 					open={isOpen}
 					onClose={toggleOpen}
+					onClick={toggleOpen}
 					onOpen={toggleOpen}
 					position={position}
+					basic
 					content={<div className={style.MenuWrapper}>{children}</div>}
 					trigger={
 						Trigger ? (
@@ -51,10 +54,11 @@ export default function DropMenu({
 							<Icon icon={icon ? icon : 'bi:three-dots'} />
 						)
 					}
+					{...rest}
 				/>
 			</div>
 		),
-		[Trigger, btnColor, button, children, icon, isOpen, on, position, size, text, toggleOpen, triggerMargin]
+		[Trigger, btnColor, button, children, icon, isOpen, on, position, rest, size, text, toggleOpen, triggerMargin]
 	);
 }
 

@@ -1,8 +1,15 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { StatusList, CreateStatusForm, UpdateTaskTitleInput, BubbleToggle } from '../../../components';
+import {
+	StatusList,
+	CreateStatusForm,
+	UpdateTaskTitleInput,
+	BubbleToggle,
+	DropMenu,
+	TaskLabel,
+} from '../../../components';
 import { clickIsOutsideEl } from '../../../util';
-import { ProjectContext } from '../../../contexts';
+import { ProjectContext, CurrentUserContext } from '../../../contexts';
 import {
 	ICONIFY_CIRCLE_CHECK,
 	ICONIFY_PLUS,
@@ -15,6 +22,7 @@ import {
 	ICONIFY_CLIPBOARD,
 	ICONIFY_ARCHIVE,
 	ICONIFY_ARCHIVE_FILL,
+	ICONIFY_LABEL,
 } from '../../../icons';
 import * as style from './taskBlock.module.scss';
 
@@ -29,6 +37,8 @@ export default function TaskBlock({
 	const sortID = `task_block_${task.id}`;
 
 	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
+
+	console.log({ task });
 
 	React.useEffect(() => {
 		if (projectTitle) {
@@ -153,6 +163,7 @@ export default function TaskBlock({
 			setAttentionFlag(task.attentionFlag);
 		}
 	}, [attentionFlag, task.attentionFlag]);
+	console.log(task.label);
 
 	return React.useMemo(
 		() => (
@@ -174,8 +185,11 @@ export default function TaskBlock({
 						</div>
 					</div>
 					<div className={style.HeaderCenter}>
+						{task.label ? <TaskLabel label={task.label} /> : null}
 						{!isEditingTitle ? (
-							<h2 onClick={handleToggleListExpanded}>{task.title}</h2>
+							<>
+								<h2 onClick={handleToggleListExpanded}>{task.title}</h2>
+							</>
 						) : (
 							<UpdateTaskTitleInput task={task} callback={() => setIsEditingTitle(false)} />
 						)}
@@ -186,6 +200,7 @@ export default function TaskBlock({
 								icon={isEditingTitle ? ICONIFY_CLOSE : ICONIFY_MENU_EDIT}
 							/>
 						</div>
+						<UserLabelSelector task={task} />
 					</div>
 					<div className={style.HeaderRight}>
 						{globalHideList === true ? (
@@ -249,3 +264,46 @@ export default function TaskBlock({
 		]
 	);
 }
+
+const UserLabelSelector = ({ task }) => {
+	const { currentUser, loadingCurrentUser } = React.useContext(CurrentUserContext);
+	const { updateTask, updateVal } = React.useContext(ProjectContext);
+
+	return loadingCurrentUser || !currentUser ? null : (
+		<div className={style.LabelWrapper}>
+			<DropMenu icon={ICONIFY_LABEL} simple>
+				{currentUser.user.labels.map((label) => (
+					<DropMenu.ListItem
+						onClick={() =>
+							updateTask({
+								variables: {
+									taskId: task.id,
+									label: label.id,
+								},
+							})
+						}
+						key={label.id}>
+						{label.label}
+					</DropMenu.ListItem>
+				))}
+				{!task.label ? null : (
+					<DropMenu.ListItem
+						topDivided={true}
+						onClick={() =>
+							updateTask({
+								variables: {
+									taskId: task.id,
+									label: null,
+								},
+							})
+						}>
+						Remove Label
+					</DropMenu.ListItem>
+				)}
+				<DropMenu.ListItem topDivided={true} onClick={() => updateVal('isManagingLabels', true)}>
+					Manage Labels
+				</DropMenu.ListItem>
+			</DropMenu>
+		</div>
+	);
+};

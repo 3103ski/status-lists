@@ -1,5 +1,6 @@
 export { default as LoginForm } from './forms/authForms/LoginForm.jsx';
 export { default as RegisterUserForm } from './forms/authForms/RegisterForm.jsx';
+
 export { default as UpdatePasswordForm } from './forms/updateForms/UpdatePassword.jsx';
 export { default as UpdateAuthEmailForm } from './forms/updateForms/UpdateAuthEmail.jsx';
 export { default as UpdateUserProfileForm } from './forms/updateForms/UpdateUserProfile.jsx';
@@ -10,7 +11,9 @@ export { default as FormErrors } from './forms/FormErrors.jsx';
 export { default as CreateProjectForm } from './forms/writeForms/CreateProejct.jsx';
 export { default as CreateTaskForm } from './forms/writeForms/CreateTask.jsx';
 export { default as CreateStatusForm } from './forms/writeForms/CreateStatus.jsx';
+export { default as CreateLabelForm } from './forms/writeForms/CreateLabel.jsx';
 
+export { default as UpdateTaskLabel } from './forms/updateForms/UpdateLabel.jsx';
 export { default as UpdateTaskTitleInput } from './forms/updateForms/UpdateTaskTitle.jsx';
 export { default as UpdateProjectTitleInput } from './forms/updateForms/UpdateProjectTitle';
 
@@ -52,8 +55,13 @@ export { default as Rating } from './genericComponents/rating/Rating.jsx';
 //====================================
 
 export { default as Navigation } from './presentationalComponents/navigation/Navigation.jsx';
+export { default as UserMenu } from './presentationalComponents/userMenu/UserMenu.jsx';
 
 export { default as TaskBlock } from './presentationalComponents/taskBlock/TaskBlock.jsx';
 
 export { default as StatusList } from './presentationalComponents/statusList/StatusList.jsx';
 export { default as StatusListItem } from './presentationalComponents/statusList/statusListItem/StatusListItem.jsx';
+
+// Labels
+export { default as TaskLabel } from './presentationalComponents/labelManager/label/Label.jsx';
+export { default as LabelManager } from './presentationalComponents/labelManager/manager/LabelManager.jsx';

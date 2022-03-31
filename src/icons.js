@@ -8,6 +8,7 @@ export const ICONIFY_CIRCLE = 'akar-icons:circle';
 export const ICONIFY_CIRCLE_CHECK = 'akar-icons:circle-check-fill';
 export const ICONIFY_CIRCLE_REMOVE = 'clarity:remove-solid';
 export const ICONIFY_ENTER = 'akar-icons:circle-chevron-up-fill';
+export const ICONIFY_LABEL = 'ic:outline-new-label';
 // export const ICONIFY_ENTER = 'fluent:arrow-enter-left-20-filled';
 
 export const ICONIFY_CANCEL = 'mdi:cancel';

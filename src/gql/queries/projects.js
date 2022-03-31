@@ -19,6 +19,12 @@ export const GET_PROJECT = gql`
 				isComplete
 				listExpanded
 				attentionFlag
+				label {
+					id
+					userId
+					color
+					label
+				}
 				createdAt
 				projectOwner
 				createdBy

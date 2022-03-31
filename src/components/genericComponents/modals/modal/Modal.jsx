@@ -28,7 +28,10 @@ export function Modal({ children, toggle, bgClosesModal = true, open, replaceTog
 			{...rest}>
 			<SemanticModal.Content scrolling className={style.ChildrenWrapper}>
 				<div className={style.IconWrapper}>
-					<Icon icon={ICONIFY_CLOSE} onClick={() => toggle(false)} />
+					<Icon
+						icon={ICONIFY_CLOSE}
+						onClick={replaceToggleCallback ? () => replaceToggleCallback() : () => toggle(false)}
+					/>
 				</div>
 				{children}
 			</SemanticModal.Content>

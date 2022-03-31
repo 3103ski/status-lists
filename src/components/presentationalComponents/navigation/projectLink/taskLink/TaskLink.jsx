@@ -105,7 +105,10 @@ export default function TaskLink({ task, ...rest }) {
 				<div className={style.BellWrapper} onClick={handleToggleAttentionFlag}>
 					<Icon icon={attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL} />
 				</div>
-				<p>{task.title}</p>
+				<p>
+					{task.label ? task.label.label + ': ' : null}
+					{task.title}
+				</p>
 			</div>
 		</ScrollLink>
 	);

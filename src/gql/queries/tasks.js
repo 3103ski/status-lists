@@ -14,6 +14,12 @@ export const GET_TASK = gql`
 			projectOwner
 			createdBy
 			users
+			label {
+				id
+				userId
+				color
+				label
+			}
 			statuses {
 				id
 				projectOwner
@@ -42,6 +48,12 @@ export const GET_PROJECT_TASKS = gql`
 			attentionFlag
 			createdAt
 			projectOwner
+			label {
+				id
+				userId
+				color
+				label
+			}
 			createdBy
 			users
 			statuses {
@@ -73,6 +85,12 @@ export const GET_USER_TASKS = gql`
 			createdAt
 			projectOwner
 			createdBy
+			label {
+				id
+				userId
+				color
+				label
+			}
 			users
 			statuses {
 				id
@@ -102,6 +120,12 @@ export const GET_TASKS_CREATED_BY_USER = gql`
 			attentionFlag
 			createdAt
 			projectOwner
+			label {
+				id
+				userId
+				color
+				label
+			}
 			createdBy
 			users
 			statuses {
