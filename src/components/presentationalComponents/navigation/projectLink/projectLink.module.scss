@@ -3,6 +3,7 @@
 .ExpandLink,
 .RootLink {
 	@include no-select;
+	@include hover-cursor;
 	font-size: 25px;
 	margin-bottom: 8px !important;
 
@@ -23,18 +24,56 @@
 .ExpandLink {
 	padding: 0 10px;
 
+	.ExpandLinkTag {
+		@include flex-center-center;
+	}
+
 	.Title {
 		@include hover-bg;
-		padding: 0 15px;
+		@include flex-center;
+
 		border-radius: $small-radius;
+		padding: 2px 10px 2px 15px;
+		width: 100%;
+
+		.BellCountContainer {
+			@include flex-center-center;
+			@include light-hover;
+			margin-left: auto;
+			padding: 0 5px;
+			border-radius: 25px;
+			position: relative;
+
+			span {
+				height: 20px;
+				@include flex-center-center;
+			}
+			.BellCount,
+			svg {
+				color: $pallet-color-two !important;
+			}
+
+			svg {
+				position: absolute;
+				font-size: 10px;
+				top: -3px;
+				right: -3px;
+			}
+
+			.BellCount {
+				font-size: 13px;
+				margin-left: 2px;
+				transform: translateX(-1px);
+			}
+		}
 	}
 
 	.ExpandLinkChildren {
-		@include remove-scrollbar;
+		// @include remove-scrollbar;
 		transition: 0.15s;
 
 		transition-timing-function: ease-in-out;
-		overflow-y: scroll;
+		overflow-y: hidden;
 
 		p {
 			padding: 0;
@@ -45,9 +84,26 @@
 
 	&[data-active='1'] {
 		.Title {
-			padding: 5px 15px;
 			background-color: $pale-grey;
 			color: $primary-black;
+
+			// .BellWrapper {
+			// 	@include flex-center-center;
+			// 	position: relative;
+			// 	margin-left: auto;
+
+			// 	.BellCount {
+			// 		z-index: 100;
+			// 		font-size: 12px;
+			// 		color: white !important;
+			// 	}
+
+			// 	svg {
+			// 		position: absolute;
+			// 		color: $primary-black;
+			// 		font-size: 22px;
+			// 	}
+			// }
 		}
 	}
 }
