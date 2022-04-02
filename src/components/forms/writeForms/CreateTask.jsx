@@ -7,7 +7,7 @@ import { clickIsOutsideEl } from '../../../util';
 import { ProjectContext } from '../../../contexts';
 import { useForm } from '../../../hooks';
 import { taskValidation } from '../inputRequirements';
-import { ICONIFY_CLOSE, ICONIFY_ADD_LIST } from '../../../icons';
+import { ICONIFY_ADD_LIST } from '../../../icons';
 
 import * as style from './shared.module.scss';
 

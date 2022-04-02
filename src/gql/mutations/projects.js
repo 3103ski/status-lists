@@ -32,3 +32,30 @@ export const UPDATED_PROJECT = gql`
 		}
 	}
 `;
+
+export const SWAP_PROJECT_POSITION = gql`
+	mutation SwapProjectPosition(
+		$projectId: ID
+		$projectFolderId: ID
+		$oldIndex: Int
+		$newIndex: Int
+		$oldFolder: Int
+		$newFolder: Int
+	) {
+		swapProjectPosition(
+			swapProjectInput: {
+				projectFolderId: $projectFolderId
+				projectId: $projectId
+				oldIndex: $oldIndex
+				newIndex: $newIndex
+				oldFolder: $oldFolder
+				newFolder: $newFolder
+			}
+		) {
+			projectId
+			oldIndex
+			newIndex
+			userId
+		}
+	}
+`;

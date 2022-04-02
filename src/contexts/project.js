@@ -14,6 +14,7 @@ import {
 	CREATE_LABEL,
 	UPDATE_LABEL,
 	DELETE_LABEL,
+	SWAP_PROJECT_POSITION,
 } from '../gql';
 
 const initialState = {
@@ -78,6 +79,31 @@ const ProjectProvider = (props) => {
 	function toggleIsCreatingProject(isCreatingProject = !state.isCreatingProject) {
 		dispatch({ type: 'TOGGLE_CREATING_PROJECT', isCreatingProject });
 	}
+
+	// >>>> SWAP A PROJECT POSITION IN PROJECTS LIST OF PROJECT_FOLDER
+	const [swapProjectPosition, { loading: serverSwapingProjectPosition, error: errorSwappingProjectPosition }] =
+		useMutation(SWAP_PROJECT_POSITION, {
+			update(cache, { data }) {
+				console.log(data);
+				cache.updateQuery({ query: GET_USER, variables: { userId: data.swapProjectPosition.userId } }, (qd) => {
+					let projects = [...qd.user.projectFolder.projects];
+					let holdProject = projects.splice(data.swapProjectPosition.oldIndex, 1)[0];
+					projects.splice(data.swapProjectPosition.newIndex, 0, holdProject);
+
+					// toggleIsCreatingProject(false);
+					return {
+						user: {
+							...qd.user,
+							projects,
+							projectFolder: {
+								...qd.user.projectFolder,
+								projects,
+							},
+						},
+					};
+				});
+			},
+		});
 
 	// >>>> CREATING A NEW TASK FOR A PROJECT
 	const [newTask, { loading: serverCreatingTask, error: errorCreatingTask }] = useMutation(NEW_TASK, {
@@ -301,6 +327,10 @@ const ProjectProvider = (props) => {
 				// State
 				focusProject: state.focusProject,
 				setFocusProject,
+
+				swapProjectPosition,
+				serverSwapingProjectPosition,
+				errorSwappingProjectPosition,
 
 				// >> Creating projects
 				isCreatingProject: state.isCreatingProject,

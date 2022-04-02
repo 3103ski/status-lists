@@ -8,6 +8,8 @@
 	-webkit-border-radius: $large-radius;
 	border-radius: $large-radius;
 
+	margin: 10px 0 15px 0;
+
 	.ListWrapper {
 		max-height: calc(#{$status-li-height} * 4);
 		overflow-y: scroll;

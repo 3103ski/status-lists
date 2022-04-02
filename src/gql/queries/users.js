@@ -35,6 +35,7 @@ export const GET_USER = gql`
 					owner
 					users
 					title
+					notes
 					isArchived
 					bellCount
 					tasks {
@@ -55,25 +56,25 @@ export const GET_USER = gql`
 					createdAt
 				}
 			}
-			projects {
-				id
-				owner
-				users
-				title
-				notes
-				isArchived
-				bellCount
-				tasks {
-					id
-					title
-					archived
-					isComplete
-					attentionFlag
-					createdAt
-					users
-				}
-				createdAt
-			}
+			# projects {
+			# 	id
+			# 	owner
+			# 	users
+			# 	title
+			# 	notes
+			# 	isArchived
+			# 	bellCount
+			# 	tasks {
+			# 		id
+			# 		title
+			# 		archived
+			# 		isComplete
+			# 		attentionFlag
+			# 		createdAt
+			# 		users
+			# 	}
+			# 	createdAt
+			# }
 			info {
 				displayName
 				userId

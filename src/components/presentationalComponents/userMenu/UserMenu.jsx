@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Modal as SemanticModal } from 'semantic-ui-react';
+// import { Modal as SemanticModal } from 'semantic-ui-react';
 
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
 import { CloudinaryImage, Modal, LabelManager } from '../../../components';
@@ -11,9 +11,8 @@ import { LOGIN } from '../../../routes';
 import * as style from './userMenu.module.scss';
 
 export default function UserMenu() {
-	const { logout, currentUser, loadingCurrentUser } = React.useContext(CurrentUserContext);
+	const { logout, loadingCurrentUser } = React.useContext(CurrentUserContext);
 	const { updateVal, isManagingLabels } = React.useContext(ProjectContext);
-	console.log({ isManagingLabels, currentUser });
 
 	return loadingCurrentUser ? null : (
 		<>

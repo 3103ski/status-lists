@@ -38,8 +38,6 @@ export default function TaskBlock({
 
 	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
 
-	console.log({ task });
-
 	React.useEffect(() => {
 		if (projectTitle) {
 			let outerId = `${projectTitle}_ExpandLink__outer`;
@@ -163,7 +161,6 @@ export default function TaskBlock({
 			setAttentionFlag(task.attentionFlag);
 		}
 	}, [attentionFlag, task.attentionFlag]);
-	console.log(task.label);
 
 	return React.useMemo(
 		() => (

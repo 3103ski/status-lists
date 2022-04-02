@@ -44,9 +44,6 @@ export default function CreateStatusForm({ task, callback }) {
 			setSpinner(false);
 		}
 	}, [spinner, serverCreatingStatus]);
-	React.useEffect(() => {
-		console.log({ values });
-	}, [values]);
 
 	return (
 		<Form onSubmit={onSubmit} style={{ width: '100%' }}>
