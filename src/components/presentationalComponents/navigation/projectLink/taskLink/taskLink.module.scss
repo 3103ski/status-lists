@@ -25,6 +25,22 @@
 		}
 	}
 
+	.TimeLabel {
+		@include light-hover;
+		margin-left: auto;
+		padding: 0px 6px;
+		border-radius: 8px;
+
+		p {
+			color: $pallet-color-two;
+			font-size: 11px !important;
+		}
+
+		&[data-show-label='0'] {
+			display: none;
+		}
+	}
+
 	.BellWrapper {
 		@include flex-center-center;
 
@@ -41,8 +57,10 @@
 		padding: 0;
 		margin-bottom: 0 !important;
 		margin-top: 0 !important;
-		height: 0px;
-		overflow: hidden;
+
+		&[data-hide='1'] {
+			display: none !important;
+		}
 	}
 
 	svg {
@@ -52,8 +70,5 @@
 }
 
 .Flash {
-	// transform: scale(1.008) !important;
-	// background-color: rgba(207, 63, 207, 0.14);
-	// box-shadow: 0 0 0 3px rgba(104, 172, 235, 0.65);
 	@include attention-flash;
 }

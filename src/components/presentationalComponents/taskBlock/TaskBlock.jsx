@@ -8,7 +8,7 @@ import {
 	DropMenu,
 	TaskLabel,
 } from '../../../components';
-import { clickIsOutsideEl } from '../../../util';
+
 import { ProjectContext, CurrentUserContext } from '../../../contexts';
 import {
 	ICONIFY_CIRCLE_CHECK,
@@ -25,7 +25,7 @@ import {
 	ICONIFY_LABEL,
 } from '../../../icons';
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { clickIsOutsideEl } from '../../../util';
 
 import * as style from './taskBlock.module.scss';
 
@@ -38,7 +38,6 @@ export default function TaskBlock({
 }) {
 	const { updateTask } = React.useContext(ProjectContext);
 	const blockID = `task_block_${task.id}`;
-	const sortID = `task_block_${task.id}`;
 
 	const [isEditingTitle, setIsEditingTitle] = React.useState(false);
 
@@ -76,49 +75,6 @@ export default function TaskBlock({
 		}
 		return () => document.removeEventListener('click', listenerCallback);
 	}, [isAddingStatus, listenerCallback]);
-
-	// Manage Draggin Events
-
-	const dragOver = React.useCallback(() => {
-		let sortableEl = document.getElementById(sortID);
-		sortableEl.style.borderBottom = '10px solid rgba(0,0,0,.14)';
-	}, [sortID]);
-
-	const dragLeave = React.useCallback(() => {
-		let sortableEl = document.getElementById(sortID);
-		sortableEl.style.borderBottom = '0px solid rgba(0,0,0,0)';
-	}, [sortID]);
-
-	const dragEnd = React.useCallback(() => {
-		let taskBlock = document.getElementById(blockID);
-		let sortableEl = document.getElementById(sortID);
-
-		sortableEl.style.borderBottom = 'none';
-
-		sortableEl.style.opacity = '1';
-		taskBlock.style.opacity = '1';
-	}, [blockID, sortID]);
-
-	const drag = React.useCallback(() => {
-		let sortableEl = document.getElementById(sortID);
-		let taskBlock = document.getElementById(blockID);
-
-		sortableEl.style.opacity = '.25';
-		taskBlock.style.opacity = '.25';
-	}, [blockID, sortID]);
-
-	React.useEffect(() => {
-		let sortableEl = document.getElementById(sortID);
-		if (sortableEl) {
-			sortableEl.style.transitionTimingFunction = 'ease';
-			sortableEl.style.transition = '.35';
-			sortableEl.addEventListener('dragover', dragOver);
-			sortableEl.addEventListener('dragend', dragEnd);
-			sortableEl.addEventListener('drop', dragEnd);
-			sortableEl.addEventListener('drag', drag);
-			sortableEl.addEventListener('dragleave', dragLeave);
-		}
-	}, [drag, dragEnd, dragLeave, dragOver, sortID, task]);
 
 	//>>>  Toggle Complete
 	const [isComplete, setIsComplete] = React.useState(task.isComplete);
@@ -262,6 +218,7 @@ export default function TaskBlock({
 			handleToggleAttentionFlag,
 			handleToggleComplete,
 			handleToggleListExpanded,
+			hideWhenComplete,
 			isAddingStatus,
 			isComplete,
 			isEditingTitle,

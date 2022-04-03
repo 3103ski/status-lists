@@ -62,6 +62,8 @@ export { default as TaskBlock } from './presentationalComponents/taskBlock/TaskB
 export { default as StatusList } from './presentationalComponents/statusList/StatusList.jsx';
 export { default as StatusListItem } from './presentationalComponents/statusList/statusListItem/StatusListItem.jsx';
 
+export { default as UserPreferences } from './presentationalComponents/preferences/Preferences.jsx';
+
 // Labels
 export { default as TaskLabel } from './presentationalComponents/labelManager/label/Label.jsx';
 export { default as LabelManager } from './presentationalComponents/labelManager/manager/LabelManager.jsx';

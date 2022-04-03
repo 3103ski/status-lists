@@ -5,8 +5,8 @@ import { Container, Grid } from 'semantic-ui-react';
 import { Navigation, UserMenu } from '../components';
 import { ProjectProvider } from '../contexts';
 
-import { OverView, Project, UserSettings } from './dashSubViews/';
-import { OVERVIEW, PROJECT, DASHBOARD, USER_SETTINGS } from '../routes';
+import { OverView, Project } from './dashSubViews/';
+import { OVERVIEW, PROJECT, DASHBOARD } from '../routes';
 
 import * as style from './shared.module.scss';
 
@@ -35,7 +35,6 @@ export default function DashboardPage() {
 											return <Project {...props} />;
 										}}
 									/>
-									<Route path={`${DASHBOARD}${USER_SETTINGS}`} component={UserSettings} />
 								</Grid.Column>
 							</Grid.Row>
 						</Grid>

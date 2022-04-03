@@ -1,5 +1,5 @@
 import React from 'react';
-import { SortableItem, swapArrayPositions } from 'react-sort-list';
+
 import { ReorderItems } from '../../components/presentationalComponents/navigation/util';
 
 import { useQuery } from '@apollo/client';
@@ -61,22 +61,6 @@ export default function ProjectPage({
 			setState(tasks);
 		}
 	}, [project]);
-
-	// const swap = React.useCallback(
-	// 	(oldIndex, newIndex) => {
-	// 		console.log({ oldIndex, newIndex });
-	// 		let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
-	// 		setState([...swappedTodos]);
-	// 		swapTaskPos({
-	// 			variables: {
-	// 				projectId,
-	// 				oldIndex,
-	// 				newIndex,
-	// 			},
-	// 		});
-	// 	},
-	// 	[projectId, state, swapTaskPos]
-	// );
 
 	const handleTaskSwap = React.useCallback(
 		(result) => {
@@ -216,30 +200,30 @@ export default function ProjectPage({
 									) : (
 										<>
 											{state.map((task, index) => {
-												// if (task.archived === false && task.isComplete === false) {
-												return (
-													<Draggable
-														draggableId={`${task.id}_card`}
-														key={task.id}
-														index={index}>
-														{(provided, snapshot) => (
-															<div
-																ref={provided.innerRef}
-																{...provided.dragHandleProps}
-																{...provided.draggableProps}>
-																<TaskBlock
-																	projectTitle={project.project.title}
-																	task={task}
-																	globalHideList={hideAllLists}
-																	hideWhenComplete
-																	clearGlobalHide={() => setHideAllLists(false)}
-																/>
-															</div>
-														)}
-													</Draggable>
-												);
-												// }
-												// return null;
+												if (task.archived === false && task.isComplete === false) {
+													return (
+														<Draggable
+															draggableId={`${task.id}_card`}
+															key={task.id}
+															index={index}>
+															{(provided, snapshot) => (
+																<div
+																	ref={provided.innerRef}
+																	{...provided.dragHandleProps}
+																	{...provided.draggableProps}>
+																	<TaskBlock
+																		projectTitle={project.project.title}
+																		task={task}
+																		globalHideList={hideAllLists}
+																		hideWhenComplete
+																		clearGlobalHide={() => setHideAllLists(false)}
+																	/>
+																</div>
+															)}
+														</Draggable>
+													);
+												}
+												return null;
 											})}
 										</>
 									)}

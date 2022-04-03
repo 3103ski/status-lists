@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import ProjectLink from './projectLink/ProjectLink.jsx';
-// import { swapArrayPositions } from 'react-sort-list';
 
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { ReorderItems } from './util';
 
 import { CreateProjectForm, Loader } from '../../../components';
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
+
 import { DASHBOARD, OVERVIEW } from '../../../routes';
 
 import * as style from './navigation.module.scss';
@@ -35,11 +35,11 @@ export default function Navigation() {
 
 	const handleSwap = React.useCallback(
 		async (result) => {
-			console.log(result);
 			if (!result.destination) return;
 
 			if (result.type === 'PROJECTS' && state) {
-				const newOrder = await ReorderItems(state, result.source.index, result.destination.index);
+				let newOrder = await ReorderItems(state, result.source.index, result.destination.index);
+
 				setState(newOrder);
 				swapProjectPosition({
 					variables: {

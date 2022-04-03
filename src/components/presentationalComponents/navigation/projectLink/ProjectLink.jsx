@@ -4,58 +4,40 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
 import { ReorderItems } from '../util';
+import { toggleMatchChildHeight } from '../../../../util';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { ICONIFY_BELL_FILL } from '../../../../icons';
 import { ProjectContext } from '../../../../contexts';
 import { DASHBOARD, PROJECT } from '../../../../routes';
+
 import TaskLink from './taskLink/TaskLink.jsx';
 
 import * as style from './projectLink.module.scss';
 
-export default function ExpandProjectLink({ text, projectId, project, index, children, match, ...rest }) {
+export default function ExpandProjectLink({ text, projectId, project, index, ...rest }) {
 	const { focusProject, swapTaskPos } = React.useContext(ProjectContext);
+	let tasklistWrapperID = `${projectId}_ExpandLink__outer`;
 
-	let outerId = `${projectId}_ExpandLink__outer`;
-	let innerId = `${projectId}_ExpandLink__inner`;
-
-	function blockID(id) {
-		return `task_block_${id}`;
-	}
-
-	const scrollToTask = React.useCallback(
-		async (task) => {
-			if (task && focusProject) {
-				const block = await document.getElementById(blockID(task.id));
-				const project = await document.getElementById(`${focusProject}-wrapper`);
-				const blockScrollHeight = await block.getBoundingClientRect();
-
-				project.scrollTop = blockScrollHeight.y + 50;
-			}
-		},
-		[focusProject]
-	);
-
-	// Manage the swapping of task positions in project
+	///////////////////
+	// MANAGE LIST RE-ORDERING
+	///////////////////
+	//>>> Manage a local copy of tasks for smoother UX when moving items
 	const [state, setState] = React.useState(null);
-
 	React.useEffect(() => {
-		if (project && project !== -1) {
-			let tasks = project.tasks.map((t) => ({ ...t }));
-			setState(tasks);
-		}
+		if (project && project !== -1) setState(project.tasks);
 	}, [project]);
 
+	//>>> Handle task re-ordering
 	const handleTaskSwap = React.useCallback(
 		(result) => {
-			console.log(result);
 			if (!result.destination) return;
+
 			let oldIndex = result.source.index;
 			let newIndex = result.destination.index;
+			let newOrder = ReorderItems(state, oldIndex, newIndex);
 
-			const newOrder = ReorderItems(state, oldIndex, newIndex);
-			console.log({ newOrder, state, oldIndex, newIndex, projectId });
 			setState(newOrder);
 			swapTaskPos({
 				variables: {
@@ -68,32 +50,84 @@ export default function ExpandProjectLink({ text, projectId, project, index, chi
 		[projectId, state, swapTaskPos]
 	);
 
+	///////////////////
+	// MANAGE HEIGHT OF TASK LIST WRAPPER
+	///////////////////
 	React.useEffect(() => {
-		if (projectId) {
-			let outerEl = document.getElementById(outerId);
-			let innerEl = document.getElementById(innerId);
-
-			if ((outerEl && innerEl && state) || (state && state.length !== project.tasks.length)) {
-				if (focusProject) {
-					let innerElHeight = innerEl.getBoundingClientRect().height;
-
-					if (projectId === focusProject) {
-						// outerEl.style.padding = `0px 0px 0px 15px`;
-						outerEl.style.marginBottom = `0px`;
-						outerEl.style.height = `${innerElHeight}px`;
-					} else {
-						// outerEl.style.padding = `0px 0px 0px 15px`;
-						outerEl.style.marginBottom = `0px`;
-						outerEl.style.height = '0px';
-					}
+		if (state || (state && state.length !== project.tasks.length)) {
+			if (focusProject) {
+				if (projectId && projectId === focusProject) {
+					toggleMatchChildHeight(tasklistWrapperID, true);
 				} else {
-					// outerEl.style.padding = `0px 0px 0px 15px`;
-					outerEl.style.height = '0px';
+					toggleMatchChildHeight(tasklistWrapperID, false);
 				}
+			} else {
+				toggleMatchChildHeight(tasklistWrapperID, false);
 			}
 		}
-	}, [focusProject, innerId, outerId, project.tasks.length, projectId, state, text]);
+	}, [focusProject, tasklistWrapperID, project.tasks.length, projectId, state, text]);
 
+	///////////////////
+	// Local Templates
+	///////////////////
+	const RenderTitle = ({ provided }) => {
+		const BellCountBadge = () =>
+			!state ? null : state.filter((t) => t.attentionFlag === true).length > 0 ? (
+				<span className={style.BellCountContainer}>
+					<span className={style.BellIconWrapper}>
+						<Icon icon={ICONIFY_BELL_FILL} />
+					</span>
+					<span className={style.BellCount}>{state.filter((t) => t.attentionFlag === true).length}</span>
+				</span>
+			) : null;
+		return (
+			<Link
+				className={style.ExpandLinkTag}
+				to={`${DASHBOARD}${PROJECT}/${projectId}`}
+				data-active={projectId === focusProject ? 1 : 0}
+				{...provided.dragHandleProps}
+				{...rest}>
+				<p className={style.Title}>
+					{text}
+					<BellCountBadge />
+				</p>
+			</Link>
+		);
+	};
+
+	const RenderDropable = ({ snapshot }) => {
+		return (
+			<Droppable droppableId={`${project.id}_link`} type='TASKS'>
+				{(provided, snapshot) => {
+					return (
+						<div ref={provided.innerRef}>
+							{!state || state.length === 0 ? (
+								<p style={{ padding: '10px 20px' }}>No Tasks</p>
+							) : !state ? null : (
+								state.map((task, index) => (
+									<Draggable key={task.id} draggableId={task.id} index={index}>
+										{(provided, snapshot) => (
+											<div
+												ref={provided.innerRef}
+												{...provided.dragHandleProps}
+												{...provided.draggableProps}>
+												<TaskLink key={task.id} index={index} hide task={task} />
+											</div>
+										)}
+									</Draggable>
+								))
+							)}
+							{provided.placeholder}
+						</div>
+					);
+				}}
+			</Droppable>
+		);
+	};
+
+	///////////////////
+	// OUTPUT
+	///////////////////
 	return React.useMemo(
 		() => (
 			<Draggable draggableId={project.id} key={project.id} index={index}>
@@ -103,70 +137,21 @@ export default function ExpandProjectLink({ text, projectId, project, index, chi
 						{...provided.draggableProps}
 						className={style.ExpandLink}
 						data-active={focusProject === projectId ? 1 : 0}>
-						<Link
-							className={style.ExpandLinkTag}
-							to={`${DASHBOARD}${PROJECT}/${projectId}`}
-							data-active={projectId === focusProject ? 1 : 0}
-							{...provided.dragHandleProps}
-							{...rest}>
-							<p className={style.Title}>
-								{text}
-								{!state ? null : state.filter((t) => t.attentionFlag === true).length > 0 ? (
-									<span className={style.BellCountContainer}>
-										<span className={style.BellIconWrapper}>
-											<Icon icon={ICONIFY_BELL_FILL} />
-										</span>
-										<span className={style.BellCount}>
-											{state.filter((t) => t.attentionFlag === true).length}
-										</span>
-									</span>
-								) : null}
-							</p>
-						</Link>
+						<RenderTitle provided={provided} />
 						<DragDropContext onDragEnd={handleTaskSwap}>
-							<div className={style.ExpandLinkChildren}>
-								<div
-									className={style.TaskWrapper}
-									style={{
-										opacity: snapshot.isDragging ? 0 : 1,
-										height: (() =>
-											focusProject === project.id && document.getElementById(innerId)
-												? document.getElementById(innerId).getBoundingClientRect().height
-												: '0px')(),
-									}}
-									id={outerId}>
-									<Droppable droppableId={`${project.id}_link`} type='TASKS'>
-										{(provided, snapshot) => {
-											return (
-												<div ref={provided.innerRef} id={innerId}>
-													{!state || snapshot.isDragging ? null : state.length === 0 ? (
-														<p style={{ padding: '10px 20px' }}>No Tasks</p>
-													) : !state ? null : (
-														state.map((task, index) => (
-															<TaskLink
-																key={task.id}
-																index={index}
-																onClick={
-																	task.isComplete
-																		? () => null
-																		: () => scrollToTask(task)
-																}
-																task={task}
-															/>
-														))
-													)}
-													{provided.placeholder}
-												</div>
-											);
-										}}
-									</Droppable>
-								</div>
+							<div
+								className={style.TaskWrapper}
+								style={{
+									opacity: snapshot.isDragging ? 0 : 1,
+								}}
+								id={tasklistWrapperID}>
+								<RenderDropable snapshot={snapshot} />
 							</div>
 						</DragDropContext>
 					</div>
 				)}
 			</Draggable>
 		),
-		[focusProject, handleTaskSwap, index, innerId, outerId, project, projectId, rest, scrollToTask, state, text]
+		[focusProject, handleTaskSwap, index, project, projectId, tasklistWrapperID]
 	);
 }

@@ -1,0 +1,26 @@
+@import '../../../sass/';
+
+.PreferencesWrapper {
+	@include flex-col-start;
+	padding: 30px 20px;
+
+	.Preference {
+		@include flex-center;
+		width: 100%;
+		justify-content: space-between;
+
+		padding: 10px 20px;
+		margin-bottom: 15px;
+		background-color: $pallet-color-two;
+		border-radius: $large-radius;
+
+		p {
+			color: white;
+			margin: 0;
+		}
+
+		&[data-disabled='1'] {
+			opacity: 0.65;
+		}
+	}
+}

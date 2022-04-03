@@ -20,7 +20,8 @@
 }
 
 @mixin flex-col-start {
-	@include flex-start;
+	display: flex;
+	align-items: center;
 	flex-direction: column;
 }
 

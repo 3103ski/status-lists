@@ -3,7 +3,7 @@ import React from 'react';
 import { DateTime } from 'luxon';
 import style from './luxonTimestamp.module.scss';
 
-export default function Timestamp({ timestamp, type = 'med', preText = null }) {
+export default function Timestamp({ timestamp, type = 'med', preText = null, showRelative }) {
 	let date;
 
 	switch (type) {
@@ -20,10 +20,10 @@ export default function Timestamp({ timestamp, type = 'med', preText = null }) {
 	React.useEffect(() => {
 		let stampTime = new DateTime.fromISO(timestamp);
 		let relative = stampTime.toRelativeCalendar();
-		if (relative === 'yesterday' || relative === 'today') {
+		if (relative === 'yesterday' || relative === 'today' || showRelative) {
 			setTodayOrYesterday(relative);
 		}
-	}, [timestamp]);
+	}, [showRelative, timestamp]);
 
 	return (
 		<div className={style.TimestampWrapper}>

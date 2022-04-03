@@ -1,17 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Checkbox } from 'semantic-ui-react';
-
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
-import { CloudinaryImage, Modal, LabelManager } from '../../../components';
+import { CloudinaryImage, Modal, LabelManager, UserPreferences } from '../../../components';
 
 import { LOGIN } from '../../../routes';
 
 import * as style from './userMenu.module.scss';
 
 export default function UserMenu() {
-	const { logout, loadingCurrentUser, currentUser, updateUserPreferences } = React.useContext(CurrentUserContext);
+	const { logout, loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
 
 	const { updateVal, isManagingLabels } = React.useContext(ProjectContext);
 	const [isUpdatingPreferences, setIsUpdatingPreferences] = React.useState(false);
@@ -31,37 +29,7 @@ export default function UserMenu() {
 				<LabelManager />
 			</Modal>
 			<Modal dimmer={'inverted'} basic open={isUpdatingPreferences} toggle={setIsUpdatingPreferences}>
-				<h1>Preferences</h1>
-				<div>
-					<p>Show label colors in navbar</p>
-					<Checkbox
-						slider
-						checked={currentUser.user.preferences.showLabelColorsInNav}
-						onChange={(e, d) => {
-							console.log(d);
-							updateUserPreferences({
-								variables: {
-									showLabelColorsInNav: d.checked,
-								},
-							});
-							console.log(e);
-						}}
-					/>
-					<p>Show label in navbar</p>
-					<Checkbox
-						slider
-						checked={currentUser.user.preferences.showLabelsInTaskLinks}
-						onChange={(e, d) => {
-							console.log(d);
-							updateUserPreferences({
-								variables: {
-									showLabelsInTaskLinks: d.checked,
-								},
-							});
-							console.log(e);
-						}}
-					/>
-				</div>
+				<UserPreferences />
 			</Modal>
 		</>
 	);
