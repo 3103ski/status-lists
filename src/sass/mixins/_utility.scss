@@ -19,7 +19,7 @@
 }
 
 @mixin focus-hover {
-	box-shadow: inset 1px 1px 8px rgba(192, 192, 192, 0.4) !important;
+	// box-shadow: inset 1px 1px 8px rgba(192, 192, 192, 0.4) !important;
 	background-color: $pallet-color-two-pale !important;
 }
 
