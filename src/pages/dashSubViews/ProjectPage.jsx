@@ -1,5 +1,6 @@
 import React from 'react';
 import { SortableItem, swapArrayPositions } from 'react-sort-list';
+import { ReorderItems } from '../../components/presentationalComponents/navigation/util';
 
 import { useQuery } from '@apollo/client';
 import { ProjectContext, CurrentUserContext } from '../../contexts';
@@ -13,6 +14,8 @@ import {
 	List,
 	BubbleToggle,
 } from '../../components/';
+
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { GET_PROJECT } from '../../gql/';
 
@@ -59,11 +62,32 @@ export default function ProjectPage({
 		}
 	}, [project]);
 
-	const swap = React.useCallback(
-		(oldIndex, newIndex) => {
-			console.log({ oldIndex, newIndex });
-			let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
-			setState([...swappedTodos]);
+	// const swap = React.useCallback(
+	// 	(oldIndex, newIndex) => {
+	// 		console.log({ oldIndex, newIndex });
+	// 		let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
+	// 		setState([...swappedTodos]);
+	// 		swapTaskPos({
+	// 			variables: {
+	// 				projectId,
+	// 				oldIndex,
+	// 				newIndex,
+	// 			},
+	// 		});
+	// 	},
+	// 	[projectId, state, swapTaskPos]
+	// );
+
+	const handleTaskSwap = React.useCallback(
+		(result) => {
+			console.log(result);
+			if (!result.destination) return;
+			let oldIndex = result.source.index;
+			let newIndex = result.destination.index;
+
+			const newOrder = ReorderItems(state, oldIndex, newIndex);
+			console.log({ newOrder, state, oldIndex, newIndex, projectId });
+			setState(newOrder);
 			swapTaskPos({
 				variables: {
 					projectId,
@@ -177,28 +201,52 @@ export default function ProjectPage({
 							<Divider />
 						</>
 					)}
-					{project.project.tasks.filter((task) => task.archived === false && task.isComplete === false)
-						.length === 0 ? (
-						<List.Empty title={`${project.project.title} has no active tasks`} minHeight='50px' />
-					) : (
-						<>
-							{state.map((task) => {
-								if (task.archived === false && task.isComplete === false) {
-									return (
-										<SortableItem items={state} id={`${task.id}`} key={`${task.id}`} swap={swap}>
-											<TaskBlock
-												projectTitle={project.project.title}
-												task={task}
-												globalHideList={hideAllLists}
-												clearGlobalHide={() => setHideAllLists(false)}
-											/>
-										</SortableItem>
-									);
-								}
-								return null;
-							})}
-						</>
-					)}
+
+					<DragDropContext onDragEnd={handleTaskSwap}>
+						<Droppable droppableId={`${project.project.id}_projectScreen`} type='TASK_CARDS'>
+							{(provided, snapshot) => (
+								<div ref={provided.innerRef}>
+									{project.project.tasks.filter(
+										(task) => task.archived === false && task.isComplete === false
+									).length === 0 ? (
+										<List.Empty
+											title={`${project.project.title} has no active tasks`}
+											minHeight='50px'
+										/>
+									) : (
+										<>
+											{state.map((task, index) => {
+												// if (task.archived === false && task.isComplete === false) {
+												return (
+													<Draggable
+														draggableId={`${task.id}_card`}
+														key={task.id}
+														index={index}>
+														{(provided, snapshot) => (
+															<div
+																ref={provided.innerRef}
+																{...provided.dragHandleProps}
+																{...provided.draggableProps}>
+																<TaskBlock
+																	projectTitle={project.project.title}
+																	task={task}
+																	globalHideList={hideAllLists}
+																	hideWhenComplete
+																	clearGlobalHide={() => setHideAllLists(false)}
+																/>
+															</div>
+														)}
+													</Draggable>
+												);
+												// }
+												// return null;
+											})}
+										</>
+									)}
+								</div>
+							)}
+						</Droppable>
+					</DragDropContext>
 
 					<CreateTaskForm wrapperId={`${project.project.id}-wrapper`} />
 				</div>
@@ -209,6 +257,7 @@ export default function ProjectPage({
 			focusProject,
 			currentUser,
 			loadingCurrentUser,
+
 			project,
 			isEditingProjectTitle,
 			showArchived,
@@ -216,7 +265,7 @@ export default function ProjectPage({
 			hideAllLists,
 			errorCreatingTask,
 			errorLoadingProject,
-			swap,
+			handleTaskSwap,
 		]
 	);
 }

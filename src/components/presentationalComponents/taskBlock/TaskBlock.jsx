@@ -25,7 +25,7 @@ import {
 	ICONIFY_LABEL,
 } from '../../../icons';
 
-// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import * as style from './taskBlock.module.scss';
 
@@ -34,6 +34,7 @@ export default function TaskBlock({
 	projectTitle = null,
 	globalHideList = false,
 	clearGlobalHide,
+	hideWhenComplete = null,
 }) {
 	const { updateTask } = React.useContext(ProjectContext);
 	const blockID = `task_block_${task.id}`;
@@ -173,6 +174,8 @@ export default function TaskBlock({
 			<div
 				className={style.Container}
 				id={blockID}
+				data-hide-complete={task.isComplete && hideWhenComplete ? 1 : 0}
+				data-collapsed={!listExpanded || globalHideList === true ? 1 : 0}
 				data-show-list={!task.isComplete || listExpanded ? 1 : 0}
 				data-complete={task.isComplete ? 1 : 0}>
 				<div className={style.BlockHeader}>

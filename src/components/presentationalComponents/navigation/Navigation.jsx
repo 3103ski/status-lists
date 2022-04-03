@@ -33,22 +33,6 @@ export default function Navigation() {
 		}
 	}, [currentUser, loadingCurrentUser, projectFolderId]);
 
-	// const swap = React.useCallback(
-	// 	(oldIndex, newIndex, projectId) => {
-	// 		let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
-	// 		setState([...swappedTodos]);
-	// 		swapProjectPosition({
-	// 			variables: {
-	// 				projectId,
-	// 				oldIndex,
-	// 				newIndex,
-	// 				projectFolderId,
-	// 			},
-	// 		});
-	// 	},
-	// 	[projectFolderId, state, swapProjectPosition]
-	// );
-
 	const handleSwap = React.useCallback(
 		async (result) => {
 			console.log(result);

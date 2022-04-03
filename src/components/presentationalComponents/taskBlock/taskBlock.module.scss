@@ -5,7 +5,7 @@
 	// background-color: rgba(235, 235, 235, 0.85); //
 
 	background-color: rgba(240, 240, 240, 0.5);
-	margin-bottom: 13px;
+	margin: 12px 0;
 	transition: 0.175s;
 	transition-timing-function: ease-in-out;
 	position: relative;
@@ -15,6 +15,14 @@
 
 	&:hover {
 		@include focus-hover;
+	}
+
+	&[data-collapsed='1'] {
+		margin: 0 0 6px 0;
+	}
+
+	&[data-hide-complete='1'] {
+		display: none;
 	}
 
 	.BlockHeader {
