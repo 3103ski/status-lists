@@ -61,6 +61,7 @@ export default function ProjectPage({
 
 	const swap = React.useCallback(
 		(oldIndex, newIndex) => {
+			console.log({ oldIndex, newIndex });
 			let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
 			setState([...swappedTodos]);
 			swapTaskPos({

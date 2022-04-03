@@ -56,25 +56,17 @@ export const GET_USER = gql`
 					createdAt
 				}
 			}
-			# projects {
-			# 	id
-			# 	owner
-			# 	users
-			# 	title
-			# 	notes
-			# 	isArchived
-			# 	bellCount
-			# 	tasks {
-			# 		id
-			# 		title
-			# 		archived
-			# 		isComplete
-			# 		attentionFlag
-			# 		createdAt
-			# 		users
-			# 	}
-			# 	createdAt
-			# }
+			preferences {
+				id
+				showDaysSinceTaskUpdate
+				autoBell
+				daysUntilAutoBell
+				bellUpgradeToClock
+				daysUntilBellUpgrade
+				removeBellOnNewStatus
+				showLabelColorsInNav
+				showLabelsInTaskLinks
+			}
 			info {
 				displayName
 				userId

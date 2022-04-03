@@ -24,6 +24,9 @@ import {
 	ICONIFY_ARCHIVE_FILL,
 	ICONIFY_LABEL,
 } from '../../../icons';
+
+// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 import * as style from './taskBlock.module.scss';
 
 export default function TaskBlock({
@@ -43,12 +46,15 @@ export default function TaskBlock({
 			let outerId = `${projectTitle}_ExpandLink__outer`;
 			let innerId = `${projectTitle}_ExpandLink__inner`;
 			let outerEl = document.getElementById(outerId);
-			let outerElHeight = outerEl.getBoundingClientRect().height;
 			let innerEl = document.getElementById(innerId);
-			let innerElHeight = innerEl.getBoundingClientRect().height;
 
-			if (outerElHeight !== innerElHeight) {
-				outerEl.style.height = `${innerElHeight}px`;
+			if (outerEl && innerEl) {
+				let outerElHeight = outerEl.getBoundingClientRect().height;
+				let innerElHeight = innerEl.getBoundingClientRect().height;
+
+				if (outerElHeight !== innerElHeight) {
+					outerEl.style.height = `${innerElHeight}px`;
+				}
 			}
 		}
 	}, [projectTitle]);

@@ -22,10 +22,17 @@
 }
 
 .ExpandLink {
+	position: relative;
+	z-index: 500;
 	padding: 0 10px;
 
 	.ExpandLinkTag {
 		@include flex-center-center;
+	}
+
+	.TaskWrapper {
+		position: relative;
+		z-index: 500;
 	}
 
 	.Title {
@@ -39,6 +46,7 @@
 		.BellCountContainer {
 			@include flex-center-center;
 			@include light-hover;
+
 			margin-left: auto;
 			padding: 0 5px;
 			border-radius: 25px;
@@ -69,11 +77,13 @@
 	}
 
 	.ExpandLinkChildren {
-		// @include remove-scrollbar;
 		transition: 0.15s;
 
 		transition-timing-function: ease-in-out;
 		overflow-y: hidden;
+
+		z-index: 999;
+		position: inherit;
 
 		p {
 			padding: 0;
@@ -86,24 +96,6 @@
 		.Title {
 			background-color: $pale-grey;
 			color: $primary-black;
-
-			// .BellWrapper {
-			// 	@include flex-center-center;
-			// 	position: relative;
-			// 	margin-left: auto;
-
-			// 	.BellCount {
-			// 		z-index: 100;
-			// 		font-size: 12px;
-			// 		color: white !important;
-			// 	}
-
-			// 	svg {
-			// 		position: absolute;
-			// 		color: $primary-black;
-			// 		font-size: 22px;
-			// 	}
-			// }
 		}
 	}
 }

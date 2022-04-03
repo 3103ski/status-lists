@@ -13,6 +13,18 @@
 		margin-top: 3px;
 	}
 
+	.TaskLabel {
+		&[data-has-label='1'] {
+			margin-right: 4px;
+
+			&[data-has-color='1'] {
+				font-size: 11px;
+				border-radius: $small-radius;
+				padding: 1px 5px;
+			}
+		}
+	}
+
 	.BellWrapper {
 		@include flex-center-center;
 
@@ -26,6 +38,11 @@
 	&[data-is-complete='1'] {
 		text-decoration: line-through;
 		opacity: 0.5;
+		padding: 0;
+		margin-bottom: 0 !important;
+		margin-top: 0 !important;
+		height: 0px;
+		overflow: hidden;
 	}
 
 	svg {

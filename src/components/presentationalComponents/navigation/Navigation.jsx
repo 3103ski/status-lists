@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import ProjectLink from './projectLink/ProjectLink.jsx';
-import { SortableItem, swapArrayPositions } from 'react-sort-list';
+// import { swapArrayPositions } from 'react-sort-list';
+
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { ReorderItems } from './util';
 
 import { CreateProjectForm, Loader } from '../../../components';
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
@@ -12,7 +15,6 @@ import * as style from './navigation.module.scss';
 
 export default function Navigation() {
 	const { loadingCurrentUser, currentUser } = React.useContext(CurrentUserContext);
-
 	const { createProject, serverCreatingProject, errorCreatingProject, swapProjectPosition } =
 		React.useContext(ProjectContext);
 
@@ -31,19 +33,39 @@ export default function Navigation() {
 		}
 	}, [currentUser, loadingCurrentUser, projectFolderId]);
 
-	const swap = React.useCallback(
-		(oldIndex, newIndex, projectId) => {
-			let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
-			console.log({ swappedTodos });
-			setState([...swappedTodos]);
-			swapProjectPosition({
-				variables: {
-					projectId,
-					oldIndex,
-					newIndex,
-					projectFolderId,
-				},
-			});
+	// const swap = React.useCallback(
+	// 	(oldIndex, newIndex, projectId) => {
+	// 		let swappedTodos = swapArrayPositions(state, oldIndex, newIndex);
+	// 		setState([...swappedTodos]);
+	// 		swapProjectPosition({
+	// 			variables: {
+	// 				projectId,
+	// 				oldIndex,
+	// 				newIndex,
+	// 				projectFolderId,
+	// 			},
+	// 		});
+	// 	},
+	// 	[projectFolderId, state, swapProjectPosition]
+	// );
+
+	const handleSwap = React.useCallback(
+		async (result) => {
+			console.log(result);
+			if (!result.destination) return;
+
+			if (result.type === 'PROJECTS' && state) {
+				const newOrder = await ReorderItems(state, result.source.index, result.destination.index);
+				setState(newOrder);
+				swapProjectPosition({
+					variables: {
+						projectId: result.draggableId,
+						oldIndex: result.source.index,
+						newIndex: result.destination.index,
+						projectFolderId,
+					},
+				});
+			}
 		},
 		[projectFolderId, state, swapProjectPosition]
 	);
@@ -61,22 +83,26 @@ export default function Navigation() {
 							{loadingCurrentUser || !currentUser || currentUser.user === -1 ? (
 								<Loader loadingText='Getting Projects' />
 							) : (
-								<>
-									{state.map((project) => {
-										return (
-											<SortableItem
-												items={state}
-												id={`${project.id}`}
-												key={project.id}
-												swap={(oldIndex, newIndex) => swap(oldIndex, newIndex, project.id)}>
-												<ProjectLink
-													project={project}
-													projectId={project.id}
-													text={project.title}></ProjectLink>
-											</SortableItem>
-										);
-									})}
-								</>
+								<DragDropContext onDragEnd={handleSwap}>
+									<Droppable droppableId={`${currentUser.user.id}Projects`} type='PROJECTS'>
+										{(provided, _) => (
+											<div ref={provided.innerRef} className={style.ProjectsWrapper}>
+												{state.map((project, index) => {
+													return (
+														<ProjectLink
+															key={project.id}
+															index={index}
+															project={project}
+															projectId={project.id}
+															text={project.title}
+														/>
+													);
+												})}
+												{provided.placeholder}
+											</div>
+										)}
+									</Droppable>
+								</DragDropContext>
 							)}
 
 							<CreateProjectForm
@@ -89,7 +115,7 @@ export default function Navigation() {
 					</div>
 				</nav>
 			),
-		[createProject, currentUser, errorCreatingProject, loadingCurrentUser, serverCreatingProject, state, swap]
+		[createProject, currentUser, errorCreatingProject, handleSwap, loadingCurrentUser, serverCreatingProject, state]
 	);
 }
 

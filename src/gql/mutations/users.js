@@ -22,6 +22,43 @@ export const UPDATE_USER = gql`
 	}
 `;
 
+export const UPDATE_USER_PREFERENCES = gql`
+	mutation UpdateUserPreferences(
+		$showDaysSinceTaskUpdate: Boolean
+		$autoBell: Boolean
+		$daysUntilAutoBell: Int
+		$bellUpgradeToClock: Boolean
+		$daysUntilBellUpgrade: Int
+		$removeBellOnNewStatus: Boolean
+		$showLabelColorsInNav: Boolean
+		$showLabelsInTaskLinks: Boolean
+	) {
+		updateUserPreferences(
+			userPreferencesInput: {
+				showDaysSinceTaskUpdate: $showDaysSinceTaskUpdate
+				autoBell: $autoBell
+				daysUntilAutoBell: $daysUntilAutoBell
+				daysUntilBellUpgrade: $daysUntilBellUpgrade
+				bellUpgradeToClock: $bellUpgradeToClock
+				removeBellOnNewStatus: $removeBellOnNewStatus
+				showLabelColorsInNav: $showLabelColorsInNav
+				showLabelsInTaskLinks: $showLabelsInTaskLinks
+			}
+		) {
+			id
+			userId
+			showDaysSinceTaskUpdate
+			autoBell
+			daysUntilAutoBell
+			bellUpgradeToClock
+			daysUntilBellUpgrade
+			removeBellOnNewStatus
+			showLabelColorsInNav
+			showLabelsInTaskLinks
+		}
+	}
+`;
+
 export const UPLOAD_AVATAR = gql`
 	mutation uploadAvatar($avatar: String) {
 		uploadAvatar(avatar: $avatar) {

@@ -9,6 +9,7 @@ export {
 	CREATE_LABEL,
 	UPDATE_LABEL,
 	DELETE_LABEL,
+	UPDATE_USER_PREFERENCES,
 } from './mutations/users.js';
 
 // Projects

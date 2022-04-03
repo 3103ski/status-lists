@@ -10,7 +10,15 @@ import { updateObj } from '../util';
 import { TOKEN_TITLE } from '../config.js';
 
 import { LOGIN_SUCCES_REDIRECT, SERVER_URL, LOGIN } from '../routes.js';
-import { GET_USER, REFRESH_TOKEN, UPDATE_USER_INFO, UPDATE_USER, UPLOAD_AVATAR, DELETE_USER_PICTURE } from '../gql';
+import {
+	GET_USER,
+	REFRESH_TOKEN,
+	UPDATE_USER_INFO,
+	UPDATE_USER,
+	UPLOAD_AVATAR,
+	DELETE_USER_PICTURE,
+	UPDATE_USER_PREFERENCES,
+} from '../gql';
 
 const initialState = {
 	token: null,
@@ -225,6 +233,27 @@ const CurrentUserProvider = (props) => {
 		},
 	});
 
+	const [updateUserPreferences, { loading: serverUpdatingUserPreferences, error: errorUpdatingUserPreferences }] =
+		useMutation(UPDATE_USER_PREFERENCES, {
+			update(cache, { data }) {
+				if (data.updateUserPreferences) {
+					cache.updateQuery(
+						{ query: GET_USER, variables: { userId: data.updateUserPreferences.userId } },
+						(qd) => {
+							if (qd) {
+								return {
+									user: {
+										...qd.user,
+										preferences: data.updateUserPreferences,
+									},
+								};
+							}
+						}
+					);
+				}
+			},
+		});
+
 	function toggleIsPublic(callback) {
 		updateUser({
 			variables: {
@@ -382,6 +411,10 @@ const CurrentUserProvider = (props) => {
 				uploadingAvatar,
 				deletePicture,
 				deletingPicture,
+
+				updateUserPreferences,
+				serverUpdatingUserPreferences,
+				errorUpdatingUserPreferences,
 
 				// >>>> Exposed Methods		•••••••
 				setErrors,

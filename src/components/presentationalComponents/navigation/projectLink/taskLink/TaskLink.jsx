@@ -3,18 +3,21 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import { Link as ScrollLink } from 'react-scroll';
 
-import { ProjectContext } from '../../../../../contexts';
+import { ProjectContext, CurrentUserContext } from '../../../../../contexts';
 import { ICONIFY_BELL_FILL, ICONIFY_BELL } from '../../../../../icons';
+
+import { Draggable } from 'react-beautiful-dnd';
 
 import * as style from './taskLink.module.scss';
 
-export default function TaskLink({ task, ...rest }) {
+export default function TaskLink({ task, index, ...rest }) {
 	const { focusProject, updateTask } = React.useContext(ProjectContext);
+	const { currentUser, loadingCurrentUser } = React.useContext(CurrentUserContext);
 
 	// Drag and scroll related IDs
 	const blockID = `task_block_${task.id}`;
 	const linkID = `task_link_${task.id}`;
-	const sortableID = `${task.id}`;
+	// const sortableID = `${task.id}`;
 
 	function highlightBlock() {
 		let block = document.getElementById(blockID);
@@ -48,50 +51,7 @@ export default function TaskLink({ task, ...rest }) {
 		}
 	}, [attentionFlag, task.attentionFlag]);
 
-	// Manage Draggin Events
-
-	const dragOver = React.useCallback(() => {
-		let sortableEl = document.getElementById(sortableID);
-		sortableEl.style.borderBottom = '10px solid rgba(0,0,0,.14)';
-	}, [sortableID]);
-
-	const dragLeave = React.useCallback(() => {
-		let sortableEl = document.getElementById(sortableID);
-		sortableEl.style.borderBottom = '0px solid rgba(0,0,0,0)';
-	}, [sortableID]);
-
-	const dragEnd = React.useCallback(() => {
-		let taskLink = document.getElementById(`task_link_${task.id}`);
-		let sortableEl = document.getElementById(sortableID);
-
-		sortableEl.style.borderBottom = 'none';
-
-		sortableEl.style.opacity = '1';
-		taskLink.style.opacity = '1';
-	}, [sortableID, task.id]);
-
-	const drag = React.useCallback(() => {
-		let sortableEl = document.getElementById(sortableID);
-		let taskLink = document.getElementById(linkID);
-
-		sortableEl.style.opacity = '.25';
-		taskLink.style.opacity = '.25';
-	}, [sortableID, linkID]);
-
-	React.useEffect(() => {
-		let sortableEl = document.getElementById(sortableID);
-		if (sortableEl) {
-			sortableEl.style.transitionTimingFunction = 'ease';
-			sortableEl.style.transition = '.35';
-			sortableEl.addEventListener('dragover', dragOver);
-			sortableEl.addEventListener('dragend', dragEnd);
-			sortableEl.addEventListener('drop', dragEnd);
-			sortableEl.addEventListener('drag', drag);
-			sortableEl.addEventListener('dragleave', dragLeave);
-		}
-	}, [drag, dragEnd, dragLeave, dragOver, sortableID, task]);
-
-	return (
+	const link = (
 		<ScrollLink
 			offset={-50}
 			to={blockID}
@@ -106,10 +66,35 @@ export default function TaskLink({ task, ...rest }) {
 					<Icon icon={attentionFlag ? ICONIFY_BELL_FILL : ICONIFY_BELL} />
 				</div>
 				<p>
-					{task.label ? task.label.label + ': ' : null}
+					{!currentUser.user.preferences.showLabelsInTaskLinks ? null : (
+						<span
+							data-has-color={currentUser.user.preferences.showLabelColorsInNav === true ? 1 : 0}
+							data-has-label={task.label ? 1 : 0}
+							className={style.TaskLabel}
+							style={{
+								background:
+									currentUser.user.preferences.showLabelColorsInNav && task.label
+										? task.label.color
+										: 'transparent',
+							}}>
+							{task.label
+								? task.label.label + (!currentUser.user.preferences.showLabelColorsInNav ? ': ' : '')
+								: null}
+						</span>
+					)}
 					{task.title}
 				</p>
 			</div>
 		</ScrollLink>
+	);
+
+	return !currentUser || loadingCurrentUser ? null : (
+		<Draggable key={task.id} draggableId={task.id} index={index}>
+			{(provided, snapshot) => (
+				<div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
+					{link}
+				</div>
+			)}
+		</Draggable>
 	);
 }

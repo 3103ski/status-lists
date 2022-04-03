@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// import { Modal as SemanticModal } from 'semantic-ui-react';
+import { Checkbox } from 'semantic-ui-react';
 
 import { CurrentUserContext, ProjectContext } from '../../../contexts';
 import { CloudinaryImage, Modal, LabelManager } from '../../../components';
@@ -11,13 +11,16 @@ import { LOGIN } from '../../../routes';
 import * as style from './userMenu.module.scss';
 
 export default function UserMenu() {
-	const { logout, loadingCurrentUser } = React.useContext(CurrentUserContext);
-	const { updateVal, isManagingLabels } = React.useContext(ProjectContext);
+	const { logout, loadingCurrentUser, currentUser, updateUserPreferences } = React.useContext(CurrentUserContext);
 
-	return loadingCurrentUser ? null : (
+	const { updateVal, isManagingLabels } = React.useContext(ProjectContext);
+	const [isUpdatingPreferences, setIsUpdatingPreferences] = React.useState(false);
+
+	return loadingCurrentUser || !currentUser ? null : (
 		<>
 			<Menu>
 				<MenuLink text={'Manage Labels'} onClick={() => updateVal('isManagingLabels', true)} />
+				<MenuLink text={'Preferences'} onClick={() => setIsUpdatingPreferences(true)} />
 				<MenuLink text={'Logout'} onClick={logout} href={LOGIN} />
 			</Menu>
 			<Modal
@@ -26,6 +29,39 @@ export default function UserMenu() {
 				open={isManagingLabels}
 				replaceToggleCallback={() => updateVal('isManagingLabels', false)}>
 				<LabelManager />
+			</Modal>
+			<Modal dimmer={'inverted'} basic open={isUpdatingPreferences} toggle={setIsUpdatingPreferences}>
+				<h1>Preferences</h1>
+				<div>
+					<p>Show label colors in navbar</p>
+					<Checkbox
+						slider
+						checked={currentUser.user.preferences.showLabelColorsInNav}
+						onChange={(e, d) => {
+							console.log(d);
+							updateUserPreferences({
+								variables: {
+									showLabelColorsInNav: d.checked,
+								},
+							});
+							console.log(e);
+						}}
+					/>
+					<p>Show label in navbar</p>
+					<Checkbox
+						slider
+						checked={currentUser.user.preferences.showLabelsInTaskLinks}
+						onChange={(e, d) => {
+							console.log(d);
+							updateUserPreferences({
+								variables: {
+									showLabelsInTaskLinks: d.checked,
+								},
+							});
+							console.log(e);
+						}}
+					/>
+				</div>
 			</Modal>
 		</>
 	);
